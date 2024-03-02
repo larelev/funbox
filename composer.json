@@ -1,0 +1,22 @@
+{
+  "name": "larelev/funbox",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0-only",
+  "authors": [
+    {
+      "name": "David Blanchard",
+      "email": "dpjb@hotmail.fr"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Funbox\\Framework\\": "framework/"
+    }
+  },
+  "require": {
+    "php": "^8.2",
+    "symfony/var-dumper": "^7.0"
+  }
+}
