@@ -14,11 +14,18 @@
       "Funbox\\Framework\\": "Funbox/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+     "Funbox\\Framework\\Tests\\": "tests/"
+    }
+  },
   "require": {
     "php": "^8.2",
-    "nikic/fast-route": "^1.3"
+    "nikic/fast-route": "^1.3",
+    "psr/container": "2.0.x-dev"
   },
   "require-dev": {
-    "symfony/var-dumper": "^7.0"
+    "symfony/var-dumper": "^7.0",
+    "phpunit/phpunit": "11.1.x-dev"
   }
 }

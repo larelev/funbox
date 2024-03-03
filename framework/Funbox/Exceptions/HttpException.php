@@ -1,6 +1,6 @@
 <?php
 
-namespace Funbox\Framework\Http\Exceptions;
+namespace Funbox\Framework\Exceptions;
 
 class HttpException extends \Exception
 {
