@@ -44,10 +44,10 @@ class WebRooter extends AbstractRouter
     public function dispatch(): bool
     {
 
-        $dir =  dirname(SRC_ROOT . $this->bootDirName, 1) . DIRECTORY_SEPARATOR;
+        $dir = WebRooter . phpdirname(SRC_ROOT . $this->bootDirName, 1) . DIRECTORY_SEPARATOR;
 
         if ($this->componentIsInternal) {
-            $dir =  dirname(SITE_ROOT . $this->bootDirName, 1) . DIRECTORY_SEPARATOR;
+            $dir = WebRooter . phpdirname(SITE_ROOT . $this->bootDirName, 1) . DIRECTORY_SEPARATOR;
         }
 
         if (file_exists($dir . 'bootstrap' . CLASS_EXTENSION)) {
