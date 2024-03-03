@@ -10,7 +10,7 @@ class Container implements ContainerInterface
 
     private array $services = [];
 
-    public function add(string $id, string|object $concrete = null)
+    public function add(string $id, string|object $concrete = null): void
     {
         if(null === $concrete) {
             if(!class_exists($id)) {
@@ -23,7 +23,7 @@ class Container implements ContainerInterface
         $this->services[$id] = $concrete;
     }
 
-    public function get(string $id)
+    public function get(string $id): null|object
     {
         if(!$this->has($id)) {
             if(!class_exists($id)) {
@@ -33,9 +33,7 @@ class Container implements ContainerInterface
             $this->add($id);
         }
 
-        $object = $this->resolve($this->services[$id]);
-
-        return new $object;
+        return $this->resolve($this->services[$id]);
     }
 
     private function resolve($class): null|object
@@ -54,7 +52,7 @@ class Container implements ContainerInterface
         return $service;
     }
 
-    private function resolveDependencies(array $params)
+    private function resolveDependencies(array $params): array
     {
         $classDeps = [];
         foreach ($params as $param) {
