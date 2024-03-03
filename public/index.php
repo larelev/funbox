@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-require_once "bootstrap.php";
+require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 use \Funbox\Framework\Http\Request;
-use \Funbox\Framework\Http\Response;
 use \Funbox\Framework\Http\Kernel;
 
 // dd(Request::createFromGlobals());
