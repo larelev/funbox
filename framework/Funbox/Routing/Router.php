@@ -18,12 +18,15 @@ class Router implements RouterInterface
 
         [$handler, $vars] = $routeInfo;
 
-        [$controller, $method] = $handler;
+        if(is_array($handler)) {
+            [$controller, $method] = $handler;
+            $handler = [new $controller, $method];
+        }
 
-        return [[new $controller, $method], $vars];
+        return [$handler, $vars];
     }
 
-    public function extractRouteInfo(Request $request)
+    public function extractRouteInfo(Request $request): array
     {
 
         $routes  = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
@@ -44,12 +47,11 @@ class Router implements RouterInterface
                 return [$routeInfo[1], $routeInfo[2]];
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = implode(', ', $routeInfo[1]);
-                throw new HttpRequestMethodException("Allowed methods are $allowedMethods.", 400);
+                throw new HttpRequestMethodException("Allowed methods are $allowedMethods.", 405);
             default:
                 throw new HttpException('Endpoint not found', 404);
 
         }
 
-        return $routeInfo;
     }
 }

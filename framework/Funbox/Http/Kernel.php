@@ -2,6 +2,8 @@
 
 namespace Funbox\Framework\Http;
 
+use Funbox\Framework\Http\Exceptions\HttpException;
+use Funbox\Framework\Http\Exceptions\HttpRequestMethodException;
 use Funbox\Framework\Routing\Router;
 
 class Kernel
@@ -16,8 +18,10 @@ class Kernel
         try {
             [$routeHandler, $vars] = $this->router->dispatch($request);
             $response = call_user_func_array($routeHandler, $vars);
-        } catch (\Exception $exception) {
+        } catch (HttpException $exception) {
             $response = new Response(content: $exception->getMessage(), status: $exception->getCode());
+        } catch (\Exception $exception) {
+            $response = new Response(content: $exception->getMessage(), status: HttpResponseCodeEnum::SERVER_ERROR);
         }
 
         return $response;
