@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
 class ContainerTest extends TestCase
 {
     #[Test]
-    #[TestDox("Dependent class")]
+    #[TestDox("dependant class")]
     public function a_service_can_be_retrieved_from_the_container()
     {
         $container = new Container();
-        $container->add('dependent-class', DependentClass::class);
+        $container->add('dependant-class', DependantClass::class);
 
-        $this->assertInstanceOf(DependentClass::class, $container->get('dependent-class'));
+        $this->assertInstanceOf(DependantClass::class, $container->get('dependant-class'));
     }
 
     #[Test]
@@ -32,8 +32,18 @@ class ContainerTest extends TestCase
     public function can_check_if_the_container_has_a_service()
     {
         $container = new Container();
-        $container->add('dependent-class', DependentClass::class);
-        $this->assertTrue($container->has('dependent-class'));
-        $this->assertFalse($container->has('non-dependent-class'));
+        $container->add('dependant-class', DependantClass::class);
+        $this->assertTrue($container->has('dependant-class'));
+        $this->assertFalse($container->has('non-dependant-class'));
+    }
+
+    #[Test]
+    public function services_can_be_recursively_autowired()
+    {
+        $container = new Container();
+        $dependantService = $container->get(DependantClass::class);
+        $dependencyService = $dependantService->getDependency();
+        $this->assertInstanceOf(DependencyClass::class, $dependencyService);
+        $this->assertInstanceOf(SubDependencyClass::class, $dependencyService->getSubDependency());
     }
 }
