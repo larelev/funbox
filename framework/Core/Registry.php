@@ -115,7 +115,7 @@ class Registry
 
     public static function item($item, $value = null): ?array
     {
-        if ($item === '' || $item === null) {
+        if ($item === null) {
             return $item;
         }
 
