@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Http;
 
-enum HttpResponseCodeEnum: int
+enum HttpStatusCodeEnum: int
 {
     case OK = 200;
     case TEMPORARY_REDIRECT = 301;

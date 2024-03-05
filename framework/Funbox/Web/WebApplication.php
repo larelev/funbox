@@ -16,9 +16,11 @@ class WebApplication extends AbstractApplication
 
     function run(): void
     {
+
+        $container = require CONFIG_PATH . 'services.php';
+
         $request = Request::createFromGlobals();
-        $router = new Router();
-        $kernel = new Kernel($router);
+        $kernel = $container->get(Kernel::class);
         $response = $kernel->handle($request);
         $response->send();
     }

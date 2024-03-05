@@ -4,23 +4,26 @@ namespace Funbox\Framework\Routing;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Funbox\Framework\Http\Exceptions\HttpException;
-use Funbox\Framework\Http\Exceptions\HttpRequestMethodException;
+use Funbox\Framework\Exceptions\HttpException;
+use Funbox\Framework\Exceptions\HttpRequestMethodException;
 use Funbox\Framework\Http\Request;
+use Psr\Container\ContainerInterface;
 use function FastRoute\simpleDispatcher;
 
 class Router implements RouterInterface
 {
+    private array $routes;
 
-    public function dispatch(Request $request): array
+    public function dispatch(Request $request, ContainerInterface $container): array
     {
         $routeInfo = $this->extractRouteInfo($request);
 
         [$handler, $vars] = $routeInfo;
 
         if(is_array($handler)) {
-            [$controller, $method] = $handler;
-            $handler = [new $controller, $method];
+            [$controllerId, $method] = $handler;
+            $controller = $container->get($controllerId);
+            $handler = [$controller, $method];
         }
 
         return [$handler, $vars];
@@ -29,10 +32,8 @@ class Router implements RouterInterface
     public function extractRouteInfo(Request $request): array
     {
 
-        $routes  = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
-
-        $dispatcher = simpleDispatcher(function (RouteCollector $routeCollector) use($routes) {
-            foreach ($routes as $route) {
+        $dispatcher = simpleDispatcher(function (RouteCollector $routeCollector) {
+            foreach ($this->routes as $route) {
                 $routeCollector->addRoute(...$route);
             }
         });
@@ -53,5 +54,10 @@ class Router implements RouterInterface
 
         }
 
+    }
+
+    public function setRoutes(array $routes): void
+    {
+        $this->routes = $routes;
     }
 }
