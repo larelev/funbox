@@ -6,7 +6,7 @@ class Response
 {
     public function __construct(
         private readonly ?string                  $content = '',
-        private readonly HttpResponseCodeEnum|int $status = 200,
+        private readonly HttpStatusCodeEnum|int $status = 200,
         private array                             $header = []
     )
     {
@@ -15,7 +15,7 @@ class Response
     public function send(): void
     {
         $status = $this->status;
-        if($this->status instanceof HttpResponseCodeEnum) {
+        if($this->status instanceof HttpStatusCodeEnum) {
             $status = $this->status->value;
         }
         http_response_code($status);
