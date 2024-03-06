@@ -1,11 +1,12 @@
 <?php
 
-$container = new \League\Container\Container(null, null);
-$container->delegate(new \League\Container\ReflectionContainer(true));
+$container = new \League\Container\Container();
+$container->delegate(new \League\Container\ReflectionContainer(false));
 
 $routes = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
-
 $dotenv = new \Symfony\Component\Dotenv\Dotenv();
+$viewsPath = APP_PATH . 'views' . DIRECTORY_SEPARATOR;
+
 $dotenv->load(BASE_PATH . '.env');
 
 $appEnv = $_SERVER['APP_ENV'];
