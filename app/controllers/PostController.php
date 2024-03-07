@@ -3,16 +3,14 @@
 namespace App\Controllers;
 
 use Funbox\Framework\Http\Response;
+use Funbox\Framework\MVC\AbstractController;
 
-class PostController
+class PostController extends AbstractController
 {
     function show(int $id): Response
     {
-        return new Response(content: <<< HTML
-                    <h1>Posts</h1>
-                    <p>
-                    This is post {$id} 
-                    </p>
-                    HTML);
+        return $this->render('Posts.html.twig', [
+            'postId' => $id
+        ]);
     }
 }

@@ -4,17 +4,16 @@ namespace App\Controllers;
 
 use App\Widgets\Widget;
 use Funbox\Framework\Http\Response;
+use Funbox\Framework\MVC\AbstractController;
 
-class HomeController
+class HomeController extends AbstractController
 {
     public function __construct(private Widget $widget)
     {
-
     }
+
     public function index(): Response
     {
-        return new Response(content: <<< HTML
-                    <h1>Hello {$this->widget->name}!</h1>
-                    HTML);
+        return $this->render('Home.html.twig', ['name' => $this->widget->name]);
     }
 }
