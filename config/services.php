@@ -28,4 +28,15 @@ $container->add(\Funbox\Framework\Http\Kernel::class)
     ->addArgument(\Funbox\Framework\Routing\RouterInterface::class)
     ->addArgument($container);
 
+$container->addShared('filesystem-loader', \Twig\Loader\FilesystemLoader::class)
+    ->addArgument(new \League\Container\Argument\Literal\StringArgument(APP_PATH . 'views'));
+
+$container->addShared('twig', Twig\Environment::class)
+    ->addArgument('filesystem-loader');
+
+$container->add(\Funbox\Framework\MVC\AbstractController::class);
+
+$container->inflector(\Funbox\Framework\MVC\AbstractController::class)
+    ->invokeMethod('setContainer', [$container]);
+
 return $container;
