@@ -9,8 +9,13 @@ class PostController extends AbstractController
 {
     function show(int $id): Response
     {
-        return $this->render('Posts.html.twig', [
+        return $this->render('post.html.twig', [
             'postId' => $id
         ]);
+    }
+
+    function create(): Response
+    {
+        return $this->render('create.post.html.twig');
     }
 }
