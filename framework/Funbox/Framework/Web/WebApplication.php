@@ -3,9 +3,8 @@
 namespace Funbox\Framework\Web;
 
 use Funbox\Framework\Core\AbstractApplication;
-use \Funbox\Framework\Http\Request;
-use \Funbox\Framework\Http\Kernel;
-use Funbox\Framework\Routing\Router;
+use Funbox\Framework\Http\Kernel;
+use Funbox\Framework\Http\Request;
 
 class WebApplication extends AbstractApplication
 {

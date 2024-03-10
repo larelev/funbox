@@ -21,7 +21,7 @@ class AbstractRouter
     )
     {
         $this->documentRoot = $this->request->server('DOCUMENT_ROOT');
-        $this->appRoot = AbstractRouter . phpdirname($this->documentRoot) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR;
+        $this->appRoot = APP_PATH;
         $this->isFound = false;
     }
 

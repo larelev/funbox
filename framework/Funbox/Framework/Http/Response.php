@@ -22,8 +22,6 @@ class Response
         $this->content = $content;
     }
 
-
-
     public function send(): void
     {
         $status = $this->status;

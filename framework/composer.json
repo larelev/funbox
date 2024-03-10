@@ -11,7 +11,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "Funbox\\Framework\\": "Funbox/"
+      "Funbox\\Framework\\": "Funbox/Framework/",
+      "Funbox\\Commands\\": "Funbox/Commands/"
     }
   },
   "autoload-dev": {
@@ -24,7 +25,8 @@
     "psr/container": "2.0.x-dev",
     "league/container": "^4.0.0",
     "symfony/dotenv": "7.1.x-dev",
-    "twig/twig": "^3.0"
+    "twig/twig": "^v3.8.0",
+    "doctrine/dbal": "^4.1.x-dev"
   },
   "require-dev": {
     "symfony/var-dumper": "^7.0",

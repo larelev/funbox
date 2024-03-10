@@ -5,6 +5,9 @@ namespace Funbox\Framework\Http;
 use Phink\MVC\TView;
 use Phink\Registry\TRegistry;
 use Phink\TAutoloader;
+use function Funbox\Framework\Http\phpdirname;
+use const Funbox\Framework\Http\CLASS_EXTENSION;
+use const Funbox\Framework\Http\WebRooter;
 
 class WebRooter extends AbstractRouter
 {
