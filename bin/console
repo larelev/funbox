@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+include dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
+
+$container = require_once BASE_PATH . 'config' . DIRECTORY_SEPARATOR . 'services.php';
+
+$kernel = $container->get(\Funbox\Framework\Console\Kernel::class);
+
+$status = $kernel->handle();
+
+exit($status);

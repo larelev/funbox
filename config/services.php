@@ -6,6 +6,7 @@ $container->delegate(new \League\Container\ReflectionContainer(false));
 $routes = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
 $dotenv = new \Symfony\Component\Dotenv\Dotenv();
 $viewsPath = APP_PATH . 'views' . DIRECTORY_SEPARATOR;
+$databaseURL = 'sqlite:///' . BASE_PATH . 'var' . DIRECTORY_SEPARATOR . 'db.sqlite';
 
 $dotenv->load(BASE_PATH . '.env');
 
@@ -38,5 +39,17 @@ $container->add(\Funbox\Framework\MVC\AbstractController::class);
 
 $container->inflector(\Funbox\Framework\MVC\AbstractController::class)
     ->invokeMethod('setContainer', [$container]);
+
+$container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
+    ->addArgument([
+        new \League\Container\Argument\Literal\StringArgument($databaseURL)
+    ]);
+
+$container->add('base-commands-namespace',
+    new \League\Container\Argument\Literal\StringArgument('Funbox\\Commands\\')
+);
+
+$container->add(\Funbox\Framework\Console\Kernel::class)
+    ->addArgument($container);
 
 return $container;
