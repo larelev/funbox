@@ -3,10 +3,10 @@
 
 include dirname(__DIR__) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-$container = require_once BASE_PATH . 'config' . DIRECTORY_SEPARATOR . 'services.php';
+use Funbox\Framework\Console\Application;
 
-$kernel = $container->get(\Funbox\Framework\Console\Kernel::class);
+$app = Application::create();
 
-$status = $kernel->handle();
+$status = $app->run($argv, $argc);
 
 exit($status);

@@ -971,12 +971,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "c431188a7f50515d5c65c590c7bea0675d3b46a1"
+                "reference": "44ac426b749ac0e0a25472abb79c90b52208075c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c431188a7f50515d5c65c590c7bea0675d3b46a1",
-                "reference": "c431188a7f50515d5c65c590c7bea0675d3b46a1",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/44ac426b749ac0e0a25472abb79c90b52208075c",
+                "reference": "44ac426b749ac0e0a25472abb79c90b52208075c",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1046,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-15T11:36:43+00:00"
+            "time": "2024-03-12T14:31:42+00:00"
         }
     ],
     "aliases": [],
