@@ -29,6 +29,12 @@ $container->add(\Funbox\Framework\Http\Kernel::class)
     ->addArgument(\Funbox\Framework\Routing\RouterInterface::class)
     ->addArgument($container);
 
+$container->add(\Funbox\Framework\Console\CommandRunner::class)
+    ->addArgument($container);
+
+$container->add(\Funbox\Framework\Console\Kernel::class)
+    ->addArguments([$container, \Funbox\Framework\Console\CommandRunner::class]);
+
 $container->addShared('filesystem-loader', \Twig\Loader\FilesystemLoader::class)
     ->addArgument(new \League\Container\Argument\Literal\StringArgument(APP_PATH . 'views'));
 
@@ -49,7 +55,5 @@ $container->add('base-commands-namespace',
     new \League\Container\Argument\Literal\StringArgument('Funbox\\Commands\\')
 );
 
-$container->add(\Funbox\Framework\Console\Kernel::class)
-    ->addArgument($container);
 
 return $container;
