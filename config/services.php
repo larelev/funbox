@@ -6,13 +6,16 @@ $container->delegate(new \League\Container\ReflectionContainer(false));
 $routes = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
 $dotenv = new \Symfony\Component\Dotenv\Dotenv();
 $viewsPath = APP_PATH . 'views' . DIRECTORY_SEPARATOR;
-$databaseURL = 'sqlite:///' . BASE_PATH . 'var' . DIRECTORY_SEPARATOR . 'db.sqlite';
+$databaseURL = '' . BASE_PATH . 'var' . DIRECTORY_SEPARATOR . 'db.sqlite';
 
 $dotenv->load(BASE_PATH . '.env');
 
 $appEnv = $_SERVER['APP_ENV'];
 
 $container->add('APP_ENV', new \League\Container\Argument\Literal\StringArgument($appEnv));
+$container->add('base-commands-namespace',
+    new \League\Container\Argument\Literal\StringArgument('Funbox\\Commands\\')
+);
 
 $container->add(
     \Funbox\Framework\Routing\RouterInterface::class,
@@ -47,13 +50,13 @@ $container->inflector(\Funbox\Framework\MVC\AbstractController::class)
     ->invokeMethod('setContainer', [$container]);
 
 $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
-    ->addArgument([
+    ->addArgument(
         new \League\Container\Argument\Literal\StringArgument($databaseURL)
-    ]);
+    );
 
-$container->add('base-commands-namespace',
-    new \League\Container\Argument\Literal\StringArgument('Funbox\\Commands\\')
-);
+$container->addShared(\Doctrine\DBAL\Connection::class, function () use ($container): \Doctrine\DBAL\Connection {
+    return $container->get(\Funbox\Framework\Dbal\ConnectionFactory::class)->create();
+});
 
 
 return $container;
