@@ -3,11 +3,11 @@
 namespace Funbox\Framework\Routing;
 
 use Funbox\Framework\Http\Request;
-use Psr\Container\ContainerInterface;
+use League\Container\DefinitionContainerInterface;
 
 interface RouterInterface
 {
-    public function dispatch(Request $request, ContainerInterface $container): array;
+    public function dispatch(Request $request, DefinitionContainerInterface $container): array;
 
     public function setRoutes(array $routes): void;
 }
