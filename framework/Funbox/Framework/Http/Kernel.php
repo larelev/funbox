@@ -4,7 +4,7 @@ namespace Funbox\Framework\Http;
 
 use Funbox\Framework\Exceptions\HttpException;
 use Funbox\Framework\Routing\RouterInterface;
-use Psr\Container\ContainerInterface;
+use League\Container\DefinitionContainerInterface;
 
 class Kernel
 {
@@ -12,7 +12,7 @@ class Kernel
 
     public function __construct(
         private readonly RouterInterface $router,
-        private readonly ContainerInterface $container
+        private readonly DefinitionContainerInterface $container
     )
     {
         $this->appEnv = $this->container->get('APP_ENV');

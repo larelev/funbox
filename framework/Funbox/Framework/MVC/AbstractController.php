@@ -3,13 +3,13 @@
 namespace Funbox\Framework\MVC;
 
 use Funbox\Framework\Http\Response;
-use Psr\Container\ContainerInterface;
+use League\Container\DefinitionContainerInterface;
 
 abstract class AbstractController
 {
-    protected ?ContainerInterface $container = null;
+    protected ?DefinitionContainerInterface $container = null;
 
-    public function setContainer(ContainerInterface $container): void
+    public function setContainer(DefinitionContainerInterface $container): void
     {
         $this->container = $container;
     }

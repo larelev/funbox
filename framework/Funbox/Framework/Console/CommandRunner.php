@@ -3,12 +3,12 @@
 namespace Funbox\Framework\Console;
 
 use Funbox\Framework\Exceptions\ConsoleException;
-use Psr\Container\ContainerInterface;
+use League\Container\DefinitionContainerInterface;
 
 class CommandRunner
 {
 
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private readonly DefinitionContainerInterface $container)
     {
     }
 

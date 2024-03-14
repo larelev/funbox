@@ -3,12 +3,12 @@
 namespace Funbox\Framework\Console;
 
 use Funbox\Framework\Console\Commands\CommandInterface;
-use Psr\Container\ContainerInterface;
+use League\Container\DefinitionContainerInterface;
 
 class Kernel
 {
     public function __construct(
-        private readonly ContainerInterface $container,
+        private readonly DefinitionContainerInterface $container,
         private readonly CommandRunner $commandRunner
     )
     {

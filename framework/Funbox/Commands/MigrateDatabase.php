@@ -5,7 +5,7 @@ namespace Funbox\Commands;
 use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
-#[CommandDeclaration(name: "databse:migrations:migrate")]
+#[CommandDeclaration(name: "database:migrations:migrate")]
 class MigrateDatabase implements CommandInterface
 {
     public function execute(array $params = []): int

@@ -7,14 +7,14 @@ use FastRoute\RouteCollector;
 use Funbox\Framework\Exceptions\HttpException;
 use Funbox\Framework\Exceptions\HttpRequestMethodException;
 use Funbox\Framework\Http\Request;
-use Psr\Container\ContainerInterface;
+use League\Container\DefinitionContainerInterface;
 use function FastRoute\simpleDispatcher;
 
 class Router implements RouterInterface
 {
     private array $routes;
 
-    public function dispatch(Request $request, ContainerInterface $container): array
+    public function dispatch(Request $request, DefinitionContainerInterface $container): array
     {
         $routeInfo = $this->extractRouteInfo($request);
 
