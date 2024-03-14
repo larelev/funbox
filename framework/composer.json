@@ -26,7 +26,8 @@
     "league/container": "^4.0.0",
     "symfony/dotenv": "7.1.x-dev",
     "twig/twig": "^v3.8.0",
-    "doctrine/dbal": "^4.1.x-dev"
+    "doctrine/dbal": "^4.1.x-dev",
+    "ext-pdo": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^7.0",

@@ -3,6 +3,7 @@
 namespace Funbox\Framework\Dbal;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\PDO\SQLite\Driver;
 use Doctrine\DBAL\DriverManager;
 
 class ConnectionFactory
@@ -13,6 +14,6 @@ class ConnectionFactory
 
     public function create(): Connection
     {
-        return DriverManager::getConnection(['url' => $this->databaseURL]);
+        return DriverManager::getConnection( ['driverClass' => Driver::class, 'path' => $this->databaseURL]);
     }
 }

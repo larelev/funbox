@@ -2,6 +2,7 @@
 
 namespace Funbox\Framework\Console;
 
+use Doctrine\DBAL\Connection;
 use Funbox\Framework\Console\Commands\CommandInterface;
 use League\Container\DefinitionContainerInterface;
 
@@ -33,17 +34,22 @@ class Kernel
                 continue;
             }
 
-            $coomend = $namespace . pathinfo($commandFile, PATHINFO_FILENAME);
+            $command = $namespace . pathinfo($commandFile, PATHINFO_FILENAME);
 
-            if(!is_subclass_of($coomend, CommandInterface::class)) {
+            if(!is_subclass_of($command, CommandInterface::class)) {
                 continue;
             }
 
-            $class = new \ReflectionClass($coomend);
-            $commandAttr = $class->getAttributes()[0];
-            $commandName = $commandAttr->getArguments()['name'];
+            $class = new \ReflectionClass($command);
 
-            $this->container->add($commandName, $coomend);
+            $commandAttrName = $class->getAttributes()[0];
+            $commandAttrContainerArgs = $class->getAttributes()[1];
+            $commandName = $commandAttrName->getArguments()['name'];
+            $containerArgs = $commandAttrContainerArgs->getArguments()['containerArgs'];
+
+            $this->container->addShared($commandName, $command)
+                ->addArguments($containerArgs);
+
         }
     }
 }
