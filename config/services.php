@@ -6,7 +6,6 @@ $container->delegate(new \League\Container\ReflectionContainer(false));
 $routes = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
 $dotenv = new \Symfony\Component\Dotenv\Dotenv();
 $viewsPath = APP_PATH . 'views' . DIRECTORY_SEPARATOR;
-$databaseURL = '' . BASE_PATH . 'var' . DIRECTORY_SEPARATOR . 'db.sqlite';
 
 $dotenv->load(BASE_PATH . '.env');
 
@@ -51,12 +50,11 @@ $container->inflector(\Funbox\Framework\MVC\AbstractController::class)
 
 $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
     ->addArgument(
-        new \League\Container\Argument\Literal\StringArgument($databaseURL)
+        new \League\Container\Argument\Literal\StringArgument(DATABASE_URL)
     );
 
 $container->addShared(\Doctrine\DBAL\Connection::class, function () use ($container): \Doctrine\DBAL\Connection {
     return $container->get(\Funbox\Framework\Dbal\ConnectionFactory::class)->create();
 });
-
 
 return $container;
