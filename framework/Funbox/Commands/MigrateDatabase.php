@@ -47,20 +47,24 @@ class MigrateDatabase implements CommandInterface
     {
         $schemaManager = $this->abstractConnection->createSchemaManager();
 
-        if(!$schemaManager->tableExists('migrations')) {
-            $schema = new Schema();
-            $table = $schema->createTable('migrations');
-            $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
-            $table->addColumn('migration', Types::STRING);
-            $table->addColumn('created_at', Types::DATETIME_IMMUTABLE, ['default'=>'CURRENT_TIMESTAMP']);
-            $table->setPrimaryKey(['id']);
+        if($schemaManager->tableExists('migrations')) {
+            echo 'Migrations table already created.' . PHP_EOL;
 
-            $sqlArray = $schema->toSql($this->abstractConnection->getDatabasePlatform());
-
-            $this->abstractConnection->executeQuery($sqlArray[0]);
-
-            echo 'migrations table created' . PHP_EOL;
+            return;
         }
+
+        $schema = new Schema();
+        $table = $schema->createTable('migrations');
+        $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
+        $table->addColumn('migration', Types::STRING);
+        $table->addColumn('created_at', Types::DATETIME_IMMUTABLE, ['default'=>'CURRENT_TIMESTAMP']);
+        $table->setPrimaryKey(['id']);
+
+        $sqlArray = $schema->toSql($this->abstractConnection->getDatabasePlatform());
+
+        $this->abstractConnection->executeQuery($sqlArray[0]);
+
+        echo 'Migrations table has been created.' . PHP_EOL;
 
     }
 }
