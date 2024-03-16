@@ -10,9 +10,9 @@ class CommandDeclaration
     public function __construct(
         public string $name = '',
         public string $desc = '',
-        public array $containerArgs = [],
-        public array $shortParams = [],
-        public array $longParams = []
+        public array $inject = [],
+        public array $shortArgs = [],
+        public array $longArgs = []
     )
     {
     }

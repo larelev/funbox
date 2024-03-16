@@ -4,6 +4,8 @@ namespace Funbox\Framework\Console\Commands;
 
 use Funbox\Framework\Exceptions\ConsoleException;
 use League\Container\DefinitionContainerInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class CommandRunner
 {
@@ -12,6 +14,12 @@ class CommandRunner
     {
     }
 
+    /**
+     * @throws ConsoleException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws \Exception
+     */
     public function run(array $argv, int $argc): int
     {
         $commandName = $argv[1] ?? false;
@@ -29,8 +37,12 @@ class CommandRunner
         $status = $command->execute($options);
 
         return $status;
+
     }
 
+    /**
+     * @throws \Exception
+     */
     private function parseOptions(array $args, int $count, array $shortOptions, array $longOptions): array
     {
         $result = [];

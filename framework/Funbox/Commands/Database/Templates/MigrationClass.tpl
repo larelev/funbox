@@ -10,11 +10,11 @@ class Migration_<Version />
 
     public function up(): void
     {
-        echo __METHOD__ . " executed" . PHP_EOL;
+        echo __METHOD__ . " executed!" . PHP_EOL;
     }
 
     public function down(): void
     {
-        echo __METHOD__ . " executed" . PHP_EOL;
+        echo __METHOD__ . " executed!" . PHP_EOL;
     }
 };
