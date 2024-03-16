@@ -73,9 +73,9 @@ class Kernel
             }
 
             $commandName = $category . $attributesArgs['name'];
-            $containerArgs = $attributesArgs['containerArgs'] ?? [];
-            $shortParams = $attributesArgs['shortParams'] ?? [];
-            $longParams = $attributesArgs['longParams'] ?? [];
+            $containerArgs = $attributesArgs['inject'] ?? [];
+            $shortParams = $attributesArgs['shortArgs'] ?? [];
+            $longParams = $attributesArgs['longArgs'] ?? [];
             $registeredParams = [$shortParams, $longParams];
 
             $this->container->addShared($commandName . ':registered-params', $registeredParams);

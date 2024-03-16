@@ -24,7 +24,7 @@ class Migration_20240316123841736623
 
         $this->schema->createTable($table);
 
-        echo __METHOD__ . " executed" . PHP_EOL;
+        echo __METHOD__ . " executed!" . PHP_EOL;
     }
 
     /**
@@ -34,6 +34,6 @@ class Migration_20240316123841736623
     {
         $this->schema->dropTable('posts');
 
-        echo __METHOD__ . " executed" . PHP_EOL;
+        echo __METHOD__ . " executed!" . PHP_EOL;
     }
 };

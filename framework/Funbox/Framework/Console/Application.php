@@ -4,6 +4,7 @@ namespace Funbox\Framework\Console;
 
 use Doctrine\DBAL\Exception;
 use Funbox\Framework\Core\AbstractApplication;
+use Funbox\Framework\Exceptions\ConsoleException;
 
 class Application extends AbstractApplication
 {
@@ -21,9 +22,11 @@ class Application extends AbstractApplication
             $kernel = $container->get(Kernel::class);
 
             return $kernel->handle($argv, $argc);
+        } catch (ConsoleException $exception) {
+            echo $exception->getMessage() . PHP_EOL;
+            return 0;
         } catch (\Throwable $throwable) {
-            echo 'FATAL ERROR:  ' . $throwable->getMessage() . PHP_EOL;
-
+            echo 'FATAL ERROR: ' . $throwable->getMessage() . PHP_EOL;
             return 1;
         }
     }

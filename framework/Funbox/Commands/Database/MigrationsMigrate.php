@@ -3,24 +3,25 @@
 namespace Funbox\Commands\Database;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Exception as DbalException;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
 use Funbox\Framework\Console\Commands\CommandInterface;
+use Funbox\Framework\Exceptions\ConsoleException;
 use \InvalidArgumentException;
 
 #[CommandDeclaration(name: "migrations:migrate")]
-#[CommandDeclaration(containerArgs: [Connection::class])]
-#[CommandDeclaration(shortParams: ['u', 'd'])]
-#[CommandDeclaration(longParams: ['up', 'down'])]
+#[CommandDeclaration(inject: [Connection::class])]
+#[CommandDeclaration(shortArgs: ['u', 'd', 'r'])]
+#[CommandDeclaration(longArgs: ['up', 'down', 'remove'])]
 class MigrationsMigrate implements CommandInterface
 {
 
 
     public function __construct(
-        private Connection $connection,
+        private readonly Connection $connection,
     )
     {
     }
@@ -29,13 +30,21 @@ class MigrationsMigrate implements CommandInterface
     {
         try
         {
-            $this->connection->beginTransaction();
 
             $doUp =  array_key_exists('u', $params) || array_key_exists('up', $params);
             $doDown =  array_key_exists('d', $params) || array_key_exists('down', $params);
+            $doRemove =  array_key_exists('r', $params) || array_key_exists('remove', $params);
             $doError = array_key_exists('u', $params) && array_key_exists('up', $params);
             $doError = $doError || (array_key_exists('d', $params) && array_key_exists('down', $params));
-            $doError = $doError || ($doUp && $doDown);
+            $doError = $doError || (array_key_exists('r', $params) && array_key_exists('remove', $params));
+            $doError = $doError || ($doUp && $doDown && $doRemove);
+            $doNothing = !$doUp && !$doDown && !$doRemove;
+
+            if($doNothing) {
+                throw new ConsoleException('Missing arguments.');
+            }
+
+            $this->connection->beginTransaction();
 
             if($doError) {
                 throw new InvalidArgumentException('Invalid arguments.');
@@ -43,10 +52,13 @@ class MigrationsMigrate implements CommandInterface
 
             $version = null;
             if($doUp) {
-                $version = $params['u'] ?? $params['up'];
+                $version = !isset($params['u']) ? ($params['up'] ?? null) : $params['u'];
             }
             else if($doDown) {
-                $version = $params['d'] ?? $params['down'];
+                $version = !isset($params['d']) ? ($params['down'] ?? null) : $params['d'];
+            }
+            else if($doRemove) {
+                $version = !isset($params['r']) ? ($params['remove'] ?? null) : $params['r'];
             }
 
             $schemaMan = $this->connection->createSchemaManager();
@@ -64,64 +76,108 @@ class MigrationsMigrate implements CommandInterface
             // Get the migrations to apply. i.e. they are in $migrationFiles but not in $appliedMigrations
             $migrationsToApply = array_diff($migrationsFiles, $appliedMigrations);
 
-
             // Create SQL for any migrations which have not been run ..i.e. which are not in the database
             if($doUp) {
                 $this->doUp($version, $migrationsToApply, $schemaMan);
             } else if($doDown) {
-                $this->doDown($version, $migrationsFiles, $schemaMan);
+                $this->doDown($version, $appliedMigrations, $schemaMan);
+            } else if($doRemove) {
+                $this->doRemove($version, $appliedMigrations);
             }
-
             // Execute the SQL query
             $sqlArray = $schema->toSql($this->connection->getDatabasePlatform());
 
             foreach ($sqlArray as $sql) {
-                echo 'SQL: ' . $sql . PHP_EOL;
                 $this->connection->executeQuery($sql);
             }
 
             $this->connection->commit();
 
             return 0;
-
-        } catch (\Throwable $throwable) {
+        } catch (DbalException $exception) {
             $this->connection->rollBack();
+            throw $exception;
+        } catch (\Throwable $throwable) {
             throw $throwable;
         }
     }
 
     /**
-     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
     private function doUp(?string $version, array $migrationsToApply, AbstractSchemaManager $schema): void
     {
+
+
+        $isDirty = false;
         foreach ($migrationsToApply as $migrationFile) {
             [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
 
             if($version === null || $current == $version) {
+                $isDirty = true;
                 $migrationObject->up();
                 $this->insertMigration($migrationFile);
             }
         }
+        
+        if(!$isDirty) {
+            throw new ConsoleException('Nothing to do');
+        }
     }
 
     /**
-     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
-    private function doDown(?string $version, array $migrationsFiles, AbstractSchemaManager $schema): void
+    private function doDown(?string $version, array $appliedMigrations, AbstractSchemaManager $schema): void
     {
-        foreach ($migrationsFiles as $migrationFile) {
+        $isDirty = false;
+        foreach ($appliedMigrations as $migrationFile) {
             [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
 
             if($version === null || $current == $version) {
+                $isDirty = true;
                 $migrationObject->down();
                 $this->deleteMigration($migrationFile);
             }
+        }
+        
+        if(!$isDirty) {
+            throw new ConsoleException('Nothing to do');
+        }
+    }
+
+    /**
+     * @throws ConsoleException
+     * @throws DbalException
+     */
+    private function doRemove(?string $version, array $appliedMigrations): void
+    {
+        if($version === null) {
+            throw new InvalidArgumentException("The migration version is mandatory for this argument.");
+        }
+
+        $isDirty = false;
+        foreach ($appliedMigrations as $migrationFile) {
+            $current = pathinfo($migrationFile, PATHINFO_FILENAME);
+
+            if($version === null || $current == $version) {
+                $isDirty = true;
+                $this->deleteMigration($migrationFile);
+                echo "The migration $migrationFile was removed from history table." . PHP_EOL;
+            }
+        }
+
+        if(!$isDirty) {
+            throw new ConsoleException('Nothing to do');
         }
     }
 
     private function getMigrationObject(string $migrationFile, AbstractSchemaManager $schema): array
     {
+        if(!file_exists(BASE_PATH . MIGRATIONS_PATH . $migrationFile)) {
+            throw new \ErrorException("Migration file $migrationFile not found!");
+        }
+
         require BASE_PATH . MIGRATIONS_PATH . $migrationFile;
 
         $version = pathinfo($migrationFile, PATHINFO_FILENAME);
