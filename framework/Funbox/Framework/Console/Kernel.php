@@ -66,16 +66,16 @@ class Kernel
 
             $class = new \ReflectionClass($command);
 
-            $attributeList = [];
+            $attributesArgs = [];
             $attributes = $class->getAttributes();
             foreach ($attributes as $attribute) {
-                $attributeList = array_merge($attributeList, $attribute->getArguments());
+                $attributesArgs = array_merge($attributesArgs, $attribute->getArguments());
             }
 
-            $commandName = $category . $attributeList['name'];
-            $containerArgs = isset($attributeList['containerArgs']) ? $attributeList['containerArgs'] : [];
-            $shortParams = isset($attributeList['shortParams']) ? $attributeList['shortParams'] : [];
-            $longParams = isset($attributeList['longParams']) ? $attributeList['longParams'] : [];
+            $commandName = $category . $attributesArgs['name'];
+            $containerArgs = $attributesArgs['containerArgs'] ?? [];
+            $shortParams = $attributesArgs['shortParams'] ?? [];
+            $longParams = $attributesArgs['longParams'] ?? [];
             $registeredParams = [$shortParams, $longParams];
 
             $this->container->addShared($commandName . ':registered-params', $registeredParams);

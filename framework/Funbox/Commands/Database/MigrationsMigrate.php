@@ -3,10 +3,13 @@
 namespace Funbox\Commands\Database;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
 use Funbox\Framework\Console\Commands\CommandInterface;
+use \InvalidArgumentException;
 
 #[CommandDeclaration(name: "migrations:migrate")]
 #[CommandDeclaration(containerArgs: [Connection::class])]
@@ -28,8 +31,29 @@ class MigrationsMigrate implements CommandInterface
         {
             $this->connection->beginTransaction();
 
+            $doUp =  array_key_exists('u', $params) || array_key_exists('up', $params);
+            $doDown =  array_key_exists('d', $params) || array_key_exists('down', $params);
+            $doError = array_key_exists('u', $params) && array_key_exists('up', $params);
+            $doError = $doError || (array_key_exists('d', $params) && array_key_exists('down', $params));
+            $doError = $doError || ($doUp && $doDown);
+
+            if($doError) {
+                throw new InvalidArgumentException('Invalid arguments.');
+            }
+
+            $version = null;
+            if($doUp) {
+                $version = $params['u'] ?? $params['up'];
+            }
+            else if($doDown) {
+                $version = $params['d'] ?? $params['down'];
+            }
+
+            $schemaMan = $this->connection->createSchemaManager();
+            $schema = new Schema();
+
             // Create a migrations table SQL if table not already in existence
-            $this->createMigrationsTable();
+            $this->createMigrationsTable($schemaMan, $schema);
 
             // Get $appliedMigrations which are already in the database.migrations table
             $appliedMigrations = $this->getAppliedMigrations();
@@ -40,27 +64,19 @@ class MigrationsMigrate implements CommandInterface
             // Get the migrations to apply. i.e. they are in $migrationFiles but not in $appliedMigrations
             $migrationsToApply = array_diff($migrationsFiles, $appliedMigrations);
 
-            $schema = new Schema();
 
             // Create SQL for any migrations which have not been run ..i.e. which are not in the database
-            foreach ($migrationsToApply as $migrationFile) {
-                 require BASE_PATH . MIGRATIONS_PATH . $migrationFile;
-
-                 $version = pathinfo($migrationFile, PATHINFO_FILENAME);
-                 $className = 'Migration_' . $version;
-
-                 $migrationObject = new $className($schema);
-                 $migrationObject->up();
-
-                // Add migration to database
-                $this->insertMigration($migrationFile);
-
+            if($doUp) {
+                $this->doUp($version, $migrationsToApply, $schemaMan);
+            } else if($doDown) {
+                $this->doDown($version, $migrationsFiles, $schemaMan);
             }
 
             // Execute the SQL query
             $sqlArray = $schema->toSql($this->connection->getDatabasePlatform());
 
             foreach ($sqlArray as $sql) {
+                echo 'SQL: ' . $sql . PHP_EOL;
                 $this->connection->executeQuery($sql);
             }
 
@@ -72,7 +88,46 @@ class MigrationsMigrate implements CommandInterface
             $this->connection->rollBack();
             throw $throwable;
         }
+    }
 
+    /**
+     * @throws Exception
+     */
+    private function doUp(?string $version, array $migrationsToApply, AbstractSchemaManager $schema): void
+    {
+        foreach ($migrationsToApply as $migrationFile) {
+            [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
+
+            if($version === null || $current == $version) {
+                $migrationObject->up();
+                $this->insertMigration($migrationFile);
+            }
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function doDown(?string $version, array $migrationsFiles, AbstractSchemaManager $schema): void
+    {
+        foreach ($migrationsFiles as $migrationFile) {
+            [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
+
+            if($version === null || $current == $version) {
+                $migrationObject->down();
+                $this->deleteMigration($migrationFile);
+            }
+        }
+    }
+
+    private function getMigrationObject(string $migrationFile, AbstractSchemaManager $schema): array
+    {
+        require BASE_PATH . MIGRATIONS_PATH . $migrationFile;
+
+        $version = pathinfo($migrationFile, PATHINFO_FILENAME);
+        $className = 'Migration_' . $version;
+
+        return [new $className($schema), $version];
     }
 
     private function getMigrationsFiles(): array
@@ -88,21 +143,24 @@ class MigrationsMigrate implements CommandInterface
         return  $result;
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function getAppliedMigrations(): array
     {
         $sql = "SELECT migration FROM migrations;";
         return $this->connection->executeQuery($sql)->fetchFirstColumn();
     }
 
-    private function createMigrationsTable(): void
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function createMigrationsTable(AbstractSchemaManager $schemaManager, Schema $schema): void
     {
-        $schemaManager = $this->connection->createSchemaManager();
-
         if($schemaManager->tableExists('migrations')) {
             return;
         }
 
-        $schema = new Schema();
         $table = $schema->createTable('migrations');
         $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
         $table->addColumn('migration', Types::STRING);
@@ -117,9 +175,24 @@ class MigrationsMigrate implements CommandInterface
 
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     private function insertMigration(string $migration): void
     {
         $sql = "INSERT INTO migrations (migration) VALUES (?)";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue(1, $migration);
+
+        $stmt->executeStatement();
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    private function deleteMigration(string $migration): void
+    {
+        $sql = "DELETE FROM migrations WHERE migration = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue(1, $migration);
 
