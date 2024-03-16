@@ -31,11 +31,11 @@ $container->add(\Funbox\Framework\Http\Kernel::class)
     ->addArgument(\Funbox\Framework\Routing\RouterInterface::class)
     ->addArgument($container);
 
-$container->add(\Funbox\Framework\Console\CommandRunner::class)
+$container->add(\Funbox\Framework\Console\Commands\CommandRunner::class)
     ->addArgument($container);
 
 $container->add(\Funbox\Framework\Console\Kernel::class)
-    ->addArguments([$container, \Funbox\Framework\Console\CommandRunner::class]);
+    ->addArguments([$container, \Funbox\Framework\Console\Commands\CommandRunner::class]);
 
 $container->addShared('filesystem-loader', \Twig\Loader\FilesystemLoader::class)
     ->addArgument(new \League\Container\Argument\Literal\StringArgument(APP_PATH . 'views'));
