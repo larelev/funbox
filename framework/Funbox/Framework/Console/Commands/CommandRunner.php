@@ -52,7 +52,7 @@ class CommandRunner
                 if(!in_array($key, $longOptions)) {
                     throw new \Exception('Unknown parameter ' . $key . '!');
                 }
-                $result[$key] = true;
+                $result[$key] = null;
             }
             else
             if(str_starts_with($current, '-')) {
@@ -63,7 +63,7 @@ class CommandRunner
                 if(!in_array($key, $shortOptions)) {
                     throw new \Exception('Unknown parameter ' . $key . '!');
                 }
-                $value = str_starts_with($next, '-') ? true : ($next == '' ? true : $next);
+                $value = str_starts_with($next, '-') ? null : ($next == '' ? null : $next);
 
                 $result[$key] = $value;
             }

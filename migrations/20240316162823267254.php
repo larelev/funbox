@@ -2,7 +2,7 @@
 
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 
-class Migration_<Version />
+class Migration_20240316162823267254
 {
     public function __construct(private readonly AbstractSchemaManager $schema)
     {
