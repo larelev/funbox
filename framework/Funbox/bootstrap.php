@@ -6,6 +6,7 @@ define('LIB_PATH', __DIR__ . DIRECTORY_SEPARATOR);
 define('APP_PATH', BASE_PATH . 'app' . DIRECTORY_SEPARATOR);
 define('CONFIG_PATH', BASE_PATH . 'config' . DIRECTORY_SEPARATOR);
 define('DATABASE_URL', '' . BASE_PATH . 'var' . DIRECTORY_SEPARATOR . 'migrations.sqlite');
+define( 'MIGRATIONS_PATH', 'migrations' . DIRECTORY_SEPARATOR);
 
 require_once BASE_PATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 

@@ -2,9 +2,12 @@
 
 namespace Funbox\Framework\Console;
 
-use Doctrine\DBAL\Connection;
 use Funbox\Framework\Console\Commands\CommandInterface;
+use Funbox\Framework\Console\Commands\CommandRunner;
+use Funbox\Framework\Exceptions\ConsoleException;
 use League\Container\DefinitionContainerInterface;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class Kernel
 {
@@ -15,6 +18,9 @@ class Kernel
     {
     }
 
+    /**
+     * @throws ConsoleException
+     */
     public function handle(array $argv, int $argc): int
     {
         $this->registerCommands();
@@ -26,7 +32,11 @@ class Kernel
 
     private function registerCommands(): void
     {
-        $commandFiles = new \DirectoryIterator(LIB_PATH . 'Commands');
+        $dir = LIB_PATH . 'Commands';
+        $l = strlen($dir);
+        $dir_iterator = new RecursiveDirectoryIterator($dir);
+        $commandFiles = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::CHILD_FIRST);
+
         $namespace = $this->container->get('base-commands-namespace');
 
         foreach ($commandFiles as $commandFile) {
@@ -34,7 +44,21 @@ class Kernel
                 continue;
             }
 
-            $command = $namespace . pathinfo($commandFile, PATHINFO_FILENAME);
+//            $command = $namespace . (
+//                $commandFile->getPath() !== '' ?
+//                    str_replace(
+//                        substr($commandFile->getPath(), $l + 1),
+//                        DIRECTORY_SEPARATOR,
+//                        '\\' )
+//                    . '\\' : ''
+//                ) . $commandFile->getBaseName('.' . $commandFile->getExtension());
+//            echo $command . PHP_EOL;
+
+            $baseDomain = $commandFile->getPath() !== '' ? substr($commandFile->getPath(), $l + 1) : '';
+            $domain = $baseDomain !== '' ?  $baseDomain . '\\' : '';
+            $category = $baseDomain !== '' ? strtolower($baseDomain) . ':' : '';
+
+            $command = $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension());
 
             if(!is_subclass_of($command, CommandInterface::class)) {
                 continue;
@@ -42,13 +66,24 @@ class Kernel
 
             $class = new \ReflectionClass($command);
 
-            $commandAttrName = $class->getAttributes()[0];
-            $commandAttrContainerArgs = $class->getAttributes()[1];
-            $commandName = $commandAttrName->getArguments()['name'];
-            $containerArgs = $commandAttrContainerArgs->getArguments()['containerArgs'];
+            $attributeList = [];
+            $attributes = $class->getAttributes();
+            foreach ($attributes as $attribute) {
+                $attributeList = array_merge($attributeList, $attribute->getArguments());
+            }
 
-            $this->container->addShared($commandName, $command)
-                ->addArguments($containerArgs);
+            $commandName = $category . $attributeList['name'];
+            $containerArgs = isset($attributeList['containerArgs']) ? $attributeList['containerArgs'] : [];
+            $shortParams = isset($attributeList['shortParams']) ? $attributeList['shortParams'] : [];
+            $longParams = isset($attributeList['longParams']) ? $attributeList['longParams'] : [];
+            $registeredParams = [$shortParams, $longParams];
+
+            $this->container->addShared($commandName . ':registered-params', $registeredParams);
+
+            $definition = $this->container->addShared($commandName, $command);
+            if(count($containerArgs)) {
+                $definition->addArguments($containerArgs);
+            }
 
         }
     }
