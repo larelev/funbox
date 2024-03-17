@@ -18,7 +18,7 @@ class Application extends AbstractApplication
     public function run(array $argv, int $argc): int
     {
         try {
-            $container = require_once BASE_PATH . 'config' . DIRECTORY_SEPARATOR . 'services.php';
+            $container = require_once SERVICES_PATH;
             $kernel = $container->get(Kernel::class);
 
             return $kernel->handle($argv, $argc);
