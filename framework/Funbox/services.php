@@ -43,11 +43,6 @@ $container->addShared('filesystem-loader', \Twig\Loader\FilesystemLoader::class)
 $container->addShared('twig', Twig\Environment::class)
     ->addArgument('filesystem-loader');
 
-$container->add(\Funbox\Framework\MVC\AbstractController::class);
-
-$container->inflector(\Funbox\Framework\MVC\AbstractController::class)
-    ->invokeMethod('setContainer', [$container]);
-
 $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
     ->addArgument(
         new \League\Container\Argument\Literal\StringArgument(DATABASE_URL)

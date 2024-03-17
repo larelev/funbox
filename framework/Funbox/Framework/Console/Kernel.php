@@ -44,7 +44,7 @@ class Kernel
                 continue;
             }
 
-//            $command = $namespace . (
+//            $fqCommandClass = $namespace . (
 //                $commandFile->getPath() !== '' ?
 //                    str_replace(
 //                        substr($commandFile->getPath(), $l + 1),
@@ -52,19 +52,19 @@ class Kernel
 //                        '\\' )
 //                    . '\\' : ''
 //                ) . $commandFile->getBaseName('.' . $commandFile->getExtension());
-//            echo $command . PHP_EOL;
+//            echo $fqCommandClass . PHP_EOL;
 
             $baseDomain = $commandFile->getPath() !== '' ? substr($commandFile->getPath(), $l + 1) : '';
             $domain = $baseDomain !== '' ?  $baseDomain . '\\' : '';
             $category = $baseDomain !== '' ? strtolower($baseDomain) . ':' : '';
 
-            $command = $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension());
+            $fqCommandClass = $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension());
 
-            if(!is_subclass_of($command, CommandInterface::class)) {
+            if(!is_subclass_of($fqCommandClass, CommandInterface::class)) {
                 continue;
             }
 
-            $class = new \ReflectionClass($command);
+            $class = new \ReflectionClass($fqCommandClass);
 
             $attributesArgs = [];
             $attributes = $class->getAttributes();
@@ -80,7 +80,7 @@ class Kernel
 
             $this->container->addShared($commandName . ':registered-params', $registeredParams);
 
-            $definition = $this->container->addShared($commandName, $command);
+            $definition = $this->container->addShared($commandName, $fqCommandClass);
             if(count($containerArgs)) {
                 $definition->addArguments($containerArgs);
             }

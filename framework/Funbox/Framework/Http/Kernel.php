@@ -15,7 +15,7 @@ class Kernel
         private readonly DefinitionContainerInterface $container
     )
     {
-        $this->appEnv = $this->container->get('APP_ENV');
+        $this->appEnv = $container->get('APP_ENV');
     }
 
     public function handle(Request $request): Response

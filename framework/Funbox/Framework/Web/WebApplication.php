@@ -15,10 +15,17 @@ class WebApplication extends AbstractApplication
 
     function run(): void
     {
+        $request = new Request();
 
-        $container = require CONFIG_PATH . 'services.php';
+        $container = require SERVICES_PATH;
 
-        $request = Request::createFromGlobals();
+        $definition = $container->add(\Funbox\Framework\MVC\AbstractController::class);
+        $definition->addArgument($request);
+
+        $container->inflector(\Funbox\Framework\MVC\AbstractController::class)
+            ->invokeMethod('setContainer', [$container]);
+
+
         $kernel = $container->get(Kernel::class);
         $response = $kernel->handle($request);
         $response->send();
