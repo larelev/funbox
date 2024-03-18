@@ -9,8 +9,8 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
 use Funbox\Framework\Console\Commands\CommandInterface;
-use Funbox\Framework\Exceptions\ConsoleException;
-use \InvalidArgumentException;
+use Funbox\Framework\Console\Exceptions\ConsoleException;
+use InvalidArgumentException;
 
 #[CommandDeclaration(name: "migrations:migrate")]
 #[CommandDeclaration(inject: [Connection::class])]

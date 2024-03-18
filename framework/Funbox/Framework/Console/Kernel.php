@@ -4,7 +4,7 @@ namespace Funbox\Framework\Console;
 
 use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Commands\CommandRunner;
-use Funbox\Framework\Exceptions\ConsoleException;
+use Funbox\Framework\Console\Exceptions\ConsoleException;
 use League\Container\DefinitionContainerInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;

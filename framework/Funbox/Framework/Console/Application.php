@@ -2,9 +2,8 @@
 
 namespace Funbox\Framework\Console;
 
-use Doctrine\DBAL\Exception;
+use Funbox\Framework\Console\Exceptions\ConsoleException;
 use Funbox\Framework\Core\AbstractApplication;
-use Funbox\Framework\Exceptions\ConsoleException;
 
 class Application extends AbstractApplication
 {

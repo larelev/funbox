@@ -4,8 +4,9 @@ namespace Funbox\Framework\Routing;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Funbox\Framework\Exceptions\HttpException;
-use Funbox\Framework\Exceptions\HttpRequestMethodException;
+use Funbox\Framework\Http\Exceptions\HttpException;
+use Funbox\Framework\Http\Exceptions\HttpMethodException;
+use Funbox\Framework\Http\Exceptions\HttpNotFoundException;
 use Funbox\Framework\Http\Request;
 use League\Container\DefinitionContainerInterface;
 use function FastRoute\simpleDispatcher;
@@ -29,6 +30,10 @@ class Router implements RouterInterface
         return [$handler, $vars];
     }
 
+    /**
+     * @throws HttpNotFoundException
+     * @throws HttpMethodException
+     */
     public function extractRouteInfo(Request $request): array
     {
 
@@ -48,9 +53,9 @@ class Router implements RouterInterface
                 return [$routeInfo[1], $routeInfo[2]];
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = implode(', ', $routeInfo[1]);
-                throw new HttpRequestMethodException("Allowed methods are $allowedMethods.", 405);
+                throw new HttpMethodException($request->getMethod(), $routeInfo[1]);
             default:
-                throw new HttpException('Endpoint not found', 404);
+                throw new HttpNotFoundException('Route not found');
 
         }
 
