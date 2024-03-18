@@ -168,7 +168,7 @@
             "dist": {
                 "type": "path",
                 "url": "framework",
-                "reference": "b0fb3691bd7f73c83e60408ebb1340bd9ff6eaf0"
+                "reference": "6acc28fa46c1ac0512c5cf7f01fffd5987d6d55f"
             },
             "require": {
                 "doctrine/dbal": "^4.1.x-dev",
