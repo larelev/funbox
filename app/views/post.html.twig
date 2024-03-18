@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-<h1>Posts</h1>
+<h1>{{ post.title }}</h1>
 <p>
-    This is post {{ postId }}
+    {{ post.body }}
 </p>
 {% endblock %}

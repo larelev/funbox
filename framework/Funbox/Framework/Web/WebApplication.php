@@ -19,12 +19,11 @@ class WebApplication extends AbstractApplication
 
         $container = require SERVICES_PATH;
 
-        $definition = $container->add(\Funbox\Framework\MVC\AbstractController::class);
-        $definition->addArgument($request);
+        $container->add(\Funbox\Framework\MVC\AbstractController::class);
 
-        $container->inflector(\Funbox\Framework\MVC\AbstractController::class)
-            ->invokeMethod('setContainer', [$container]);
-
+        $inflector = $container->inflector(\Funbox\Framework\MVC\AbstractController::class);
+        $inflector->invokeMethod('setContainer', [$container]);
+        $inflector->invokeMethod('setRequest', [$request]);
 
         $kernel = $container->get(Kernel::class);
         $response = $kernel->handle($request);
