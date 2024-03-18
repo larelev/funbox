@@ -3,7 +3,7 @@
 namespace Funbox\Framework\Tests;
 
 use Funbox\Framework\Container\Container;
-use Funbox\Framework\Exceptions\ContainerException;
+use Funbox\Framework\Container\Exceptions\ContainerException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

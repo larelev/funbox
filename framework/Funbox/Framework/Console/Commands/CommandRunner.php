@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Console\Commands;
 
-use Funbox\Framework\Exceptions\ConsoleException;
+use Funbox\Framework\Console\Exceptions\ConsoleException;
 use League\Container\DefinitionContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

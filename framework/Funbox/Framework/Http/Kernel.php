@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Http;
 
-use Funbox\Framework\Exceptions\HttpException;
+use Funbox\Framework\Http\Exceptions\HttpException;
 use Funbox\Framework\Routing\RouterInterface;
 use League\Container\DefinitionContainerInterface;
 

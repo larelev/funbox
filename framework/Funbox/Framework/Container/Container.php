@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Container;
 
-use Funbox\Framework\Exceptions\ContainerException;
+use Funbox\Framework\Container\Exceptions\ContainerException;
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
