@@ -41,13 +41,11 @@ abstract class AbstractController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function render(string $template, array $parameters = [], Response $response = null): Response
+    public function render(string $template, array $parameters = [], int $status = 200, Response $response = null): Response
     {
         $content = $this->container->get('twig')->render($template, $parameters);
 
-        $response ??= new Response();
-
-        $response->setContent($content);
+        $response ??= new Response($content, $status);
 
         return $response;
     }
