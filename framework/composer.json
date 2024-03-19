@@ -11,8 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Funbox\\Framework\\": "Funbox/Framework/",
-      "Funbox\\Commands\\": "Funbox/Commands/"
+      "Funbox\\": "Funbox/"
     }
   },
   "autoload-dev": {

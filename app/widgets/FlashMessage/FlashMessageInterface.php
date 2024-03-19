@@ -2,13 +2,15 @@
 
 namespace App\Widgets\FlashMessage;
 
+use App\Widgets\FlashMessage\Enums\FlashType;
+
 interface FlashMessageInterface
 {
-    public function get(string $type): array;
+    public function get(FlashType $type): array;
 
-    public function set(string $type, string $message): void;
+    public function set(FlashType $type, string $message): void;
 
-    public function hasFlash(string $type): bool;
+    public function hasFlash(FlashType $type): bool;
 
     public function clearFlash(): void;
 }
