@@ -1,6 +1,6 @@
 <?php
 
-namespace Funbox\Framework\Tests;
+namespace Tests;
 
 use Funbox\Framework\Container\Container;
 use Funbox\Framework\Container\Exceptions\ContainerException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Funbox\Framework\Tests;
+namespace Tests;
 
 class SubDependencyClass
 {
