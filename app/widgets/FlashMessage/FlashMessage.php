@@ -3,36 +3,53 @@
 namespace App\Widgets\FlashMessage;
 
 use Funbox\Framework\Session\Session;
+use App\Widgets\FlashMessage\Enums\FlashType;
+
 
 class FlashMessage implements FlashMessageInterface
 {
     private const FLASH_KEY = 'flash';
+    private Session $session;
 
-    public function __construct(private Session $session)
+    public function __construct()
     {
         $this->session = new Session();
+        $this->session->start();
     }
 
-    public function get(string $type): array
+    public function get(FlashType $type): array
     {
-        // TODO: Implement get() method.
-        return $this->session->read(self::FLASH_KEY);
+        $flashes = $this->session->read(self::FLASH_KEY) ?? [];
+        if(isset($flashes[$type->name])) {
+            $messages = $flashes[$type->name];
+            unset($flashes[$type->name]);
+            $this->session->write(self::FLASH_KEY, $flashes);
+
+            return $messages;
+        }
+
+        return [];
     }
 
-    public function set(string $type, string $message): void
+    public function set(FlashType $type, string $message): void
     {
-        // TODO: Implement set() method.
-        $this->session->write(self::FLASH_KEY, $message);
+        $flashes = $this->session->read(self::FLASH_KEY) ?? [];
+        $flashes[$type->name][] = $message;
+        $this->session->write(self::FLASH_KEY, $flashes);
     }
 
-    public function hasFlash(string $type): bool
+    public function hasFlash(FlashType $type): bool
     {
-        // TODO: Implement hasFlash() method.
-        $this->session->has(self::FLASH_KEY);
+        if($this->session->has(self::FLASH_KEY)) {
+            $flashes = $this->session->read(self::FLASH_KEY);
+            return isset($flashes[$type->name]);
+        }
+
+        return false;
     }
 
     public function clearFlash(): void
     {
-        // TODO: Implement clearFlash() method.
+        $this->session->delete(self::FLASH_KEY);
     }
 }

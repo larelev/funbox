@@ -1492,12 +1492,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4303b9eb21ae4ac9851cab832230856b39002c6f"
+                "reference": "3ad902d1cf0ea687da831244c261cb1dac046bde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4303b9eb21ae4ac9851cab832230856b39002c6f",
-                "reference": "4303b9eb21ae4ac9851cab832230856b39002c6f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3ad902d1cf0ea687da831244c261cb1dac046bde",
+                "reference": "3ad902d1cf0ea687da831244c261cb1dac046bde",
                 "shasum": ""
             },
             "require": {
@@ -1585,7 +1585,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-17T06:04:57+00:00"
+            "time": "2024-03-19T16:11:36+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2531,12 +2531,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "29ec03d51beb2abd75de5c356e3412c4e93c4a17"
+                "reference": "05e1d007ceae413aed7117b5979b6e5ff467a336"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/29ec03d51beb2abd75de5c356e3412c4e93c4a17",
-                "reference": "29ec03d51beb2abd75de5c356e3412c4e93c4a17",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/05e1d007ceae413aed7117b5979b6e5ff467a336",
+                "reference": "05e1d007ceae413aed7117b5979b6e5ff467a336",
                 "shasum": ""
             },
             "require": {
@@ -2606,7 +2606,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-15T12:53:35+00:00"
+            "time": "2024-03-19T11:57:44+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -2673,5 +2673,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
