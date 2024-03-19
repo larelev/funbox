@@ -46,12 +46,14 @@ class PostRepository
 
     }
 
-    public function findOrFail($id): Post
+    public function findOrFail(int $id): Post
     {
         $post = $this->findById($id);
 
         if(!$post) {
             throw new PostNotFoundException($id);
         }
+
+        return $post;
     }
 }
