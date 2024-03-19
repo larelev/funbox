@@ -8,6 +8,6 @@ class DataNotFoundException extends DataException
 {
     public function __construct(string $message = "", ?Throwable $previous = null)
     {
-        parent::__construct($message, 404, $previous);
+        parent::__construct($message . " not found!", 404, $previous);
     }
 }

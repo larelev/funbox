@@ -8,6 +8,6 @@ class HttpNotFoundException extends HttpException
 {
     public function __construct(string $message = '', ?Throwable $previous = null)
     {
-        parent::__construct(sprintf($message, 404, $previous);
+        parent::__construct(sprintf($message, 404, $previous));
     }
 }
