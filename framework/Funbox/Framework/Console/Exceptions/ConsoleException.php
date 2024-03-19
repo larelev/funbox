@@ -8,6 +8,6 @@ class ConsoleException extends \Exception
 {
     public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)
     {
-        parent::__construct((sprintf('An Console exception occurred with the message %s', $message), $code, $previous);
+        parent::__construct(sprintf('An Console exception occurred with the message:%s %s', PHP_EOL, $message), $code, $previous);
     }
 }
