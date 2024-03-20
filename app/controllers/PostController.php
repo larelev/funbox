@@ -57,8 +57,7 @@ class PostController extends AbstractController
 
         $this->postMapper->save($post);
 
-        $this->flashMessage->set(
-            FlashType::Success,
+        $this->flashMessage->setSuccess(
             sprintf("Post %s successfully created", $title),
         );
 

@@ -11,12 +11,12 @@ final class Session implements SessionInterface
 
     public function start(string $id = '', array $options = []): false|string
     {
-        if (session_id() === null) {
+        if (session_id() === '') {
             if($id !== '') {
                 session_id($id);
             }
 
-            if(count($options))  {
+            if(count($options) > 0)  {
                 session_start($options);
             } else {
                 session_start();
@@ -28,7 +28,8 @@ final class Session implements SessionInterface
 
     public function read(string $key): mixed
     {
-        if (session_id() !== null && isset($_SESSION[$key])) {
+
+        if (session_id() !== '' && isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
 

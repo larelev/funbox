@@ -10,3 +10,4 @@ define( 'MIGRATIONS_PATH', 'migrations' . DIRECTORY_SEPARATOR);
 
 require_once BASE_PATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
+
