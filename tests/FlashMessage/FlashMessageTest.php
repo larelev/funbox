@@ -2,8 +2,8 @@
 
 namespace Tests\FlashMessage;
 
-use App\Widgets\FlashMessage\Enums\FlashType;
-use App\Widgets\FlashMessage\FlashMessage;
+use App\idgets\FlashMessage\Enums\FlashType;
+use App\idgets\FlashMessage\FlashMessage;
 use Funbox\Framework\Session\Session;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
