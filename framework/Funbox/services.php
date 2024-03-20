@@ -43,14 +43,14 @@ $container->addShared(
 );
 
 $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
-    ->addArgument([
+    ->addArguments([
         \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
         new \League\Container\Argument\Literal\StringArgument($viewsPath)
     ]);
 
 $container->addShared('twig', function () use ($container) {
     return $container->get('template-renderer-factory')->create();
-})
+});
 
 $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
     ->addArgument(
