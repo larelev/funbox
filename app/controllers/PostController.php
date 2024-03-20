@@ -10,13 +10,17 @@ use Doctrine\DBAL\Exception;
 use Funbox\Framework\Http\RedirectResponse;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
+use Funbox\Widgets\FlashMessage\Enums\FlashType;
+use Funbox\Widgets\FlashMessage\FlashMessage;
+use Funbox\Widgets\FlashMessage\FlashMessageInterface;
 
 class PostController extends AbstractController
 {
 
     public function __construct(
         private readonly PostMapper $postMapper,
-        private readonly PostRepository $postRepository
+        private readonly PostRepository $postRepository,
+        private readonly FlashMessageInterface $flashMessage,
     )
     {
     }
@@ -52,6 +56,11 @@ class PostController extends AbstractController
         $post = Post::create($title, $body);
 
         $this->postMapper->save($post);
+
+        $this->flashMessage->set(
+            FlashType::Success,
+            sprintf("Post %s successfully created", $title),
+        );
 
         return new RedirectResponse('/posts');
     }

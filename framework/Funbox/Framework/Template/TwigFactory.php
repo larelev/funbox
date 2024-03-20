@@ -2,8 +2,7 @@
 
 namespace Funbox\Framework\Template;
 
-use App\idgets\FlashMessage\FlashMessageInterface;
-use Funbox\Framework\Session\SessionInterface;
+use Funbox\Widgets\FlashMessage\FlashMessageInterface;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -29,6 +28,8 @@ class TwigFactory
 
         $twig->addExtension(new DebugExtension());
         $twig->addFunction(new TwigFunction('flashMessage', [$this, 'getFlasMessage']));
+
+        return $twig;
     }
 
     public function getFlashMesage(): FlashMessageInterface
