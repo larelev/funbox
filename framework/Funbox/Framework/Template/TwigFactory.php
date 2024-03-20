@@ -27,12 +27,12 @@ class TwigFactory
         ]);
 
         $twig->addExtension(new DebugExtension());
-        $twig->addFunction(new TwigFunction('flashMessage', [$this, 'getFlasMessage']));
+        $twig->addFunction(new TwigFunction('flashMessage', [$this, 'getFlashMessage']));
 
         return $twig;
     }
 
-    public function getFlashMesage(): FlashMessageInterface
+    public function getFlashMessage(): FlashMessageInterface
     {
         return $this->flashMessage;
     }
