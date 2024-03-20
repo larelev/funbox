@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Widgets;
+namespace App\widgets;
 
 class Widget
 {

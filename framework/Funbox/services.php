@@ -37,11 +37,20 @@ $container->add(\Funbox\Framework\Console\Commands\CommandRunner::class)
 $container->add(\Funbox\Framework\Console\Kernel::class)
     ->addArguments([$container, \Funbox\Framework\Console\Commands\CommandRunner::class]);
 
-$container->addShared('filesystem-loader', \Twig\Loader\FilesystemLoader::class)
-    ->addArgument(new \League\Container\Argument\Literal\StringArgument(APP_PATH . 'views'));
+$container->addShared(
+    \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
+    \Funbox\Widgets\FlashMessage\FlashMessage::class
+);
 
-$container->addShared('twig', Twig\Environment::class)
-    ->addArgument('filesystem-loader');
+$container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
+    ->addArgument([
+        \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
+        new \League\Container\Argument\Literal\StringArgument($viewsPath)
+    ]);
+
+$container->addShared('twig', function () use ($container) {
+    return $container->get('template-renderer-factory')->create();
+})
 
 $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
     ->addArgument(

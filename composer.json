@@ -6,7 +6,7 @@
       "App\\Controllers\\": "app/controllers/",
       "App\\Entities\\": "app/entities/",
       "App\\Repositories\\": "app/repositories/",
-      "App\\Widgets\\": "app/widgets/",
+      "App\\Widgets\\": "framework/Funbox/Widgets/",
       "Tests\\": "tests/"
 
     }

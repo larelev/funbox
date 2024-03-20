@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Widgets\Widget;
+use App\widgets\Widget;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
 

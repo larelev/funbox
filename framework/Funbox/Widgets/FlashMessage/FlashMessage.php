@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Widgets\FlashMessage;
+namespace Funbox\Widgets\FlashMessage;
 
 use Funbox\Framework\Session\Session;
-use App\Widgets\FlashMessage\Enums\FlashType;
+use Funbox\Widgets\FlashMessage\Enums\FlashType;
 
 
 class FlashMessage implements FlashMessageInterface
