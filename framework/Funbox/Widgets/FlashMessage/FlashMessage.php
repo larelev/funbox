@@ -113,7 +113,7 @@ class FlashMessage implements FlashMessageInterface
         return false;
     }
 
-    public function clearFlash(): void
+    public function clear(): void
     {
         $this->session->delete(self::FLASH_KEY);
     }

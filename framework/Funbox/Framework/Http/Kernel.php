@@ -43,4 +43,10 @@ class Kernel
 
         return new Response(content: 'Server error!', status: HttpStatusCodeEnum::SERVER_ERROR);
     }
+
+    public function terminate(Request $request, Response $response): void
+    {
+        $request->getFlashMessage()->clearFlash();
+        $request->getSession()->clear();
+    }
 }

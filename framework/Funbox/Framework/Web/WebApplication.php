@@ -28,6 +28,9 @@ class WebApplication extends AbstractApplication
         $kernel = $container->get(Kernel::class);
         $response = $kernel->handle($request);
         $response->send();
+
+        $kernel->terminate($request, $response);
+
     }
 
     public static function create(): static

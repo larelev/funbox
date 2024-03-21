@@ -27,5 +27,5 @@ interface FlashMessageInterface
     public function hasSuccess(): bool;
     public function hasWarning(): bool;
 
-    public function clearFlash(): void;
+    public function clear(): void;
 }

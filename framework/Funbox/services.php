@@ -46,6 +46,11 @@ $container->add(\Funbox\Framework\Console\Kernel::class)
     ->addArguments([$container, \Funbox\Framework\Console\Commands\CommandRunner::class]);
 
 $container->addShared(
+    \Funbox\Framework\Session\SessionInterface::class,
+    \Funbox\Framework\Session\Session::class,
+);
+
+$container->addShared(
     \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
     \Funbox\Widgets\FlashMessage\FlashMessage::class,
 );
