@@ -3,6 +3,7 @@
 namespace Funbox\Framework\Http;
 
 use Funbox\Framework\Http\Exceptions\HttpException;
+use Funbox\Framework\Middleware\RequestHandlerInterface;
 use Funbox\Framework\Routing\RouterInterface;
 use League\Container\DefinitionContainerInterface;
 
@@ -12,7 +13,8 @@ class Kernel
 
     public function __construct(
         private readonly RouterInterface $router,
-        private readonly DefinitionContainerInterface $container
+        private readonly DefinitionContainerInterface $container,
+        private readonly RequestHandlerInterface $requestHandler,
     )
     {
         $this->appEnv = $container->get('APP_ENV');
@@ -21,8 +23,7 @@ class Kernel
     public function handle(Request $request): Response
     {
         try {
-            [$routeHandler, $vars] = $this->router->dispatch($request, $this->container);
-            $response = call_user_func_array($routeHandler, $vars);
+            $response = $this->requestHandler->handle($request);
         } catch (\Exception $exception) {
             $response = $this->createExceptionResponse($exception);
         }

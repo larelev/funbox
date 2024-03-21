@@ -18,7 +18,7 @@ $container->add('base-commands-namespace',
 
 $container->add(
     \Funbox\Framework\Routing\RouterInterface::class,
-    \Funbox\Framework\Routing\Router::class
+    \Funbox\Framework\Routing\Router::class,
 );
 
 $container->extend(\Funbox\Framework\Routing\RouterInterface::class)
@@ -27,9 +27,17 @@ $container->extend(\Funbox\Framework\Routing\RouterInterface::class)
         [new \League\Container\Argument\Literal\ArrayArgument($routes)]
     );
 
+$container->add(
+    \Funbox\Framework\Middleware\RequestHandlerInterface::class,
+    \Funbox\Framework\Middleware\RequestHandler::class
+)->addArgument($container);
+
 $container->add(\Funbox\Framework\Http\Kernel::class)
-    ->addArgument(\Funbox\Framework\Routing\RouterInterface::class)
-    ->addArgument($container);
+    ->addArguments([
+        \Funbox\Framework\Routing\RouterInterface::class,
+        $container,
+        \Funbox\Framework\Middleware\RequestHandlerInterface::class,
+    ]);
 
 $container->add(\Funbox\Framework\Console\Commands\CommandRunner::class)
     ->addArgument($container);
@@ -39,13 +47,13 @@ $container->add(\Funbox\Framework\Console\Kernel::class)
 
 $container->addShared(
     \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
-    \Funbox\Widgets\FlashMessage\FlashMessage::class
+    \Funbox\Widgets\FlashMessage\FlashMessage::class,
 );
 
 $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
     ->addArguments([
         \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
-        new \League\Container\Argument\Literal\StringArgument($viewsPath)
+        new \League\Container\Argument\Literal\StringArgument($viewsPath),
     ]);
 
 $container->addShared('twig', function () use ($container) {
@@ -60,5 +68,11 @@ $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
 $container->addShared(\Doctrine\DBAL\Connection::class, function () use ($container): \Doctrine\DBAL\Connection {
     return $container->get(\Funbox\Framework\Dbal\ConnectionFactory::class)->create();
 });
+
+$container->add(\Funbox\Framework\Middleware\RouterDispatcher::class)
+    ->addArguments([
+        \Funbox\Framework\Routing\RouterInterface::class,
+        $container,
+    ]);
 
 return $container;
