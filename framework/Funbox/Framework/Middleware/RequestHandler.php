@@ -15,7 +15,8 @@ class RequestHandler implements RequestHandlerInterface
     }
 
     private array $middleware = [
-        FlashMessager::class,
+        SessionManager::class,
+        FlashMessenger::class,
         Authentication::class,
         RouterDispatcher::class,
     ];
