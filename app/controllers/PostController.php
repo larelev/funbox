@@ -20,7 +20,6 @@ class PostController extends AbstractController
     public function __construct(
         private readonly PostMapper $postMapper,
         private readonly PostRepository $postRepository,
-        private readonly FlashMessageInterface $flashMessage,
     )
     {
     }
@@ -57,7 +56,7 @@ class PostController extends AbstractController
 
         $this->postMapper->save($post);
 
-        $this->flashMessage->setSuccess(
+        $this->request->flashMessage->setSuccess(
             sprintf("Post %s successfully created", $title),
         );
 

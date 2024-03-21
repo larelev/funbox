@@ -2,6 +2,8 @@
 
 namespace Funbox\Framework\Http;
 
+use Funbox\Widgets\FlashMessage\FlashMessageInterface;
+
 class Request
 {
     public readonly array $getParams;
@@ -9,6 +11,8 @@ class Request
     public readonly array $cookies;
     public readonly array $files;
     public readonly array $server;
+
+    public readonly FlashMessageInterface $flashMessage;
 
     public function __construct(
 
@@ -29,5 +33,10 @@ class Request
     public function getMethod(): string
     {
         return $this->server['REQUEST_METHOD'];
+    }
+
+    public function setFlashMessage(FlashMessageInterface $flashMessage)
+    {
+        $this->flashMessage = $flashMessage;
     }
 }
