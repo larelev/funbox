@@ -56,8 +56,8 @@ class PostController extends AbstractController
 
         $this->postMapper->save($post);
 
-        $this->request->flashMessage->setSuccess(
-            sprintf("Post %s successfully created", $title),
+        $this->request->getFlashMessage()->setSuccess(
+            "Post %s successfully created", $title
         );
 
         return new RedirectResponse('/posts');

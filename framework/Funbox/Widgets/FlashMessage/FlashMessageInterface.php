@@ -8,7 +8,7 @@ interface FlashMessageInterface
 {
     public function get(FlashType $type): array;
 
-    public function set(FlashType $type, string $message): void;
+    public function set(FlashType $type, string $message, ...$params): void;
 
     public function has(FlashType $type): bool;
 
@@ -17,10 +17,10 @@ interface FlashMessageInterface
     public function getSuccess(): array;
     public function getWarning(): array;
 
-    public function setInfo(string $message): void;
-    public function setError(string $message): void;
-    public function setSuccess(string $message): void;
-    public function setWarning(string $message): void;
+    public function setInfo(string $message, ...$params): void;
+    public function setError(string $message, ...$params): void;
+    public function setSuccess(string $message, ...$params): void;
+    public function setWarning(string $message, ...$params): void;
 
     public function hasInfo(): bool;
     public function hasError(): bool;

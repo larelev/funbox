@@ -34,24 +34,24 @@ class FlashMessage implements FlashMessageInterface
         return $this->get(FlashType::Warning);
     }
 
-    public function setInfo(string $message): void
+    public function setInfo(string $message, ...$params): void
     {
-        $this->set(FlashType::Info, $message);
+        $this->set(FlashType::Info, $message, ...$params);
     }
 
-    public function setError(string $message): void
+    public function setError(string $message, ...$params): void
     {
-        $this->set(FlashType::Error, $message);
+        $this->set(FlashType::Error, $message, ...$params);
     }
 
-    public function setSuccess(string $message): void
+    public function setSuccess(string $message, ...$params): void
     {
-        $this->set(FlashType::Success, $message);
+        $this->set(FlashType::Success, $message, ...$params);
     }
 
-    public function setWarning(string $message): void
+    public function setWarning(string $message, ...$params): void
     {
-        $this->set(FlashType::Warning, $message);
+        $this->set(FlashType::Warning, $message, ...$params);
     }
 
     public function hasInfo(): bool
@@ -94,8 +94,9 @@ class FlashMessage implements FlashMessageInterface
         return [];
     }
 
-    public function set(FlashType $type, string $message): void
+    public function set(FlashType $type, string $message, ...$params): void
     {
+        $message = sprintf($message, ...$params);
         $flashes = $this->session->read(self::FLASH_KEY) ?? [];
         $flashes[$type->name][] = $message;
 
