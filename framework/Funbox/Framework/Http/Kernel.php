@@ -12,8 +12,7 @@ class Kernel
     private string $appEnv;
 
     public function __construct(
-        private readonly RouterInterface $router,
-        private readonly DefinitionContainerInterface $container,
+        DefinitionContainerInterface $container,
         private readonly RequestHandlerInterface $requestHandler,
     )
     {
@@ -46,7 +45,6 @@ class Kernel
 
     public function terminate(Request $request, Response $response): void
     {
-        $request->getFlashMessage()->clearFlash();
-        $request->getSession()->clear();
+        $request->getFlashMessage()->clear();
     }
 }

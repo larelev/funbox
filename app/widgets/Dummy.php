@@ -4,5 +4,5 @@ namespace App\Widgets;
 
 class Dummy
 {
-    public string $name = 'Widget';
+    public string $name = 'Dummy';
 }

@@ -46,18 +46,19 @@ final class Session implements SessionInterface
         return false;
     }
 
-    public function delete(string $key = ''): void
+    public function remove(string $key): void
     {
         if($key !== '' &&  isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
-
-            return;
         }
+    }
 
+    public function clear(): void
+    {
         if (session_id() !== '') {
+            session_gc();
             session_unset();
             session_destroy();
-            session_gc();
             session_abort();
         }
     }

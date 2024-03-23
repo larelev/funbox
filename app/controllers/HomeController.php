@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use App\widgets\Widget;
+use App\Widgets\Dummy;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
 
 class HomeController extends AbstractController
 {
-    public function __construct(private Widget $widget)
+    public function __construct(private Dummy $widget)
     {
     }
 

@@ -12,14 +12,14 @@ class TwigFactory
 {
     public function __construct(
         private FlashMessageInterface $flashMessage,
-        private string $templatePath
+        private array $templatePaths
     )
     {
     }
 
     public function create(): Environment
     {
-        $loader = new FilesystemLoader($this->templatePath);
+        $loader = new FilesystemLoader($this->templatePaths);
 
         $twig = new Environment($loader, [
             'debug' => true,

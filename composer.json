@@ -7,6 +7,7 @@
       "App\\Entities\\": "app/entities/",
       "App\\Repositories\\": "app/repositories/",
       "App\\Widgets\\": "app/widgets/",
+      "App\\Routes\\": "app/routes/",
       "Tests\\": "tests/"
 
     }

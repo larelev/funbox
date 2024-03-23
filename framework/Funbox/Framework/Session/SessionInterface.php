@@ -12,5 +12,7 @@ interface SessionInterface
 
     public function write(string $key, mixed $value): bool;
 
-    public function delete(string $key): void;
+    public function remove(string $key): void;
+
+    public function clear(): void;
 }

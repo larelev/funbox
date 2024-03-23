@@ -116,6 +116,6 @@ class FlashMessage implements FlashMessageInterface
 
     public function clear(): void
     {
-        $this->session->delete(self::FLASH_KEY);
+        $this->session->remove(self::FLASH_KEY);
     }
 }

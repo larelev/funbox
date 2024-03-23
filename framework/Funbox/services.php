@@ -3,9 +3,8 @@
 $container = new \League\Container\Container();
 $container->delegate(new \League\Container\ReflectionContainer(false));
 
-$routes = include APP_PATH . 'routes' . DIRECTORY_SEPARATOR . 'web.php';
+$routes = include CONFIG_PATH . 'routes.php';
 $dotenv = new \Symfony\Component\Dotenv\Dotenv();
-$viewsPath = APP_PATH . 'views' . DIRECTORY_SEPARATOR;
 
 $dotenv->load(BASE_PATH . '.env');
 
@@ -37,7 +36,6 @@ $container->add(
 
 $container->add(\Funbox\Framework\Http\Kernel::class)
     ->addArguments([
-        \Funbox\Framework\Routing\RouterInterface::class,
         $container,
         \Funbox\Framework\Middleware\RequestHandlerInterface::class,
     ]);
@@ -57,16 +55,6 @@ $container->addShared(
     \Funbox\Plugins\FlashMessage\FlashMessageInterface::class,
     \Funbox\Plugins\FlashMessage\FlashMessage::class,
 );
-
-$container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
-    ->addArguments([
-        \Funbox\Plugins\FlashMessage\FlashMessageInterface::class,
-        new \League\Container\Argument\Literal\StringArgument($viewsPath),
-    ]);
-
-$container->addShared('twig', function () use ($container) {
-    return $container->get('template-renderer-factory')->create();
-});
 
 $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
     ->addArgument(
