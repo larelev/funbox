@@ -1,8 +1,8 @@
 <?php
 
-namespace Funbox\Widgets\FlashMessage;
+namespace Funbox\Plugins\FlashMessage;
 
-use Funbox\Widgets\FlashMessage\Enums\FlashType;
+use Funbox\Plugins\FlashMessage\Enums\FlashType;
 
 interface FlashMessageInterface
 {

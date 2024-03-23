@@ -44,11 +44,11 @@ class MigrationsMigrate implements CommandInterface
                 throw new ConsoleException('Missing arguments.');
             }
 
-            $this->connection->beginTransaction();
-
             if($doError) {
                 throw new InvalidArgumentException('Invalid arguments.');
             }
+
+            $this->connection->beginTransaction();
 
             $version = null;
             if($doUp) {

@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Template;
 
-use Funbox\Widgets\FlashMessage\FlashMessageInterface;
+use Funbox\Plugins\FlashMessage\FlashMessageInterface;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;

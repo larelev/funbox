@@ -1,6 +1,6 @@
 <?php
 
-namespace Funbox\Widgets\FlashMessage\Enums;
+namespace Funbox\Plugins\FlashMessage\Enums;
 
 enum FlashType
 {

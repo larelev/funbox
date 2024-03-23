@@ -4,7 +4,7 @@ namespace Funbox\Framework\Middleware;
 
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
-use Funbox\Widgets\FlashMessage\FlashMessageInterface;
+use Funbox\Plugins\FlashMessage\FlashMessageInterface;
 
 readonly class FlashMessenger implements MiddlewareInterface
 {

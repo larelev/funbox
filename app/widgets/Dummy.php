@@ -1,8 +1,8 @@
 <?php
 
-namespace App\widgets;
+namespace App\Widgets;
 
-class Widget
+class Dummy
 {
     public string $name = 'Widget';
 }

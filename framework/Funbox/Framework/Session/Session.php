@@ -54,7 +54,7 @@ final class Session implements SessionInterface
             return;
         }
 
-        if (session_id() !== null) {
+        if (session_id() !== '') {
             session_unset();
             session_destroy();
             session_gc();
