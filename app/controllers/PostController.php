@@ -10,9 +10,6 @@ use Doctrine\DBAL\Exception;
 use Funbox\Framework\Http\RedirectResponse;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
-use Funbox\Widgets\FlashMessage\Enums\FlashType;
-use Funbox\Widgets\FlashMessage\FlashMessage;
-use Funbox\Widgets\FlashMessage\FlashMessageInterface;
 
 class PostController extends AbstractController
 {

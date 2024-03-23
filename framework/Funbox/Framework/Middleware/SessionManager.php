@@ -5,7 +5,6 @@ namespace Funbox\Framework\Middleware;
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\Session\SessionInterface;
-use Funbox\Widgets\FlashMessage\FlashMessageInterface;
 
 readonly class SessionManager implements MiddlewareInterface
 {

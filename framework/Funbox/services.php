@@ -13,7 +13,10 @@ $appEnv = $_SERVER['APP_ENV'];
 
 $container->add('APP_ENV', new \League\Container\Argument\Literal\StringArgument($appEnv));
 $container->add('base-commands-namespace',
-    new \League\Container\Argument\Literal\StringArgument('Funbox\\Commands\\')
+    new \League\Container\Argument\Literal\StringArgument('Funbox\\Commands\\'),
+);
+$container->add('plugins-commands-namespace',
+    new \League\Container\Argument\Literal\StringArgument('Funbox\\Plugins\\'),
 );
 
 $container->add(
@@ -51,13 +54,13 @@ $container->addShared(
 );
 
 $container->addShared(
-    \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
-    \Funbox\Widgets\FlashMessage\FlashMessage::class,
+    \Funbox\Plugins\FlashMessage\FlashMessageInterface::class,
+    \Funbox\Plugins\FlashMessage\FlashMessage::class,
 );
 
 $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
     ->addArguments([
-        \Funbox\Widgets\FlashMessage\FlashMessageInterface::class,
+        \Funbox\Plugins\FlashMessage\FlashMessageInterface::class,
         new \League\Container\Argument\Literal\StringArgument($viewsPath),
     ]);
 

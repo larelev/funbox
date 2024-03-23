@@ -3,7 +3,7 @@
 namespace Funbox\Framework\Http;
 
 use Funbox\Framework\Session\SessionInterface;
-use Funbox\Widgets\FlashMessage\FlashMessageInterface;
+use Funbox\Plugins\FlashMessage\FlashMessageInterface;
 
 class Request
 {
