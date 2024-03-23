@@ -40,15 +40,14 @@ class MigrationsMigrate implements CommandInterface
             $doError = $doError || ($doUp && $doDown && $doRemove);
             $doNothing = !$doUp && !$doDown && !$doRemove;
 
-            if($doNothing) {
-                throw new ConsoleException('Missing arguments.');
-            }
+//            if($doNothing) {
+//                throw new ConsoleException('Missing arguments.');
+//            }
 
             if($doError) {
                 throw new InvalidArgumentException('Invalid arguments.');
             }
 
-            $this->connection->beginTransaction();
 
             $version = null;
             if($doUp) {
@@ -60,12 +59,19 @@ class MigrationsMigrate implements CommandInterface
             else if($doRemove) {
                 $version = !isset($params['r']) ? ($params['remove'] ?? null) : $params['r'];
             }
+            $this->connection->beginTransaction();
 
             $schemaMan = $this->connection->createSchemaManager();
             $schema = new Schema();
 
-            // Create a migrations table SQL if table not already in existence
-            $this->createMigrationsTable($schemaMan, $schema);
+            if($doNothing) {
+                // Create a migrations table SQL if table not already in existence
+                $this->createMigrationsTable($schemaMan, $schema);
+
+                $this->connection->commit();
+
+                return 0;
+            }
 
             // Get $appliedMigrations which are already in the database.migrations table
             $appliedMigrations = $this->getAppliedMigrations();
@@ -107,8 +113,6 @@ class MigrationsMigrate implements CommandInterface
      */
     private function doUp(?string $version, array $migrationsToApply, AbstractSchemaManager $schema): void
     {
-
-
         $isDirty = false;
         foreach ($migrationsToApply as $migrationFile) {
             [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
@@ -214,8 +218,9 @@ class MigrationsMigrate implements CommandInterface
     private function createMigrationsTable(AbstractSchemaManager $schemaManager, Schema $schema): void
     {
         if($schemaManager->tableExists('migrations')) {
-            return;
+            throw new ConsoleException('Nothing to do');
         }
+        $this->connection->beginTransaction();
 
         $table = $schema->createTable('migrations');
         $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
@@ -226,6 +231,8 @@ class MigrationsMigrate implements CommandInterface
         $sqlArray = $schema->toSql($this->connection->getDatabasePlatform());
 
         $this->connection->executeQuery($sqlArray[0]);
+
+        $this->connection->commit();
 
         echo 'Migrations table has been created.' . PHP_EOL;
 
