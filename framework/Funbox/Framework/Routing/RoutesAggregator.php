@@ -12,9 +12,7 @@ class RoutesAggregator
 
     function aggregate(string $method, string $route, array|callable $controller): void
     {
-        if(file_exists(self::ROUTES_PATH)) {
-            return;
-        }
+
         $this->prepareCacheIfNotExists();
 
         $json = file_get_contents(self::ROUTES_JSON_PATH);
