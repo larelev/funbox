@@ -3,7 +3,7 @@
 $container = new \League\Container\Container();
 $container->delegate(new \League\Container\ReflectionContainer(false));
 
-$routes = include CONFIG_PATH . 'routes.php';
+$routes = include \Funbox\Framework\Routing\RoutesAggregator::ROUTES_PATH;
 $dotenv = new \Symfony\Component\Dotenv\Dotenv();
 
 $dotenv->load(BASE_PATH . '.env');

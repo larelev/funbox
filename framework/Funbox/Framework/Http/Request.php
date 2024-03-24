@@ -50,7 +50,6 @@ class Request
         $this->flashMessage = $flashMessage;
     }
 
-
     public function __construct(
     )
     {
@@ -61,7 +60,13 @@ class Request
         $this->server = $_SERVER;
     }
 
+    public function searchFromQuery(string $param): ?string
+    {
+        return !isset($this->getParams[$param]) ? null : $this->getParams[$param];
+    }
 
-
-
+    public function searchFromBody(string $param): ?string
+    {
+        return !isset($this->postParams[$param]) ? null : $this->postParams[$param];
+    }
 }

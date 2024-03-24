@@ -1,23 +1,16 @@
 <?php
 
-namespace App\Routes;
+use Funbox\Framework\Routing\Route;
+use Funbox\Plugins\Registration\Registration;
 
-use Funbox\Framework\Routing\RoutesCollectionInterface;
+Route::get('/', [\App\Controllers\HomeController::class, 'index']);
+Route::get('/posts/{id:\d+}', [\App\Controllers\PostController::class, 'show']);
+Route::get('/posts', [\App\Controllers\PostController::class, 'create']);
+Route::post('/posts', [\App\Controllers\PostController::class, 'store']);
+Route::get('/hello/{name:.*}', function (string $name) {
+    return new \Funbox\Framework\Http\Response(content: <<<HTML
+    Hello $name!
+    HTML);
+});
 
-class Web implements RoutesCollectionInterface
-{
-    public static function collection(): array
-    {
-        return [
-            ['GET', '/', [\App\Controllers\HomeController::class, 'index']],
-            ['GET', '/posts/{id:\d+}', [\App\Controllers\PostController::class, 'show']],
-            ['GET', '/posts', [\App\Controllers\PostController::class, 'create']],
-            ['POST', '/posts', [\App\Controllers\PostController::class, 'store']],
-            ['GET', '/hello/{name:.*}', function (string $name) {
-                return new \Funbox\Framework\Http\Response(content: <<<HTML
-                Hello $name!
-                HTML);
-            }]
-        ];
-    }
-}
+Registration::routes();
