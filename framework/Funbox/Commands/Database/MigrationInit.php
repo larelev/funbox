@@ -3,10 +3,10 @@
 namespace Funbox\Commands\Database;
 
 use DateTimeImmutable;
-use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
+use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
-#[CommandDeclaration(name: "migration:init")]
+#[Command(name: "migration:init")]
 class MigrationInit implements CommandInterface
 {
 

@@ -7,19 +7,18 @@ use Doctrine\DBAL\Exception as DbalException;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
-use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
+use Funbox\Framework\Console\Commands\Attributes\Command;
+use Funbox\Framework\Console\Commands\Attributes\CommandArgs;
 use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Exceptions\ConsoleException;
 use InvalidArgumentException;
 
-#[CommandDeclaration(name: "migrations:migrate")]
-#[CommandDeclaration(inject: [Connection::class])]
-#[CommandDeclaration(shortArgs: ['u', 'd', 'r'])]
-#[CommandDeclaration(longArgs: ['up', 'down', 'remove'])]
+#[Command(name: "migrations:migrate")]
+#[Command(inject: [Connection::class])]
+#[CommandArgs(short: ['u', 'd', 'r'])]
+#[CommandArgs(long: ['up', 'down', 'remove'])]
 class MigrationsMigrate implements CommandInterface
 {
-
-
     public function __construct(
         private readonly Connection $connection,
     )
@@ -30,7 +29,6 @@ class MigrationsMigrate implements CommandInterface
     {
         try
         {
-
             $doUp =  array_key_exists('u', $params) || array_key_exists('up', $params);
             $doDown =  array_key_exists('d', $params) || array_key_exists('down', $params);
             $doRemove =  array_key_exists('r', $params) || array_key_exists('remove', $params);
@@ -39,10 +37,6 @@ class MigrationsMigrate implements CommandInterface
             $doError = $doError || (array_key_exists('r', $params) && array_key_exists('remove', $params));
             $doError = $doError || ($doUp && $doDown && $doRemove);
             $doNothing = !$doUp && !$doDown && !$doRemove;
-
-//            if($doNothing) {
-//                throw new ConsoleException('Missing arguments.');
-//            }
 
             if($doError) {
                 throw new InvalidArgumentException('Invalid arguments.');

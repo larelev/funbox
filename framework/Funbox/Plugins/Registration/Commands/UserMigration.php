@@ -8,14 +8,15 @@ use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
-use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
+use Funbox\Framework\Console\Commands\Attributes\Command;
+use Funbox\Framework\Console\Commands\Attributes\CommandArgs;
 use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Exceptions\ConsoleException;
 
-#[CommandDeclaration(inject: [Connection::class])]
-#[CommandDeclaration(name: "migration")]
-#[CommandDeclaration(shortArgs: ['u', 'd'])]
-#[CommandDeclaration(longArgs: ['up', 'down'])]
+#[Command(inject: [Connection::class])]
+#[Command(name: "migration")]
+#[CommandArgs(short: ['u', 'd'])]
+#[CommandArgs(long: ['up', 'down'])]
 class UserMigration implements CommandInterface
 {
 

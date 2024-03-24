@@ -2,10 +2,10 @@
 
 namespace Funbox\Commands;
 
-use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
+use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
-#[CommandDeclaration(name: "help")]
+#[Command(name: "help")]
 class Help implements CommandInterface
 {
 
