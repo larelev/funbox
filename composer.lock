@@ -168,7 +168,7 @@
             "dist": {
                 "type": "path",
                 "url": "framework",
-                "reference": "3e16c09c1ceeee85d483b83e7ff6e8e64e97d0a3"
+                "reference": "0a2ae350dcd06274dd1cdf516e9bb1674629af35"
             },
             "require": {
                 "doctrine/dbal": "^4.1.x-dev",
@@ -2718,5 +2718,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
