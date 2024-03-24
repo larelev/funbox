@@ -15,7 +15,6 @@ class Registration
 
     public static function routes()
     {
-        Route::get('/register', [\Funbox\Plugins\Registration\Controllers\RegistrationController::class, 'index']);
-        Route::post('/register', [\Funbox\Plugins\Registration\Controllers\RegistrationController::class, 'register']);
+        include __DIR__ . DIRECTORY_SEPARATOR . 'Routes' . DIRECTORY_SEPARATOR . 'Web.php';
     }
 }
