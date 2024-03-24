@@ -67,6 +67,10 @@ class Kernel
         $domain = $baseDomain !== '' ?  $baseDomain . '\\' : '';
         $category = $baseDomain !== '' ? strtolower($baseDomain) . ':' : '';
 
+        if(str_contains($category, '\\commands')) {
+            $category = str_replace('\\commands', '', $category);
+        }
+
         $fqCommandClass = str_replace('/', '\\', $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension()));
 
         if(!is_subclass_of($fqCommandClass, CommandInterface::class)) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Funbox\Plugins\Registration;
+namespace Funbox\Plugins\Registration\Commands;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
