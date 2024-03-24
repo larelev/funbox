@@ -15,6 +15,7 @@ use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Exceptions\ConsoleException;
 
 #[Command(name: "migration")]
+#[Command(desc: "Adds or removes the user registration table from the database.")]
 #[CommandArgs(short: ['u', 'd'])]
 #[CommandArgs(long: ['up', 'down'])]
 #[CommandConstruct(inject: [Connection::class])]

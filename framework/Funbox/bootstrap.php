@@ -2,6 +2,7 @@
 namespace Funbox\Framework;
 
 define('BASE_PATH', dirname(__DIR__, 2) . DIRECTORY_SEPARATOR);
+define('FUNBOX_ROOT', dirname(__DIR__, 2) . DIRECTORY_SEPARATOR);
 define('LIB_PATH', __DIR__ . DIRECTORY_SEPARATOR);
 define('VAR_PATH', BASE_PATH . 'var' . DIRECTORY_SEPARATOR);
 define('APP_PATH', BASE_PATH . 'app' . DIRECTORY_SEPARATOR);

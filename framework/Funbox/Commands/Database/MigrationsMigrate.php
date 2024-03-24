@@ -15,6 +15,7 @@ use Funbox\Framework\Console\Exceptions\ConsoleException;
 use InvalidArgumentException;
 
 #[Command(name: "migrations:migrate")]
+#[Command(desc: "Adds, updates or removes tables from the database.")]
 #[CommandArgs(short: ['u', 'd', 'r'])]
 #[CommandArgs(long: ['up', 'down', 'remove'])]
 #[CommandConstruct(inject: [Connection::class])]

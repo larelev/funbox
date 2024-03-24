@@ -6,6 +6,7 @@ use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
 #[Command(name: "dummy")]
+#[Command(desc: "Just a sample command.")]
 class Dummy implements CommandInterface
 {
 

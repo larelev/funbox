@@ -7,6 +7,7 @@ use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
 #[Command(name: "migration:init")]
+#[Command(desc: "Creates a blank migration file in migrations directory.")]
 class MigrationInit implements CommandInterface
 {
     public function execute(array $params = []): int
