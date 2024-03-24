@@ -1,17 +1,17 @@
 <?php
 
-namespace Funbox\Framework\Core;
+namespace Funbox\Framework\Registry;
 
 class Registry
 {
     private static $_items = [];
 
     /**
-     * @param mixed $item Name of the key
+     * @param string $item Key
      * @param array $params May one key/value pair or an array of pairs
      * @return void
      */
-    public static function write($item, ...$params): void
+    public static function write(string $item, ...$params): void
     {
         if (!isset(self::$_items[$item])) {
             self::$_items[$item] = [];
@@ -30,7 +30,7 @@ class Registry
         }
     }
 
-    public static function push($item, $key, $value): void
+    public static function push(string $item, $key, $value): void
     {
         if (!isset(self::$_items[$item])) {
             self::$_items[$item] = [];

@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Http;
 
-use Funbox\Framework\Core\Registry;
+use Funbox\Framework\Registry\Registry;
 
 class AbstractRouter
 {
