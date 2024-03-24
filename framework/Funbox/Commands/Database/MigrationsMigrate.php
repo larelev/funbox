@@ -9,14 +9,15 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\Attributes\CommandArgs;
+use Funbox\Framework\Console\Commands\Attributes\CommandConstruct;
 use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Exceptions\ConsoleException;
 use InvalidArgumentException;
 
 #[Command(name: "migrations:migrate")]
-#[Command(inject: [Connection::class])]
 #[CommandArgs(short: ['u', 'd', 'r'])]
 #[CommandArgs(long: ['up', 'down', 'remove'])]
+#[CommandConstruct(inject: [Connection::class])]
 class MigrationsMigrate implements CommandInterface
 {
     public function __construct(
@@ -42,7 +43,6 @@ class MigrationsMigrate implements CommandInterface
                 throw new InvalidArgumentException('Invalid arguments.');
             }
 
-
             $version = null;
             if($doUp) {
                 $version = !isset($params['u']) ? ($params['up'] ?? null) : $params['u'];
@@ -53,30 +53,22 @@ class MigrationsMigrate implements CommandInterface
             else if($doRemove) {
                 $version = !isset($params['r']) ? ($params['remove'] ?? null) : $params['r'];
             }
-            $this->connection->beginTransaction();
 
+            $this->connection->beginTransaction();
             $schemaMan = $this->connection->createSchemaManager();
             $schema = new Schema();
 
             if($doNothing) {
-                // Create a migrations table SQL if table not already in existence
                 $this->createMigrationsTable($schemaMan, $schema);
-
                 $this->connection->commit();
 
                 return 0;
             }
 
-            // Get $appliedMigrations which are already in the database.migrations table
             $appliedMigrations = $this->getAppliedMigrations();
-
-            // Get the $migrationFiles from the migrations folder
             $migrationsFiles = $this->getMigrationsFiles();
-
-            // Get the migrations to apply. i.e. they are in $migrationFiles but not in $appliedMigrations
             $migrationsToApply = array_diff($migrationsFiles, $appliedMigrations);
 
-            // Create SQL for any migrations which have not been run ..i.e. which are not in the database
             if($doUp) {
                 $this->doUp($version, $migrationsToApply, $schemaMan);
             } else if($doDown) {
@@ -84,9 +76,8 @@ class MigrationsMigrate implements CommandInterface
             } else if($doRemove) {
                 $this->doRemove($version, $appliedMigrations);
             }
-            // Execute the SQL query
-            $sqlArray = $schema->toSql($this->connection->getDatabasePlatform());
 
+            $sqlArray = $schema->toSql($this->connection->getDatabasePlatform());
             foreach ($sqlArray as $sql) {
                 $this->connection->executeQuery($sql);
             }
@@ -229,7 +220,6 @@ class MigrationsMigrate implements CommandInterface
         $this->connection->commit();
 
         echo 'Migrations table has been created.' . PHP_EOL;
-
     }
 
     /**

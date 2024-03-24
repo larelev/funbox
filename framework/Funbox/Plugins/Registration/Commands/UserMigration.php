@@ -10,13 +10,14 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
 use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\Attributes\CommandArgs;
+use Funbox\Framework\Console\Commands\Attributes\CommandConstruct;
 use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Exceptions\ConsoleException;
 
-#[Command(inject: [Connection::class])]
 #[Command(name: "migration")]
 #[CommandArgs(short: ['u', 'd'])]
 #[CommandArgs(long: ['up', 'down'])]
+#[CommandConstruct(inject: [Connection::class])]
 class UserMigration implements CommandInterface
 {
 

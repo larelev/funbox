@@ -9,10 +9,8 @@ use Funbox\Framework\Console\Commands\CommandInterface;
 #[Command(name: "migration:init")]
 class MigrationInit implements CommandInterface
 {
-
     public function execute(array $params = []): int
     {
-
         try
         {
             $migrationNumber = (new  DateTimeImmutable)->format('YmdHisu');
