@@ -89,6 +89,15 @@
             </ul>
         </div>
     {% endif %}
+    {% if flashMessage().hasError %}
+        <div class="alert alert-warning" role="alert">
+            <ul style="list-style: none">
+                {% for message in flashMessage().getError %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <div class="bg-light p-5 rounded">
         {% block main %} {% endblock %}
     </div>

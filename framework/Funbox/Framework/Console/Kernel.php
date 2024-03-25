@@ -71,8 +71,8 @@ class Kernel
         $domain = $baseDomain !== '' ?  $baseDomain . '\\' : '';
         $category = $baseDomain !== '' ? strtolower($baseDomain) . ':' : '';
 
-        if(str_contains($category, '\\commands')) {
-            $category = str_replace('\\commands', '', $category);
+        if(str_contains($category, DIRECTORY_SEPARATOR . 'commands')) {
+            $category = str_replace(DIRECTORY_SEPARATOR . 'commands', '', $category);
         }
 
         $fqCommandClass = str_replace('/', '\\', $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension()));
@@ -80,6 +80,8 @@ class Kernel
         if(!is_subclass_of($fqCommandClass, CommandInterface::class)) {
             return;
         }
+
+        echo print_r($category, true) . PHP_EOL;
 
         $class = new \ReflectionClass($fqCommandClass);
 
