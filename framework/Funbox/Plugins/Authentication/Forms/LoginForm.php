@@ -5,7 +5,7 @@ namespace Funbox\Plugins\Authentication\Forms;
 use Funbox\Plugins\Authentication\Entities\User;
 use Funbox\Plugins\Authentication\Repositories\UserMapper;
 
-class RegistrationForm
+class EmailForm
 {
     private string $email;
     private string $password;
@@ -29,8 +29,8 @@ class RegistrationForm
         $this->userMapper->save($user);
 
         return $user;
-
     }
+
     public function hasValidationErrors(): bool
     {
         if($this->errorCount == -1) {

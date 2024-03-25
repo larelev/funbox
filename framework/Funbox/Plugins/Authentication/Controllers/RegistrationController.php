@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
     {
         $form = new RegistrationForm($this->userMapper);
         $form->setFields(
-            $this->request->searchFromBody('login'),
+            $this->request->searchFromBody('email'),
             $this->request->searchFromBody('password'),
         );
 
@@ -38,7 +38,7 @@ class RegistrationController extends AbstractController
         $user = $form->save();
 
         $this->request->getFlashMessage()->setSuccess(
-            'User %s created', $user->getLogin()
+            'User %s created', $user->getEmail()
         );
 
         return new RedirectResponse('/');

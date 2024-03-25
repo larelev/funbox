@@ -5,7 +5,7 @@ namespace Funbox\Plugins\Authentication\Entities;
 class User
 {
     public function __construct(
-        private readonly string             $login,
+        private readonly string             $email,
         private readonly string             $password,
         private readonly \DateTimeImmutable $createdAt,
         private ?int                        $id = null,
@@ -13,9 +13,9 @@ class User
     {
     }
 
-    public function getLogin(): string
+    public function getEmail(): string
     {
-        return $this->login;
+        return $this->email;
     }
 
     public function getPassword(): string
@@ -38,10 +38,10 @@ class User
         $this->id = $id;
     }
 
-    public static function create(string $login, string $password): self
+    public static function create(string $email, string $password): self
     {
         return new self(
-            login: $login,
+            email: $email,
             password: password_hash($password, PASSWORD_DEFAULT),
             createdAt:new \DateTimeImmutable(),
         );

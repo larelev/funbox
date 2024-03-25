@@ -89,7 +89,7 @@ class UserMigration implements CommandInterface
         }
         $table = new Table('users');
         $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
-        $table->addColumn('login', Types::STRING,['length' => 255]);
+        $table->addColumn('email', Types::STRING,['length' => 255]);
         $table->addColumn('password', Types::STRING,['length' => 60]);
         $table->addColumn('created_at', Types::DATETIME_IMMUTABLE, ['default' => 'CURRENT_TIMESTAMP']);
         $table->setPrimaryKey(['id']);
