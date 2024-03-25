@@ -1,7 +1,7 @@
 <?php
 
 use Funbox\Framework\Routing\Route;
-use Funbox\Plugins\Registration\Registration;
+use Funbox\Plugins\Authentication\Authentication;
 
 Route::get('/', [\App\Controllers\HomeController::class, 'index']);
 Route::get('/posts/{id:\d+}', [\App\Controllers\PostController::class, 'show']);
@@ -13,4 +13,4 @@ Route::get('/hello/{name:.*}', function (string $name) {
     HTML);
 });
 
-Registration::routes();
+Authentication::routes();

@@ -1,15 +1,15 @@
 <?php
 
-namespace Funbox\Plugins\Registration;
+namespace Funbox\Plugins\Authentication;
 
 use Funbox\Framework\Routing\Route;
 
-class Registration
+class Authentication
 {
     public static function viewsPaths(): array
     {
         return [
-            PLUGINS_PATH . 'Registration' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR
+            PLUGINS_PATH . 'Authentication' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR
         ];
     }
 

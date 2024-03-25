@@ -1,9 +1,9 @@
 <?php
 
-namespace Funbox\Plugins\Registration\Forms;
+namespace Funbox\Plugins\Authentication\Forms;
 
-use Funbox\Plugins\Registration\Entities\User;
-use Funbox\Plugins\Registration\Repositories\UserMapper;
+use Funbox\Plugins\Authentication\Entities\User;
+use Funbox\Plugins\Authentication\Repositories\UserMapper;
 
 class RegistrationForm
 {

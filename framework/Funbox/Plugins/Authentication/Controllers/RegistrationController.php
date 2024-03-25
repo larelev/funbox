@@ -1,12 +1,12 @@
 <?php
 
-namespace Funbox\Plugins\Registration\Controllers;
+namespace Funbox\Plugins\Authentication\Controllers;
 
 use Funbox\Framework\Http\RedirectResponse;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
-use Funbox\Plugins\Registration\Forms\RegistrationForm;
-use Funbox\Plugins\Registration\Repositories\UserMapper;
+use Funbox\Plugins\Authentication\Forms\RegistrationForm;
+use Funbox\Plugins\Authentication\Repositories\UserMapper;
 
 class RegistrationController extends AbstractController
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Funbox\Plugins\Registration\Repositories;
+namespace Funbox\Plugins\Authentication\Repositories;
 
 use Doctrine\DBAL\Connection;
-use Funbox\Plugins\Registration\Entities\User;
+use Funbox\Plugins\Authentication\Entities\User;
 
 class UserMapper
 {

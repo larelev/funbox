@@ -1,6 +1,6 @@
 <?php
 
-namespace Funbox\Plugins\Registration\Entities;
+namespace Funbox\Plugins\Authentication\Entities;
 
 class User
 {
