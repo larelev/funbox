@@ -45,8 +45,8 @@ class RegistrationForm
             return $this->errors;
         }
 
-        if(!preg_match('/^\w+$/', $this->email)) {
-            $this->errors[] = "Email can only consist of word character without space.";
+        if(!preg_match('/^[\w\-]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+            $this->errors[] = "Invalid email.";
         }
 
         if(strlen($this->password) < 8) {

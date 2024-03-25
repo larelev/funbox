@@ -81,8 +81,6 @@ class Kernel
             return;
         }
 
-        echo print_r($category, true) . PHP_EOL;
-
         $class = new \ReflectionClass($fqCommandClass);
 
         $attributesArgs = [];
