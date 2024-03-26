@@ -2,6 +2,7 @@
 
 use Funbox\Framework\Routing\Route;
 use Funbox\Plugins\Authentication\Authentication;
+use Funbox\Plugins\Dashboard\Dashboard;
 
 Route::get('/', [\App\Controllers\HomeController::class, 'index']);
 Route::get('/posts/{id:\d+}', [\App\Controllers\PostController::class, 'show']);
@@ -14,3 +15,4 @@ Route::get('/hello/{name:.*}', function (string $name) {
 });
 
 Authentication::routes();
+Dashboard::routes();
