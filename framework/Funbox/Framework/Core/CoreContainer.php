@@ -2,9 +2,6 @@
 
 namespace Funbox\Framework\Core;
 
-use Funbox\Framework\Session\SessionInterface;
-use Funbox\Plugins\Authentication\Components\AuthenticatorInterface;
-use Funbox\Plugins\Authentication\Repositories\AuthenticationRepositoryInterface;
 use League\Container\DefinitionContainerInterface;
 
 class CoreContainer
@@ -33,12 +30,6 @@ class CoreContainer
             \Funbox\Framework\Routing\RouterInterface::class,
             \Funbox\Framework\Routing\Router::class,
         );
-
-        $container->extend(\Funbox\Framework\Routing\RouterInterface::class)
-            ->addMethodCall(
-                'setRoutes',
-                [new \League\Container\Argument\Literal\ArrayArgument($routes)]
-            );
 
         $container->add(
             \Funbox\Framework\Middleware\RequestHandlerInterface::class,
@@ -81,6 +72,9 @@ class CoreContainer
                 \Funbox\Framework\Routing\RouterInterface::class,
                 $container,
             ]);
+
+        $container->add(\Funbox\Framework\Middleware\ExtractRouteInfo::class)
+            ->addArgument(new \League\Container\Argument\Literal\ArrayArgument($routes));
 
         return $container;
 

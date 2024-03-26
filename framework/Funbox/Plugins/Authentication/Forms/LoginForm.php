@@ -5,7 +5,7 @@ namespace Funbox\Plugins\Authentication\Forms;
 use Funbox\Plugins\Authentication\Entities\User;
 use Funbox\Plugins\Authentication\Repositories\UserMapper;
 
-class EmailForm
+class LoginForm
 {
     private string $email;
     private string $password;
@@ -22,15 +22,6 @@ class EmailForm
         $this->password = $password;
     }
 
-    public function save(): User
-    {
-        $user = User::create($this->email, $this->password);
-
-        $this->userMapper->save($user);
-
-        return $user;
-    }
-
     public function hasValidationErrors(): bool
     {
         if($this->errorCount == -1) {
@@ -45,7 +36,7 @@ class EmailForm
             return $this->errors;
         }
 
-        if(!preg_match('/^\w+$/', $this->email)) {
+        if(!preg_match('/^[\w\-]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
             $this->errors[] = "Email can only consist of word character without space.";
         }
 

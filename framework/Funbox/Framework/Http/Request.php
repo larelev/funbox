@@ -16,6 +16,9 @@ class Request
     public readonly array $files;
     public readonly array $server;
 
+    private mixed $routeHandler;
+    private array  $routeHandlerArgs;
+
     public function getPathInfo(): string
     {
         return strtok($this->server['REQUEST_URI'], '?');
@@ -49,6 +52,28 @@ class Request
         }
         $this->flashMessage = $flashMessage;
     }
+
+    public function getRouteHandler(): mixed
+    {
+        return $this->routeHandler;
+    }
+
+    public function setRouteHandler(mixed $routeHandler): void
+    {
+        $this->routeHandler = $routeHandler;
+    }
+
+    public function getRouteHandlerArgs(): array
+    {
+        return $this->routeHandlerArgs;
+    }
+
+    public function setRouteHandlerArgs(array $routeHandlerArgs): void
+    {
+        $this->routeHandlerArgs = $routeHandlerArgs;
+    }
+
+
 
     public function __construct(
     )

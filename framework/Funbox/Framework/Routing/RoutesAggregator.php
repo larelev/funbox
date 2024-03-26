@@ -10,7 +10,7 @@ class RoutesAggregator
     public const ROUTES_JSON_PATH = Cache::CACHE_PATH . 'routes.json';
     public const ROUTES_PATH = Cache::CACHE_PATH . 'routes.php';
 
-    function aggregate(string $method, string $route, array|callable $controller): void
+    function aggregate(string $method, string $route, array|callable $controller, ?array $middlewares = null): void
     {
 
         $this->prepareCacheIfNotExists();
@@ -19,7 +19,12 @@ class RoutesAggregator
 
         $routes = json_decode($json, JSON_OBJECT_AS_ARRAY);
 
-        $routes[] = [$method, $route, $controller];
+        if($middlewares === null) {
+            $routes[] = [$method, $route, $controller];
+        } else {
+            $routes[] = [$method, $route, $controller, $middlewares];
+
+        }
 
         $json = json_encode($routes, JSON_PRETTY_PRINT);
 

@@ -16,14 +16,14 @@ class Route
         return self::$aggregator;
     }
 
-    public static function get(string $route, array|callable $controller)
+    public static function get(string $route, array|callable $controller, ?array $middlewares = null)
     {
-        static::getAggregator()->aggregate('GET', $route, $controller);
+        static::getAggregator()->aggregate('GET', $route, $controller, $middlewares);
     }
 
-    public static function post(string $route, array|callable $controller)
+    public static function post(string $route, array|callable $controller, ?array $middlewares = null)
     {
-        static::getAggregator()->aggregate('POST', $route, $controller);
+        static::getAggregator()->aggregate('POST', $route, $controller, $middlewares);
     }
 
 }

@@ -1,9 +1,11 @@
 <?php
 
-namespace Funbox\Framework\Middleware;
+namespace Funbox\Plugins\Authentication\Middlewares;
 
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
+use Funbox\Framework\Middleware\MiddlewareInterface;
+use Funbox\Framework\Middleware\RequestHandlerInterface;
 
 class Authentication implements MiddlewareInterface
 {
