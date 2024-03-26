@@ -2,7 +2,9 @@
 
 namespace Funbox\Plugins\Authentication\Entities;
 
-class User
+use Funbox\Plugins\Authentication\Components\AuthenticationInterface;
+
+class User implements AuthenticationInterface
 {
     public function __construct(
         private readonly string             $email,
@@ -11,6 +13,11 @@ class User
         private ?int                        $id = null,
     )
     {
+    }
+
+    public function getAuthId(): int|string
+    {
+        return $this->id;
     }
 
     public function getEmail(): string
@@ -46,4 +53,5 @@ class User
             createdAt:new \DateTimeImmutable(),
         );
     }
+
 }

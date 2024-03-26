@@ -5,23 +5,37 @@ namespace Funbox\Plugins\Authentication\Controllers;
 use Funbox\Framework\Http\RedirectResponse;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
-use Funbox\Plugins\Authentication\Forms\RegistrationForm;
-use Funbox\Plugins\Authentication\Repositories\UserMapper;
+use Funbox\Plugins\Authentication\Components\Authenticator;
+use Funbox\Plugins\Authentication\Components\AuthenticatorInterface;
 
 class LoginController extends AbstractController
 {
-    public function __construct(private readonly UserMapper $userMapper)
+    public function __construct(private readonly Authenticator $authenticator)
     {
     }
 
     public function index(): Response
     {
-        return $this->render('login.html.twig');
+        return $this->render('dashboard.html.twig');
     }
 
     public function login(): Response
     {
-        return new RedirectResponse('/');
+        $isAuthenticated = $this->authenticator->authenticate(
+            $this->request->searchFromBody('email'),
+            $this->request->searchFromBody('password'),
+        );
+
+        if(!$isAuthenticated) {
+            $this->request->getFlashMessage()->setError('Bad credentials.');
+            return new RedirectResponse('/login');
+        }
+
+        $user = $this->authenticator->getUser();
+        $this->request->getFlashMessage()->setSuccess('You are now logged in.');
+
+
+        return new RedirectResponse('/dashboard');
     }
 
 }
