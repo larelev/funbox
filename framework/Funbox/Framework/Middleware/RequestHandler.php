@@ -19,6 +19,7 @@ class RequestHandler implements RequestHandlerInterface
         ExtractRouteInfo::class,
         SessionManager::class,
         FlashMessenger::class,
+        History::class,
         RouterDispatcher::class,
     ];
 

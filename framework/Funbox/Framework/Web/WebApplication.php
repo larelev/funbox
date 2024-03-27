@@ -25,6 +25,11 @@ class WebApplication extends AbstractApplication
         $inflector->invokeMethod('setContainer', [$container]);
         $inflector->invokeMethod('setRequest', [$request]);
 
+        $container->addShared(
+            \Funbox\Framework\Http\HistoryInterface::class,
+            \Funbox\Framework\Http\History::class,
+        );
+
         $viewsPaths = include CONFIG_PATH . 'twig.php';
 
         $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
