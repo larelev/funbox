@@ -19,19 +19,19 @@ class Authenticator implements AuthenticatorInterface
 
     public function authenticate(string $email, string $password): bool
     {
-        $result = false;
         $user = $this->userRepository->findByEmail($email);
 
         if(!$user) {
             return false;
         }
 
-        if(password_verify($password, $user->getPassword())) {
-            $this->login($user);
-            $result = true;
+        if(!password_verify($password, $user->getPassword())) {
+            return false;
         }
 
-        return $result;
+        $this->login($user);
+
+        return true;
     }
 
     public function login(AuthenticationInterface $user): void
