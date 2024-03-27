@@ -45,7 +45,7 @@ class RegistrationForm
             return $this->errors;
         }
 
-        if(!preg_match('/^[\w\-]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+        if(!preg_match('/[\w.\-]+@([\w-]+\.)+[\w-]{2,4}/', $this->email)) {
             $this->errors[] = "Invalid email.";
         }
 
