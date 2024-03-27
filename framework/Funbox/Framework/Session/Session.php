@@ -6,12 +6,12 @@ final class Session implements SessionInterface
 {
     public function has(string $key): bool
     {
-        return session_id() !== null && isset($_SESSION[$key]);
+        return session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key]);
     }
 
     public function start(string $id = '', array $options = []): false|string
     {
-        if (session_id() === '') {
+        if (session_status() == PHP_SESSION_NONE) {
             if($id !== '') {
                 session_id($id);
             }
@@ -29,7 +29,7 @@ final class Session implements SessionInterface
     public function read(string $key): mixed
     {
 
-        if (session_id() !== '' && isset($_SESSION[$key])) {
+        if (session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
 
@@ -38,7 +38,7 @@ final class Session implements SessionInterface
 
     public function write(string $key, mixed $value): bool
     {
-        if (session_id() !== null) {
+        if (session_status() == PHP_SESSION_ACTIVE) {
             $_SESSION[$key] = $value;
             return true;
         }
@@ -48,14 +48,14 @@ final class Session implements SessionInterface
 
     public function remove(string $key): void
     {
-        if($key !== '' &&  isset($_SESSION[$key])) {
+        if(session_status() == PHP_SESSION_ACTIVE && $key !== '' &&  isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
     }
 
     public function clear(): void
     {
-        if (session_id() !== '') {
+        if (session_status() == PHP_SESSION_ACTIVE) {
             session_gc();
             session_unset();
             session_destroy();
