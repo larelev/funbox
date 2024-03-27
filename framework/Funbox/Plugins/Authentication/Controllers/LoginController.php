@@ -6,7 +6,6 @@ use Funbox\Framework\Http\RedirectResponse;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
 use Funbox\Plugins\Authentication\Components\Authenticator;
-use Funbox\Plugins\Authentication\Components\AuthenticatorInterface;
 
 class LoginController extends AbstractController
 {
@@ -16,7 +15,7 @@ class LoginController extends AbstractController
 
     public function index(): Response
     {
-        return $this->render('dashboard.html.twig');
+        return $this->render('login.html.twig');
     }
 
     public function login(): Response
