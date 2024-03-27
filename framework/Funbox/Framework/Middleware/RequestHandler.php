@@ -4,7 +4,7 @@ namespace Funbox\Framework\Middleware;
 
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
-use Funbox\Plugins\Authentication\Middlewares\Authentication;
+use Funbox\Plugins\FlashMessage\Middlewares\FlashMessenger;
 use League\Container\DefinitionContainerInterface;
 
 class RequestHandler implements RequestHandlerInterface

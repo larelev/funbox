@@ -17,7 +17,7 @@ readonly class RouterDispatcher implements MiddlewareInterface
     {
     }
 
-    public function process(Request $request, RequestHandlerInterface $handler): Response
+    public function process(Request $request, RequestHandlerInterface $requestHandler): Response
     {
         [$routeHandler, $vars] = $this->router->dispatch($request, $this->container);
         $response = call_user_func_array($routeHandler, $vars);

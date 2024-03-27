@@ -21,7 +21,7 @@ class Authentication implements MiddlewareInterface
     {
     }
 
-    public function process(Request $request, RequestHandlerInterface $handler): Response
+    public function process(Request $request, RequestHandlerInterface $requestHandler): Response
     {
         $this->session->start();
 
@@ -30,6 +30,6 @@ class Authentication implements MiddlewareInterface
             return new RedirectResponse("/login");
         }
 
-        return $handler->handle($request);
+        return $requestHandler->handle($request);
     }
 }

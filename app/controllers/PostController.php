@@ -46,8 +46,8 @@ class PostController extends AbstractController
      */
     function store(): Response
     {
-        $title = $this->request->postParams['title'];
-        $body = $this->request->postParams['body'];
+        $title = $this->request->getPostParamss('title');
+        $body = $this->request->getPostParamss('body');
 
         $post = Post::create($title, $body);
 

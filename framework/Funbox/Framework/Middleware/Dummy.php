@@ -9,8 +9,8 @@ use Funbox\Framework\Middleware\MiddlewareInterface;
 class Dummy implements MiddlewareInterface
 {
 
-    public function process(Request $request, RequestHandlerInterface $handler): Response
+    public function process(Request $request, RequestHandlerInterface $requestHandler): Response
     {
-        return $handler->handle($request);
+        return $requestHandler->handle($request);
     }
 }

@@ -20,7 +20,7 @@ class AbstractRouter
         public readonly Response $response
     )
     {
-        $this->documentRoot = $this->request->server('DOCUMENT_ROOT');
+        $this->documentRoot = $this->request->getServer('DOCUMENT_ROOT');
         $this->appRoot = APP_PATH;
         $this->isFound = false;
     }
@@ -50,14 +50,14 @@ class AbstractRouter
                 $this->requestType = $key;
 
                 $methods = $value;
-                $method = strtolower($this->request->server('REQUEST_METHOD'));
+                $method = strtolower($this->request->getServer('REQUEST_METHOD'));
 
                 if (!isset($methods[$method])) {
                     continue;
                 }
 
                 $routes = $methods[$method];
-                $url = $this->request->server('REQUEST_URI');
+                $url = $this->request->getServer('REQUEST_URI');
                 foreach ($routes as $key => $value) {
                     $matches = \preg_replace('@' . $key . '@', $value, $url);
 

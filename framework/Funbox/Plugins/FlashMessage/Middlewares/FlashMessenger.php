@@ -1,9 +1,11 @@
 <?php
 
-namespace Funbox\Framework\Middleware;
+namespace Funbox\Plugins\FlashMessage\Middlewares;
 
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
+use Funbox\Framework\Middleware\MiddlewareInterface;
+use Funbox\Framework\Middleware\RequestHandlerInterface;
 use Funbox\Plugins\FlashMessage\FlashMessageInterface;
 
 readonly class FlashMessenger implements MiddlewareInterface

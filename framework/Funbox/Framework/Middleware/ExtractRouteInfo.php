@@ -16,7 +16,7 @@ class ExtractRouteInfo implements MiddlewareInterface
     {
     }
 
-    public function process(Request $request, RequestHandlerInterface $handler): Response
+    public function process(Request $request, RequestHandlerInterface $requestHandler): Response
     {
 
         $dispatcher = simpleDispatcher(function (RouteCollector $routeCollector) {
@@ -37,7 +37,7 @@ class ExtractRouteInfo implements MiddlewareInterface
                 $request->setRouteHandlerArgs($routeInfo[2]);
 
                 if(is_array($routeInfo[1]) && isset($routeInfo[1][2])) {
-                    $handler->injectMiddleware($routeInfo[1][2]);
+                    $requestHandler->injectMiddleware($routeInfo[1][2]);
                 }
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
@@ -47,6 +47,6 @@ class ExtractRouteInfo implements MiddlewareInterface
                 throw new HttpNotFoundException('Route not found');
 
         }
-        return $handler->handle($request);
+        return $requestHandler->handle($request);
     }
 }
