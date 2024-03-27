@@ -3,6 +3,7 @@
 namespace Funbox\Plugins\Authentication\Components;
 
 use Funbox\Framework\Session\SessionInterface;
+use Funbox\Plugins\Authentication\Authentication;
 use Funbox\Plugins\Authentication\Repositories\AuthenticationRepositoryInterface;
 
 class Authenticator implements AuthenticatorInterface
@@ -35,9 +36,8 @@ class Authenticator implements AuthenticatorInterface
 
     public function login(AuthenticationInterface $user): void
     {
-        // TODO: Implement login() method.
         $this->session->start();
-        $this->session->write('auth_id', $user->getAuthId());
+        $this->session->write(Authentication::AUTH_KEY, $user->getAuthId());
         $this->user = $user;
     }
 

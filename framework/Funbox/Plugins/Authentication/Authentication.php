@@ -6,6 +6,8 @@ use League\Container\DefinitionContainerInterface;
 
 class Authentication
 {
+    public const AUTH_KEY = 'auth_id';
+
     public static function viewsPaths(): array
     {
         return [
