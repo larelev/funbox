@@ -15,5 +15,6 @@ define('APP_VIEWS_PATH', APP_PATH . 'views' . DIRECTORY_SEPARATOR);
 
 require_once BASE_PATH . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-Caching\Cache::propare();
+Caching\Cache::prepare();
+Logger\Cache::prepare();
 Routing\Cache::prepare();

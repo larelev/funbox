@@ -2,11 +2,12 @@
 
 namespace Funbox\Framework\Core;
 
+use HistoryInterface;
 use League\Container\DefinitionContainerInterface;
 
 class CoreContainer
 {
-    public static function services(): DefinitionContainerInterface
+    public static function provide(): DefinitionContainerInterface
     {
         $container = new \League\Container\Container();
         $container->delegate(new \League\Container\ReflectionContainer(false));
@@ -54,8 +55,8 @@ class CoreContainer
         );
 
         $container->addShared(
-            \Funbox\Plugins\FlashMessage\FlashMessageInterface::class,
-            \Funbox\Plugins\FlashMessage\FlashMessage::class,
+            \Funbox\Framework\Logger\LoggerInterface::class,
+            \Funbox\Framework\Logger\Logger::class,
         );
 
         $container->add(\Funbox\Framework\Dbal\ConnectionFactory::class)
