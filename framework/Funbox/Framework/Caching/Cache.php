@@ -6,7 +6,7 @@ class Cache
 {
     public const CACHE_PATH = VAR_PATH . 'cache' . DIRECTORY_SEPARATOR;
 
-    public static function propare(): void
+    public static function prepare(): void
     {
         $ok = file_exists(self::CACHE_PATH);
         if(!$ok) {

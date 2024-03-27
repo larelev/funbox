@@ -1,6 +1,7 @@
 <?php
 
-$container = \Funbox\Framework\Core\CoreContainer::services();
-$container = \Funbox\Plugins\Authentication\Authentication::provide($container);
+$container = \Funbox\Framework\Core\CoreContainer::provide();
+$container = \Funbox\Plugins\Authentication\Container::provide($container);
+$container = \Funbox\Plugins\FlashMessage\Container::provide($container);
 
 return $container;

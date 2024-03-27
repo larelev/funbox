@@ -15,19 +15,8 @@ class Authentication
         ];
     }
 
-    public static function routes()
+    public static function routes(): void
     {
         include __DIR__ . DIRECTORY_SEPARATOR . 'Routes' . DIRECTORY_SEPARATOR . 'Web.php';
-    }
-
-    public static function provide(DefinitionContainerInterface $container): DefinitionContainerInterface
-    {
-        $container->add(\Funbox\Plugins\Authentication\Components\Authenticator::class)
-            ->addArguments([
-                \Funbox\Plugins\Authentication\Repositories\UserRepository::class,
-                \Funbox\Framework\Session\SessionInterface::class,
-            ]);
-
-        return $container;
     }
 }

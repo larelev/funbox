@@ -4,7 +4,7 @@ namespace Funbox\Framework\Registry;
 
 use Funbox\Framework\Caching\Cache;
 use Funbox\Framework\Utils\File;
-use Funbox\Framework\Utils\Misc;
+use Funbox\Framework\Utils\Text;
 
 abstract class AbstractRegistry implements AbstractRegistryInterface
 {
@@ -64,7 +64,7 @@ abstract class AbstractRegistry implements AbstractRegistryInterface
         $result = json_encode($entries, JSON_PRETTY_PRINT);
 
         if ($asArray) {
-            $result = Misc::jsonToPhpReturnedArray($result);
+            $result = Text::jsonToPhpReturnedArray($result);
             $funbox_root = FUNBOX_ROOT;
             if(DIRECTORY_SEPARATOR === '\\') {
                 $funbox_root = str_replace('\\', '\\\\', FUNBOX_ROOT);

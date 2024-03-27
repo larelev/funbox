@@ -3,7 +3,7 @@
 namespace Funbox\Framework\Routing;
 
 use Funbox\Framework\Caching\Cache;
-use Funbox\Framework\Utils\Misc;
+use Funbox\Framework\Utils\Text;
 
 class RoutesAggregator
 {
@@ -48,7 +48,7 @@ class RoutesAggregator
     {
         $json = file_get_contents(self::ROUTES_JSON_PATH);
 
-        $routes = Misc::jsonToPhpReturnedArray($json);
+        $routes = Text::jsonToPhpReturnedArray($json);
 
         file_put_contents(self::ROUTES_PATH, $routes);
     }

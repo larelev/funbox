@@ -55,12 +55,12 @@ class Request implements RequestInterface
         $this->routeHandlerArgs = $routeHandlerArgs;
     }
 
-    public function getGetParams(string $param = ''): array
+    public function getGetParams(string $param = ''): array|string
     {
         return $this->info->getGetParams($param);
     }
 
-    public function getPostParams(string $param = ''): array
+    public function getPostParams(string $param = ''): array|string
     {
         return $this->info->getPostParams($param);
     }
@@ -103,11 +103,13 @@ class Request implements RequestInterface
 
     public function searchFromQuery(string $param): ?string
     {
-        return !isset($this->getParams[$param]) ? null : $this->getParams[$param];
+        $value = $this->getGetParams($param);
+        return !isset($value) ? null : $value;
     }
 
     public function searchFromBody(string $param): ?string
     {
-        return !isset($this->postParams[$param]) ? null : $this->postParams[$param];
+        $value = $this->getPostParams($param);
+        return !isset($value) ? null : $value;
     }
 }
