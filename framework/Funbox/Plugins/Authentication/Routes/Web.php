@@ -13,3 +13,8 @@ Route::get('/login', [\Funbox\Plugins\Authentication\Controllers\LoginController
     ]
 ]);
 Route::post('/login', [\Funbox\Plugins\Authentication\Controllers\LoginController::class, 'login']);
+Route::get('/logout', [\Funbox\Plugins\Authentication\Controllers\LoginController::class, 'logout',
+    [
+        \Funbox\Plugins\Authentication\Middlewares\Authentication::class,
+    ]
+]);

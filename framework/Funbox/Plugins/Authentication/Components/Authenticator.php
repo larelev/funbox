@@ -10,6 +10,11 @@ class Authenticator implements AuthenticatorInterface
 {
     private AuthenticationInterface $user;
 
+    public function getUser(): AuthenticationInterface
+    {
+        return $this->user;
+    }
+
     public function __construct(
         private readonly AuthenticationRepositoryInterface $userRepository,
         private readonly SessionInterface $session,
@@ -43,11 +48,17 @@ class Authenticator implements AuthenticatorInterface
 
     public function logout(): void
     {
-        // TODO: Implement logout() method.
+        $this->session->remove(Authentication::AUTH_KEY);
     }
 
-    public function getUser(): AuthenticationInterface
+    public function isAuthenticated(): bool
     {
-        return $this->user;
+        return $this->session->has(Authentication::AUTH_KEY);
     }
+
+    public static function hasLoggedIn(SessionInterface $session): bool
+    {
+        return $session->has(Authentication::AUTH_KEY);
+    }
+
 }

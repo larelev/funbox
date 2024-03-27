@@ -5,12 +5,16 @@ namespace Funbox\Plugins\Authentication\Controllers;
 use Funbox\Framework\Http\RedirectResponse;
 use Funbox\Framework\Http\Response;
 use Funbox\Framework\MVC\AbstractController;
+use Funbox\Plugins\Authentication\Components\Authenticator;
 use Funbox\Plugins\Authentication\Forms\RegistrationForm;
 use Funbox\Plugins\Authentication\Repositories\UserMapper;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private readonly UserMapper $userMapper)
+    public function __construct(
+        private readonly UserMapper $userMapper,
+        private readonly Authenticator $authenticator,
+    )
     {
     }
 
@@ -41,7 +45,9 @@ class RegistrationController extends AbstractController
             'User %s created', $user->getEmail()
         );
 
-        return new RedirectResponse('/');
+        $this->authenticator->login($user);
+
+        return new RedirectResponse('/dashboard');
     }
 
 }
