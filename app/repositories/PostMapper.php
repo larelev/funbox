@@ -3,35 +3,24 @@
 namespace App\Repositories;
 
 use App\Entities\Post;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
+use Funbox\Framework\Dbal\DataMapper;
+use Funbox\Framework\Dbal\Entity;
 
-class PostMapper
+class PostMapper extends DataMapper
 {
 
-    public function __construct(private readonly Connection $connection)
-    {
-    }
-
-
-    /**
-     * @throws Exception
-     */
-    public function save(Post $post): void
+    public function insert(Post|Entity &$entity): void
     {
         $stmt = $this->connection->prepare("
         INSERT INTO posts (title, body, created_at)
         VALUES (:title, :body, :created_at)
         ");
 
-        $stmt->bindValue(':title', $post->title);
-        $stmt->bindValue(':body', $post->body);
-        $stmt->bindValue(':created_at', $post->createdAt->format('Y-m-d H:i:s'));
+        $stmt->bindValue(':title', $entity->title);
+        $stmt->bindValue(':body', $entity->body);
+        $stmt->bindValue(':created_at', $entity->createdAt->format('Y-m-d H:i:s'));
 
         $stmt->executeStatement();
 
-        $id = $this->connection->lastInsertId();
-
-        $post->setId($id);
     }
 }

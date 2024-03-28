@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Core;
 
-use HistoryInterface;
+use Funbox\Framework\Event\EventDispatcher;
 use League\Container\DefinitionContainerInterface;
 
 class CoreContainer
@@ -41,7 +41,10 @@ class CoreContainer
             ->addArguments([
                 $container,
                 \Funbox\Framework\Middleware\RequestHandlerInterface::class,
+                \Funbox\Framework\Event\EventDispatcher::class,
             ]);
+
+        $container->addShared(EventDispatcher::class);
 
         $container->add(\Funbox\Framework\Console\Commands\CommandRunner::class)
             ->addArgument($container);

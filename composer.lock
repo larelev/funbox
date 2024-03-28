@@ -168,7 +168,7 @@
             "dist": {
                 "type": "path",
                 "url": "framework",
-                "reference": "0a2ae350dcd06274dd1cdf516e9bb1674629af35"
+                "reference": "3e16c09c1ceeee85d483b83e7ff6e8e64e97d0a3"
             },
             "require": {
                 "doctrine/dbal": "^4.1.x-dev",
@@ -1539,12 +1539,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ac4f0257261ae2ff2990f34a96c61707721edc79"
+                "reference": "fa1d593728e7330ea34742967aad5db3dde94d1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ac4f0257261ae2ff2990f34a96c61707721edc79",
-                "reference": "ac4f0257261ae2ff2990f34a96c61707721edc79",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fa1d593728e7330ea34742967aad5db3dde94d1c",
+                "reference": "fa1d593728e7330ea34742967aad5db3dde94d1c",
                 "shasum": ""
             },
             "require": {
@@ -1632,7 +1632,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T08:59:48+00:00"
+            "time": "2024-03-28T09:53:51+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2718,5 +2718,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

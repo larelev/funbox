@@ -3,30 +3,24 @@
 namespace Funbox\Plugins\Authentication\Repositories;
 
 use Doctrine\DBAL\Connection;
+use Funbox\Framework\Dbal\DataMapper;
+use Funbox\Framework\Dbal\Entity;
 use Funbox\Plugins\Authentication\Entities\User;
 
-class UserMapper
+class UserMapper extends DataMapper
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
 
-    public function save(User $user): void
+    public function insert(User|Entity &$entity): void
     {
         $stmt = $this->connection->prepare("
             INSERT INTO users (email, password, created_at)
             VALUES (:email, :password, :created_at)
         ");
 
-        $stmt->bindValue(":email", $user->getEmail());
-        $stmt->bindValue(":password", $user->getPassword());
-        $stmt->bindValue(":created_at", $user->getCreatedAt()->format('Y-m-d H:i:s'));
+        $stmt->bindValue(":email", $entity->getEmail());
+        $stmt->bindValue(":password", $entity->getPassword());
+        $stmt->bindValue(":created_at", $entity->getCreatedAt()->format('Y-m-d H:i:s'));
 
         $stmt->executeStatement();
-
-        $id = $this->connection->lastInsertId();
-
-        $user->setId($id);
-
     }
 }

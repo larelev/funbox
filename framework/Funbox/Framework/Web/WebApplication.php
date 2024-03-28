@@ -2,7 +2,11 @@
 
 namespace Funbox\Framework\Web;
 
+use App\events\ContentLengthListener;
+use App\Events\InternalErrorListener;
 use Funbox\Framework\Core\AbstractApplication;
+use Funbox\Framework\Event\EventDispatcher;
+use Funbox\Framework\Http\Event\ResponseEvent;
 use Funbox\Framework\Http\Kernel;
 use Funbox\Framework\Http\Request;
 
@@ -17,7 +21,7 @@ class WebApplication extends AbstractApplication
     {
         $request = new Request();
 
-        $container = require SERVICES_PATH;
+        $container = require BASE_PATH . 'bootstrap' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
         $container->add(\Funbox\Framework\MVC\AbstractController::class);
 
@@ -44,7 +48,6 @@ class WebApplication extends AbstractApplication
         $response->send();
 
         $kernel->terminate($request, $response);
-
     }
 
     public static function create(): static

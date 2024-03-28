@@ -2,7 +2,9 @@
 
 namespace App\Entities;
 
-class Post
+use Funbox\Framework\Dbal\Entity;
+
+class Post extends Entity
 {
     public function getId(): ?int
     {
