@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\FlashMessage;
+namespace Funbox\Plugins\FlashMessage\Tests;
 
-use App\idgets\FlashMessage\Enums\FlashType;
-use App\idgets\FlashMessage\FlashMessage;
 use Funbox\Framework\Session\Session;
+use Funbox\Plugins\FlashMessage\Enums\FlashType;
+use Funbox\Plugins\FlashMessage\FlashMessage;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -14,7 +14,7 @@ class FlashMessageTest extends TestCase
     protected function setUp(): void
     {
         $session = new Session();
-        $session->delete();
+        $session->clear();
         $session->start();
     }
 
@@ -24,8 +24,8 @@ class FlashMessageTest extends TestCase
         $flash = new FlashMessage();
         $flash->set(FlashType::Success, "Great job!");
         $flash->set(FlashType::Error, "Bad luck!");
-        $this->assertTrue($flash->hasFlash(FlashType::Success));
-        $this->assertTrue($flash->hasFlash(FlashType::Error));
+        $this->assertTrue($flash->has(FlashType::Success));
+        $this->assertTrue($flash->has(FlashType::Error));
         $this->assertEquals(['Great job!'], $flash->get(FlashType::Success));
         $this->assertEquals([], $flash->get(FlashType::Warning));
     }
