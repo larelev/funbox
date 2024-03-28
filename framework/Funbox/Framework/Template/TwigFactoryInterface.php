@@ -6,5 +6,5 @@ use Twig\Environment;
 
 interface TwigFactoryInterface
 {
-    public function extendsTemplate(Environment $twig): Environment;
+    public static function extendsTemplate(Environment $twig): Environment;
 }
