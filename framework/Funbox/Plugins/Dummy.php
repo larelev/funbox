@@ -2,10 +2,11 @@
 
 namespace Funbox\Plugins;
 
-use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
+use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
-#[CommandDeclaration(name: "dummy")]
+#[Command(name: "dummy")]
+#[Command(desc: "Just a sample command.")]
 class Dummy implements CommandInterface
 {
 

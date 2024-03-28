@@ -76,6 +76,11 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Fun<span style="color: #49a9ff">box</span>&nbsp;Framework</a>
+        {% if isLoggedIn() %}
+            <a class="navbar-brand" href="/logout">Logout</a>
+        {% else %}
+            <a class="navbar-brand" href="/login">Login</a>
+        {% endif %}
     </div>
 </nav>
 
@@ -84,6 +89,15 @@
         <div class="alert alert-success" role="alert">
             <ul style="list-style: none">
                 {% for message in flashMessage().getSuccess %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if flashMessage().hasError %}
+        <div class="alert alert-warning" role="alert">
+            <ul style="list-style: none">
+                {% for message in flashMessage().getError %}
                     <li>{{ message }}</li>
                 {% endfor %}
             </ul>

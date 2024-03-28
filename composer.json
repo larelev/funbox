@@ -5,6 +5,7 @@
       "App\\": "app/",
       "App\\Controllers\\": "app/controllers/",
       "App\\Entities\\": "app/entities/",
+      "App\\Factories\\": "app/factories/",
       "App\\Repositories\\": "app/repositories/",
       "App\\Widgets\\": "app/widgets/",
       "App\\Routes\\": "app/routes/",

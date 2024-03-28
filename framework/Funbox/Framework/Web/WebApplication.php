@@ -25,13 +25,15 @@ class WebApplication extends AbstractApplication
         $inflector->invokeMethod('setContainer', [$container]);
         $inflector->invokeMethod('setRequest', [$request]);
 
-        $viewsPaths = include CONFIG_PATH . 'twig.php';
+        $container->addShared(
+            \Funbox\Framework\Http\HistoryInterface::class,
+            \Funbox\Framework\Http\History::class,
+        );
 
-        $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class)
-            ->addArguments([
-                \Funbox\Plugins\FlashMessage\FlashMessageInterface::class,
-                new \League\Container\Argument\Literal\ArrayArgument($viewsPaths),
-            ]);
+        $filename = BASE_PATH . 'factories' . DIRECTORY_SEPARATOR . 'TwigFactory.php';
+        if(!file_exists($filename)) {
+            $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class);
+        }
 
         $container->addShared('twig', function () use ($container) {
             return $container->get('template-renderer-factory')->create();

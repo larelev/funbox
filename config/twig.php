@@ -2,5 +2,6 @@
 
 return [
     APP_VIEWS_PATH,
-    ...\Funbox\Plugins\Registration\Config::viewsPaths(),
+    ...\Funbox\Plugins\Authentication\Authentication::viewsPaths(),
+    ...\Funbox\Plugins\Dashboard\Dashboard::viewsPaths(),
 ];

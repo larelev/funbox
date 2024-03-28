@@ -8,6 +8,4 @@ use League\Container\DefinitionContainerInterface;
 interface RouterInterface
 {
     public function dispatch(Request $request, DefinitionContainerInterface $container): array;
-
-    public function setRoutes(array $routes): void;
 }

@@ -5,6 +5,8 @@ namespace Funbox\Framework\Console;
 use Funbox\Framework\Console\Commands\CommandInterface;
 use Funbox\Framework\Console\Commands\CommandRunner;
 use Funbox\Framework\Console\Exceptions\ConsoleException;
+use Funbox\Framework\Registry\StateRegistry;
+use Funbox\Framework\Utils\File;
 use League\Container\DefinitionContainerInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -44,6 +46,8 @@ class Kernel
         ];
 
         foreach ($commandsLocations as $location) {
+            $commandFiles  = File::walkTreeFiltered($location->directory, ['php']);
+
             $iterator = new RecursiveDirectoryIterator($location->directory);
             $commandFiles = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
 
@@ -67,6 +71,10 @@ class Kernel
         $domain = $baseDomain !== '' ?  $baseDomain . '\\' : '';
         $category = $baseDomain !== '' ? strtolower($baseDomain) . ':' : '';
 
+        if(str_contains($category, DIRECTORY_SEPARATOR . 'commands')) {
+            $category = str_replace(DIRECTORY_SEPARATOR . 'commands', '', $category);
+        }
+
         $fqCommandClass = str_replace('/', '\\', $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension()));
 
         if(!is_subclass_of($fqCommandClass, CommandInterface::class)) {
@@ -83,9 +91,12 @@ class Kernel
 
         $commandName = $category . $attributesArgs['name'];
         $containerArgs = $attributesArgs['inject'] ?? [];
-        $shortParams = $attributesArgs['shortArgs'] ?? [];
-        $longParams = $attributesArgs['longArgs'] ?? [];
+        $shortParams = $attributesArgs['short'] ?? [];
+        $longParams = $attributesArgs['long'] ?? [];
         $registeredParams = [$shortParams, $longParams];
+        $help = $attributesArgs['desc'] ?? '';
+
+        StateRegistry::push('commands:help', [$commandName => $help]);
 
         $this->container->addShared($commandName . ':registered-params', $registeredParams);
 

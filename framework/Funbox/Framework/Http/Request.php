@@ -5,26 +5,13 @@ namespace Funbox\Framework\Http;
 use Funbox\Framework\Session\SessionInterface;
 use Funbox\Plugins\FlashMessage\FlashMessageInterface;
 
-class Request
+class Request implements RequestInterface
 {
+    private RequestInfo $info;
     private ?FlashMessageInterface $flashMessage = null;
     private ?SessionInterface $session = null;
-
-    public readonly array $getParams;
-    public readonly array $postParams;
-    public readonly array $cookies;
-    public readonly array $files;
-    public readonly array $server;
-
-    public function getPathInfo(): string
-    {
-        return strtok($this->server['REQUEST_URI'], '?');
-    }
-
-    public function getMethod(): string
-    {
-        return $this->server['REQUEST_METHOD'];
-    }
+    private mixed $routeHandler;
+    private array  $routeHandlerArgs;
 
     public function getSession(): ?SessionInterface
     {
@@ -50,18 +37,79 @@ class Request
         $this->flashMessage = $flashMessage;
     }
 
+    public function getRouteHandler(): mixed
+    {
+        return $this->routeHandler;
+    }
+    public function setRouteHandler(mixed $routeHandler): void
+    {
+        $this->routeHandler = $routeHandler;
+    }
+
+    public function getRouteHandlerArgs(): array
+    {
+        return $this->routeHandlerArgs;
+    }
+    public function setRouteHandlerArgs(array $routeHandlerArgs): void
+    {
+        $this->routeHandlerArgs = $routeHandlerArgs;
+    }
+
+    public function getGetParams(string $param = ''): array|string
+    {
+        return $this->info->getGetParams($param);
+    }
+
+    public function getPostParams(string $param = ''): array|string
+    {
+        return $this->info->getPostParams($param);
+    }
+
+    public function getCookies(): array
+    {
+        return $this->info->getCookies();
+    }
+
+    public function getFiles(): array
+    {
+        return $this->info->getFiles();
+    }
+
+    public function getServer(): array
+    {
+        return $this->info->getServer();
+    }
+
+    public function getPathInfo(): string
+    {
+        return $this->info->getPathInfo();
+    }
+
+    public function getMethod(): string
+    {
+        return $this->info->getMethod();
+    }
+
+    public function getInfo(): RequestInfo
+    {
+        return $this->info;
+    }
 
     public function __construct(
     )
     {
-        $this->getParams = $_GET;
-        $this->postParams = $_POST;
-        $this->cookies = $_COOKIE;
-        $this->files = $_FILES;
-        $this->server = $_SERVER;
+        $this->info = new RequestInfo();
     }
 
+    public function searchFromQuery(string $param): ?string
+    {
+        $value = $this->getGetParams($param);
+        return !isset($value) ? null : $value;
+    }
 
-
-
+    public function searchFromBody(string $param): ?string
+    {
+        $value = $this->getPostParams($param);
+        return !isset($value) ? null : $value;
+    }
 }

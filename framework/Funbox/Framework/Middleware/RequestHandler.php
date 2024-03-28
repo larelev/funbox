@@ -4,6 +4,7 @@ namespace Funbox\Framework\Middleware;
 
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
+use Funbox\Plugins\FlashMessage\Middlewares\FlashMessenger;
 use League\Container\DefinitionContainerInterface;
 
 class RequestHandler implements RequestHandlerInterface
@@ -15,9 +16,10 @@ class RequestHandler implements RequestHandlerInterface
     }
 
     private array $middleware = [
+        ExtractRouteInfo::class,
         SessionManager::class,
         FlashMessenger::class,
-        Authentication::class,
+        History::class,
         RouterDispatcher::class,
     ];
 
@@ -28,11 +30,14 @@ class RequestHandler implements RequestHandlerInterface
         }
 
         $middlewareClass = array_shift($this->middleware);
-
         $middleware = $this->container->get($middlewareClass);
-
         $response = $middleware->process($request, $this);
 
         return $response;
+    }
+
+    public function injectMiddleware(array $middlewares): void
+    {
+        array_splice($this->middleware, 0, 0, $middlewares);
     }
 }

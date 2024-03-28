@@ -3,16 +3,15 @@
 namespace Funbox\Commands\Database;
 
 use DateTimeImmutable;
-use Funbox\Framework\Console\Commands\Attributes\CommandDeclaration;
+use Funbox\Framework\Console\Commands\Attributes\Command;
 use Funbox\Framework\Console\Commands\CommandInterface;
 
-#[CommandDeclaration(name: "migration:init")]
+#[Command(name: "migration:init")]
+#[Command(desc: "Creates a blank migration file in migrations directory.")]
 class MigrationInit implements CommandInterface
 {
-
     public function execute(array $params = []): int
     {
-
         try
         {
             $migrationNumber = (new  DateTimeImmutable)->format('YmdHisu');
