@@ -26,6 +26,9 @@ class CoreContainer
         $container->add('plugins-commands-namespace',
             new \League\Container\Argument\Literal\StringArgument('Funbox\\Plugins\\'),
         );
+        $container->add('app-commands-namespace',
+            new \League\Container\Argument\Literal\StringArgument('App\\Commands\\'),
+        );
 
         $container->add(
             \Funbox\Framework\Routing\RouterInterface::class,

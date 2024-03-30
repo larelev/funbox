@@ -43,6 +43,10 @@ class Kernel
                 'namespace' => $this->container->get('plugins-commands-namespace'),
                 'directory' => LIB_PATH . 'Plugins',
             ],
+            (object)[
+                'namespace' => $this->container->get('app-commands-namespace'),
+                'directory' => APP_PATH . 'Commands',
+            ],
         ];
 
         foreach ($commandsLocations as $location) {
