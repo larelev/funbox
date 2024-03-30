@@ -2,9 +2,10 @@
 
 namespace Funbox\Framework\Http;
 
+use Funbox\Framework\Event\EventDispatcher;
+use Funbox\Framework\Http\Event\ResponseEvent;
 use Funbox\Framework\Http\Exceptions\HttpException;
 use Funbox\Framework\Middleware\RequestHandlerInterface;
-use Funbox\Framework\Routing\RouterInterface;
 use League\Container\DefinitionContainerInterface;
 
 class Kernel
@@ -14,6 +15,7 @@ class Kernel
     public function __construct(
         DefinitionContainerInterface $container,
         private readonly RequestHandlerInterface $requestHandler,
+        private readonly EventDispatcher $dispatcher,
     )
     {
         $this->appEnv = $container->get('APP_ENV');
@@ -26,6 +28,8 @@ class Kernel
         } catch (\Exception $exception) {
             $response = $this->createExceptionResponse($exception);
         }
+
+        $this->dispatcher->dispatch(new ResponseEvent($request, $response));
 
         return $response;
     }

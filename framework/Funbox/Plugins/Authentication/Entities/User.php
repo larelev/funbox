@@ -2,9 +2,10 @@
 
 namespace Funbox\Plugins\Authentication\Entities;
 
+use Funbox\Framework\Dbal\Entity;
 use Funbox\Plugins\Authentication\Components\AuthenticationInterface;
 
-class User implements AuthenticationInterface
+class User extends Entity implements AuthenticationInterface
 {
     public function __construct(
         private readonly string             $email,

@@ -17,7 +17,7 @@ class WebApplication extends AbstractApplication
     {
         $request = new Request();
 
-        $container = require SERVICES_PATH;
+        $container = require BASE_PATH . 'bootstrap' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
         $container->add(\Funbox\Framework\MVC\AbstractController::class);
 
@@ -44,7 +44,6 @@ class WebApplication extends AbstractApplication
         $response->send();
 
         $kernel->terminate($request, $response);
-
     }
 
     public static function create(): static

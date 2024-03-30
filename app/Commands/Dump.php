@@ -1,69 +1,38 @@
 <?php
 
-namespace Funbox\Framework\Utils;
+namespace App\Commands;
 
-class Text
+use Funbox\Framework\Caching\Cache;
+use Funbox\Framework\Console\Commands\Attributes\Command;
+use Funbox\Framework\Console\Commands\CommandInterface;
+use Funbox\Framework\Routing\RoutesAggregator;
+
+#[Command(name: "dump")]
+#[Command(desc: "Converts a JSON dump to a PHP returned array.")]
+class Dump implements CommandInterface
 {
-    public static function slugify(string $text): ?string
+    public const CONVERTED_ARRAY_PATH = Cache::CACHE_PATH . 'converted.txt';
+    public const COMPOSER_JSON_PATH = Cache::CACHE_PATH . 'composer.json';
+    public const BUFFER_PATH = Cache::CACHE_PATH . 'buffer.txt';
+    public const DUMP_PATH = Cache::CACHE_PATH . 'dump.txt';
+    public const INDENTS_PATH = Cache::CACHE_PATH . 'indents.txt';
+
+    public function execute(array $params = []): int
     {
-        // replace non letter or digits by -
-        $text = preg_replace('#[^\\pL\d]+#u', '-', $text);
-
-        // trim
-        $text = trim($text, '-');
-
-        // transliterate
-        if (function_exists('iconv')) {
-            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        }
-
-        // lowercase
-        $text = strtolower($text);
-
-        // remove unwanted characters
-        $text = preg_replace('#[^-\w]+#', '', $text);
-
-        if (empty($text)) {
-            return null;
-        }
-
-        $text = iconv('us-ascii', 'utf-8', $text);
-
-        return $text;
-    }
-
-    public static function format(string|array|object $string, ...$params): string
-    {
-        $result = $string;
-
-        if (is_object($string)) {
-            $result = json_encode($string, JSON_PRETTY_PRINT);
-        }
-        if (is_array($string)) {
-            $result = print_r($string, true);
-        }
-        if (count($params) > 0 && count($params[0]) > 0) {
-            $result = vsprintf($string, $params[0]);
-        }
-
-        return $result;
-    }
-
-    public static function jsonToPhpReturnedArray(string $json): string
-    {
+        // $json = file_get_contents(self::COMPOSER_JSON_PATH);
+        $json = file_get_contents(RoutesAggregator::ROUTES_JSON_PATH);
         $array = json_decode($json, JSON_OBJECT_AS_ARRAY);
-        $result = '<?php' . PHP_EOL;
-        $result .= 'return ';
 
-        $result .= self::arrayToString($array);
-        $result .= ';' . PHP_EOL;
+        $converted = $this->convert($array);
 
-        return $result;
+        file_put_contents(self::CONVERTED_ARRAY_PATH, $converted);
+
+        return 0;
     }
 
-    public static function arrayToString(array $array): string
+    private function convert(mixed $array): string
     {
-        $dump = self::var_dump_r($array);
+        $dump = $this->var_dump_r($array);
 
         $indentsLengths = [];
         $convert = '';
@@ -73,6 +42,8 @@ class Text
         $entries = preg_replace($re, $subst, $dump);
         $buffer = $entries;
         $offset = 0;
+
+        file_put_contents(self::DUMP_PATH, $entries);
 
         $re = '/^( ?+)+/m';
         preg_match_all($re, $entries, $matches, PREG_SET_ORDER, 0);
@@ -102,7 +73,7 @@ class Text
                     $buffer = substr($buffer, $stringLen);
                     $offset += $stringLen;
                 } else if ($matches[5] == 'string') {
-                    $len = intval($matches[6]);
+                    $len = $matches[6];
                     $token = "string($len)";
                     $lenToken = strlen($token);
                     $posToken = strpos($matches[0], $token);
@@ -114,6 +85,7 @@ class Text
 
                     if($j = substr_count($value, PHP_EOL)) {
                         $i += $j;
+                        echo print_r($j, true) . PHP_EOL;
                     }
                     if (str_starts_with($matches[3], '"')) {
                         $key = "'" . trim($matches[3], '"') . "'";
@@ -140,19 +112,22 @@ class Text
                 }
                 $convert .= PHP_EOL;
 
+                file_put_contents(self::CONVERTED_ARRAY_PATH, $convert);
+                file_put_contents(self::BUFFER_PATH, $buffer);
+                file_put_contents(self::INDENTS_PATH, implode(PHP_EOL, $indentsLengths));
+
             }
         }
 
         return $convert;
     }
 
-    private static function var_dump_r(mixed $value): string
+    private function var_dump_r(mixed $value)
     {
         ob_start();
         var_dump($value);
         $content = ob_get_contents();
         ob_end_clean();
-
         return $content;
     }
 }
