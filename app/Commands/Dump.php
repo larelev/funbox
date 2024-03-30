@@ -19,20 +19,21 @@ class Dump implements CommandInterface
 
     public function execute(array $params = []): int
     {
-//        $json = file_get_contents(self::COMPOSER_JSON_PATH);
+        // $json = file_get_contents(self::COMPOSER_JSON_PATH);
         $json = file_get_contents(RoutesAggregator::ROUTES_JSON_PATH);
         $array = json_decode($json, JSON_OBJECT_AS_ARRAY);
 
-        $dump = $this->var_dump_r($array);
-        $converted = $this->convert($dump);
+        $converted = $this->convert($array);
 
         file_put_contents(self::CONVERTED_ARRAY_PATH, $converted);
 
         return 0;
     }
 
-    private function convert(string $dump): string
+    private function convert(mixed $array): string
     {
+        $dump = $this->var_dump_r($array);
+
         $indentsLengths = [];
         $convert = '';
 
@@ -55,11 +56,11 @@ class Dump implements CommandInterface
         for($i = 0; $i < $l; $i++) {
             $indentLen = $indentsLengths[$i];
             $indent = $indentLen > 0 ? str_repeat(' ', $indentLen) : '';
-            $entryRx = '/([^\S][ \s]+)?(\[([\w"-\/\\\\]+)]=>)?((array|string|int|float|bool)\(([\w.]+)\) ?(.*)\n)/';
+            $entryRx = '/( ?+)+(\[([\w"-\/\\\\]+)\]=>)?((array|string|int|float|bool)\(([\w.]+)\) ?(.*)\n)/';
             $closeArrayRx = '/^( ?+)+}/';
             
             if (preg_match($closeArrayRx, $buffer, $matches)) {
-                $convert .= $indent . '],';
+                $convert .= $indent . ']' . ($indent == '' ? '' : ',');
                 $convert .= PHP_EOL;
                 $stringLen = strlen($matches[0]) + 1;
                 $buffer = substr($buffer, $stringLen);
@@ -86,20 +87,24 @@ class Dump implements CommandInterface
                         $i += $j;
                         echo print_r($j, true) . PHP_EOL;
                     }
-                    if (is_int($matches[3])) {
-                        $convert .= "$quote" . $value . "$quote,";
+                    if (str_starts_with($matches[3], '"')) {
+                        $key = "'" . trim($matches[3], '"') . "'";
+                        $key = str_replace("\\", "\\\\", $key);
+                        $convert .= $key . " => $quote" . $value . "$quote,";
                     } else {
-                        $convert .= $matches[3] . " => $quote" . $value . "$quote,";
+                        $convert .= "$quote" . $value . "$quote,";
                     }
 
                     $stringLen = $start + $len + 2;
                     $buffer = substr($buffer, $stringLen);
                     $offset += $stringLen;
                 } else {
-                    if (is_int($matches[3])) {
-                        $convert .= $matches[6] . ',';
+                    if (str_starts_with($matches[3], '"')) {
+                        $key = "'" . trim($matches[3], '"') . "'";
+                        $key = str_replace("\\", "\\\\", $key);
+                        $convert .= $key . " => " . $matches[6] . ",";
                     } else {
-                        $convert .= $matches[3] . " => " . $matches[6] . ",";
+                        $convert .= $matches[6] . ',';
                     }
                     $stringLen = strlen($matches[0]) + 1;
                     $buffer = substr($buffer, $stringLen);
