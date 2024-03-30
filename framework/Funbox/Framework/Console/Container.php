@@ -1,11 +1,11 @@
 <?php
 
-namespace Funbox\Framework\Core;
+namespace Funbox\Framework\Console;
 
 use Funbox\Framework\Event\EventDispatcher;
 use League\Container\DefinitionContainerInterface;
 
-class CoreContainer
+class Container
 {
     public static function provide(): DefinitionContainerInterface
     {
