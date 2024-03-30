@@ -21,9 +21,12 @@ class Logger implements LoggerInterface
         return self::$_logger;
     }
 
-    public function dump(string $message, object|array $object): void
+    public function dump(string $message, mixed $object): void
     {
-        $this->debug($message . '::' . print_r($object, true) . PHP_EOL);
+        $output = print_r($object, true);
+        $isMultiLine = substr_count($output, PHP_EOL) > 1;
+        $separator = $isMultiLine ? ':' . PHP_EOL : '::';
+        $this->debug($message . $separator . print_r($object, true) . PHP_EOL);
     }
 
     public function debug(string|array|object $message, string $filename = '', int $line = -1): void
