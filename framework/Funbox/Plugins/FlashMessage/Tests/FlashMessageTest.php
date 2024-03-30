@@ -8,7 +8,7 @@ use Funbox\Plugins\FlashMessage\FlashMessage;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-include dirname(__DIR__, 2) . DIRECTORY_SEPARATOR .  "bootstrap.php";
+//include dirname(__DIR__) . DIRECTORY_SEPARATOR .  "bootstrap.php";
 class FlashMessageTest extends TestCase
 {
     protected function setUp(): void

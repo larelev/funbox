@@ -2,11 +2,7 @@
 
 namespace Funbox\Framework\Web;
 
-use App\events\ContentLengthListener;
-use App\Events\InternalErrorListener;
 use Funbox\Framework\Core\AbstractApplication;
-use Funbox\Framework\Event\EventDispatcher;
-use Funbox\Framework\Http\Event\ResponseEvent;
 use Funbox\Framework\Http\Kernel;
 use Funbox\Framework\Http\Request;
 
