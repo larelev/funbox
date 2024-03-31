@@ -9,8 +9,6 @@ class History implements HistoryInterface
     private const HISTORY_KEY = 'history';
     private const LAST_REQUEST_KEY = 'last';
     private const LAST_GET_REQUEST_KEY = 'last-get';
-    private const PREVIOUS_REQUEST_KEY = 'prev';
-    private const PREVIOUS_GET_REQUEST_KEY = 'prev-get';
     private Session $session;
     private ?RequestInfo $lastRequest = null;
     private ?RequestInfo $lastGetRequest = null;
@@ -44,14 +42,14 @@ class History implements HistoryInterface
         $this->session->write(self::HISTORY_KEY, $requests);
 
         if($info->getMethod() == 'GET') {
-            $getReq = $this->session->read(self::PREVIOUS_GET_REQUEST_KEY);
+            $getReq = $this->session->read(self::LAST_GET_REQUEST_KEY);
             $this->lastGetRequest = $getReq ?? $info;
-            $this->session->write(self::PREVIOUS_GET_REQUEST_KEY, $info);
+            $this->session->write(self::LAST_GET_REQUEST_KEY, $info);
         }
-        $req = $this->session->read(self::PREVIOUS_REQUEST_KEY);
+        $req = $this->session->read(self::LAST_REQUEST_KEY);
         $this->lastRequest = $req ?? $info;
 
-        $this->session->write(self::PREVIOUS_REQUEST_KEY, $info);
+        $this->session->write(self::LAST_REQUEST_KEY, $info);
 
     }
 
