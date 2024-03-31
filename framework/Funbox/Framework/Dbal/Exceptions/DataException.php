@@ -2,12 +2,19 @@
 
 namespace Funbox\Framework\Dbal\Exceptions;
 
+use Funbox\Framework\Core\BaseException;
 use Throwable;
 
-class DataException extends \Exception
+class DataException extends BaseException
 {
-    public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null)
+    public function __construct(string $message = "", int $code = 0, ?Throwable $previous = null, ...$params)
     {
-        parent::__construct(sprintf('A Data exception occurred with the message:%s %s', PHP_EOL, $message), $code, $previous);
+        $baseMessage = sprintf($message, $params);
+        parent::__construct(
+            'A Data exception occurred with the message:%s %s',
+            $code,
+            $previous,
+            PHP_EOL, $baseMessage
+        );
     }
 }
