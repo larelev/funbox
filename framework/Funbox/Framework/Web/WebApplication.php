@@ -17,7 +17,7 @@ class WebApplication extends AbstractApplication
     {
         $request = new Request();
 
-        $container = require BASE_PATH . 'bootstrap' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+        $container = require BASE_PATH . 'Bootstrap' . DIRECTORY_SEPARATOR . 'web.php';
 
         $container->add(\Funbox\Framework\MVC\AbstractController::class);
 
@@ -30,7 +30,7 @@ class WebApplication extends AbstractApplication
             \Funbox\Framework\Http\History::class,
         );
 
-        $filename = BASE_PATH . 'factories' . DIRECTORY_SEPARATOR . 'TwigFactory.php';
+        $filename = BASE_PATH . 'Factories' . DIRECTORY_SEPARATOR . 'TwigFactory.php';
         if(!file_exists($filename)) {
             $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class);
         }
