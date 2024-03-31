@@ -4,6 +4,8 @@ namespace Funbox\Framework\Session;
 
 final class Session implements SessionInterface
 {
+    public const CSRF_TOKEN = 'CSRF-TOKEN';
+
     public function has(string $key): bool
     {
         return session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key]);
@@ -21,6 +23,8 @@ final class Session implements SessionInterface
             } else {
                 session_start();
             }
+
+            $this->write('CSRF-TOKEN', bin2hex(random_bytes(32)));
         }
 
         return session_id();
