@@ -2,9 +2,27 @@
 
 namespace Funbox\Framework\Session;
 
+use Funbox\Framework\Logger\Logger;
+
 final class Session implements SessionInterface
 {
     public const CSRF_TOKEN = 'CSRF-TOKEN';
+    public const SESSION_ID = 'SESSION-ID';
+
+    public function getId(): false|string
+    {
+        return session_id();
+    }
+
+    public function getCookie(): false|string
+    {
+        $name = session_name();
+        return !isset($_COOKIE[$name]) ? false : $_COOKIE[$name];
+    }
+    public function isActive(): bool
+    {
+        return !empty(session_id());
+    }
 
     public function has(string $key): bool
     {
@@ -23,8 +41,6 @@ final class Session implements SessionInterface
             } else {
                 session_start();
             }
-
-            $this->write('CSRF-TOKEN', bin2hex(random_bytes(32)));
         }
 
         return session_id();
@@ -32,7 +48,6 @@ final class Session implements SessionInterface
 
     public function read(string $key): mixed
     {
-
         if (session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
@@ -66,5 +81,4 @@ final class Session implements SessionInterface
             session_abort();
         }
     }
-
 }
