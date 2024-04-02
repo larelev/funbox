@@ -12,8 +12,9 @@ class RequestHandler implements RequestHandlerInterface
     private array $middleware = [
         ExtractRouteInfo::class,
         SessionManager::class,
-        History::class,
+        FlashMessenger::class,
         RouterDispatcher::class,
+        History::class,
     ];
 
     public function __construct(

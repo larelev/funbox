@@ -58,7 +58,8 @@ class Authenticator implements AuthenticatorInterface
 
     public static function hasLoggedIn(SessionInterface $session): bool
     {
-        return $session->has(Authentication::AUTH_KEY);
+        $auth = $session->has(Authentication::AUTH_KEY);
+        return $auth;
     }
 
 }

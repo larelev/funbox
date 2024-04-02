@@ -20,6 +20,14 @@ class TwigFactory extends AbstractTwigFactory
             }
         ));
 
+        $twig->addFunction(new TwigFunction(
+            'sessionId',
+            function () use ($session): string
+            {
+                return $session->getId();
+            }
+        ));
+
         return $twig;
     }
 }

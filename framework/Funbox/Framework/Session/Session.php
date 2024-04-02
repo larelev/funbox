@@ -31,7 +31,13 @@ final class Session implements SessionInterface
 
     public function start(string $id = '', array $options = []): false|string
     {
+        $status = session_status();
+        $none = PHP_SESSION_NONE;
+        $active = PHP_SESSION_ACTIVE;
+        $disabled = PHP_SESSION_DISABLED;
+
         if (session_status() == PHP_SESSION_NONE) {
+            $id = empty($id) ? $this->getCookie() : $id;
             if($id !== '') {
                 session_id($id);
             }
@@ -40,6 +46,12 @@ final class Session implements SessionInterface
                 session_start($options);
             } else {
                 session_start();
+            }
+
+            $token = $this->read(Session::CSRF_TOKEN);
+            if(empty($token)) {
+                $token = bin2hex(random_bytes(32));
+                $this->write(Session::CSRF_TOKEN, $token);
             }
         }
 

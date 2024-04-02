@@ -26,7 +26,7 @@ class TwigFactory implements TwigFactoryInterface
             'csrfToken',
             function () use ($session): string
             {
-                return $session->read(Session::CSRF_TOKEN);
+                return $session->read(Session::CSRF_TOKEN) ?? '';
             }
         ));
 
