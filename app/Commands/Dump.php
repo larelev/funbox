@@ -53,12 +53,12 @@ class Dump implements CommandInterface
         }
 
         $l = count($indentsLengths);
-        for($i = 0; $i < $l; $i++) {
+        for ($i = 0; $i < $l; $i++) {
             $indentLen = $indentsLengths[$i];
             $indent = $indentLen > 0 ? str_repeat(' ', $indentLen) : '';
             $entryRx = '/( ?+)+(\[([\w"-\/\\\\]+)\]=>)?((array|string|int|float|bool)\(([\w.]+)\) ?(.*)\n)/';
             $closeArrayRx = '/^( ?+)+}/';
-            
+
             if (preg_match($closeArrayRx, $buffer, $matches)) {
                 $convert .= $indent . ']' . ($indent == '' ? '' : ',');
                 $convert .= PHP_EOL;
@@ -83,7 +83,7 @@ class Dump implements CommandInterface
                     $quote = substr($value, 0, 8) == 'function' ? '' : "'";
                     $value = $quote == '' ? $value : str_replace("\\", "\\\\", $value);
 
-                    if($j = substr_count($value, PHP_EOL)) {
+                    if ($j = substr_count($value, PHP_EOL)) {
                         $i += $j;
                         echo print_r($j, true) . PHP_EOL;
                     }

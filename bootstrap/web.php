@@ -1,6 +1,5 @@
 <?php
 
-
 use Funbox\Framework\Event\Service\EventServiceProvider;
 
 $container = require SERVICES_PATH;

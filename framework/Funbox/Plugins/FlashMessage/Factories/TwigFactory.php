@@ -16,8 +16,7 @@ class TwigFactory implements TwigFactoryInterface
         $flashMessage = new FlashMessage();
         $twig->addFunction(new TwigFunction(
             'flashMessage',
-            function() use($flashMessage): FlashMessageInterface
-            {
+            function () use ($flashMessage): FlashMessageInterface {
                 return $flashMessage;
             }
         ));

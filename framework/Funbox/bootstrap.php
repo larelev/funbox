@@ -1,8 +1,6 @@
 <?php
 namespace Funbox\Framework;
 
-use Funbox\Framework\Event\Service\EventServiceProvider;
-
 define('BASE_PATH', dirname(__DIR__, 2) . DIRECTORY_SEPARATOR);
 define('FUNBOX_ROOT', dirname(__DIR__, 2) . DIRECTORY_SEPARATOR);
 define('LIB_PATH', __DIR__ . DIRECTORY_SEPARATOR);

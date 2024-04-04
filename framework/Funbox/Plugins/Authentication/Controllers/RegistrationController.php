@@ -14,8 +14,7 @@ class RegistrationController extends AbstractController
     public function __construct(
         private readonly UserMapper $userMapper,
         private readonly Authenticator $authenticator,
-    )
-    {
+    ) {
     }
 
     public function index(): Response
@@ -31,7 +30,7 @@ class RegistrationController extends AbstractController
             $this->request->searchFromBody('password'),
         );
 
-        if($form->hasValidationErrors()) {
+        if ($form->hasValidationErrors()) {
             foreach ($form->getValidationErrors() as $error) {
                 $this->request->getFlashMessage()->setError($error);
             }

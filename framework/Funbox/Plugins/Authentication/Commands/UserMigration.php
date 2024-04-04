@@ -24,44 +24,42 @@ class UserMigration implements CommandInterface
 
     public function __construct(
         public Connection $connection
-    )
-    {
+    ) {
     }
 
     public function execute(array $params = []): int
     {
         try
         {
-            $doUp =  array_key_exists('u', $params) || array_key_exists('up', $params);
-            $doDown =  array_key_exists('d', $params) || array_key_exists('down', $params);
+            $doUp = array_key_exists('u', $params) || array_key_exists('up', $params);
+            $doDown = array_key_exists('d', $params) || array_key_exists('down', $params);
             $doError = array_key_exists('u', $params) && array_key_exists('up', $params);
             $doError = $doError || (array_key_exists('d', $params) && array_key_exists('down', $params));
             $doError = $doError || ($doUp && $doDown);
             $doNothing = !$doUp && !$doDown;
 
-            if($doNothing) {
+            if ($doNothing) {
                 throw new ConsoleException('Missing arguments.');
             }
 
-            if($doError) {
+            if ($doError) {
                 throw new \InvalidArgumentException('Invalid arguments.');
             }
 
             $this->connection->beginTransaction();
 
-            if($doUp) {
+            if ($doUp) {
                 $version = !isset($params['u']) ? ($params['up'] ?? null) : $params['u'];
-            }
-            else if($doDown) {
+            } else if ($doDown) {
                 $version = !isset($params['d']) ? ($params['down'] ?? null) : $params['d'];
             }
 
             $schemaMan = $this->connection->createSchemaManager();
             $schema = new Schema();
 
-            if($doUp) {
+            if ($doUp) {
                 $this->doUp($schemaMan);
-            } else if($doDown) {
+            } else if ($doDown) {
                 $this->doDown($schemaMan);
             }
             // Execute the SQL query
@@ -84,13 +82,13 @@ class UserMigration implements CommandInterface
 
     private function doUp(AbstractSchemaManager $schema): void
     {
-        if($schema->tableExists('users')) {
+        if ($schema->tableExists('users')) {
             return;
         }
         $table = new Table('users');
         $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
-        $table->addColumn('email', Types::STRING,['length' => 255]);
-        $table->addColumn('password', Types::STRING,['length' => 60]);
+        $table->addColumn('email', Types::STRING, ['length' => 255]);
+        $table->addColumn('password', Types::STRING, ['length' => 60]);
         $table->addColumn('created_at', Types::DATETIME_IMMUTABLE, ['default' => 'CURRENT_TIMESTAMP']);
         $table->setPrimaryKey(['id']);
 
@@ -101,7 +99,7 @@ class UserMigration implements CommandInterface
 
     private function doDown(AbstractSchemaManager $schema): void
     {
-        if(!$schema->tableExists('users')) {
+        if (!$schema->tableExists('users')) {
             echo 'Nothing to drop.' . PHP_EOL;
             return;
         }

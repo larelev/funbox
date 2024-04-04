@@ -10,10 +10,10 @@ class Container implements ContainerInterface
 
     private array $services = [];
 
-    public function add(string $id, string|object $concrete = null): void
+    public function add(string $id, string | object $concrete = null): void
     {
-        if(null === $concrete) {
-            if(!class_exists($id)) {
+        if (null === $concrete) {
+            if (!class_exists($id)) {
                 throw new ContainerException("Service $id could not be found!");
             }
 
@@ -23,10 +23,10 @@ class Container implements ContainerInterface
         $this->services[$id] = $concrete;
     }
 
-    public function get(string $id): null|object
+    public function get(string $id): null | object
     {
-        if(!$this->has($id)) {
-            if(!class_exists($id)) {
+        if (!$this->has($id)) {
+            if (!class_exists($id)) {
                 throw new ContainerException("Service $id could not be resolved!");
             }
 
@@ -36,12 +36,12 @@ class Container implements ContainerInterface
         return $this->resolve($this->services[$id]);
     }
 
-    private function resolve($class): null|object
+    private function resolve($class): null | object
     {
         $reflectionClass = new \ReflectionClass($class);
         $constructor = $reflectionClass->getConstructor();
 
-        if(null === $constructor) {
+        if (null === $constructor) {
             return $reflectionClass->newInstance();
         }
 
@@ -69,6 +69,5 @@ class Container implements ContainerInterface
     {
         return array_key_exists($id, $this->services);
     }
-
 
 }

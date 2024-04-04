@@ -15,7 +15,7 @@ class EventDispatcher implements EventDispatcherInterface
         // TODO: Implement dispatch() method.
         $eventListeners = $this->getListenersForEvent($event);
         foreach ($eventListeners as $listener) {
-            if($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
+            if ($event instanceof StoppableEventInterface && $event->isPropagationStopped()) {
                 return $event;
             }
 
@@ -42,7 +42,7 @@ class EventDispatcher implements EventDispatcherInterface
     public function getListenersForEvent(StoppableEventInterface $event): iterable
     {
         $eventName = get_class($event);
-        if(array_key_exists($eventName,$this->listeners)) {
+        if (array_key_exists($eventName, $this->listeners)) {
             return $this->listeners[$eventName];
         }
 

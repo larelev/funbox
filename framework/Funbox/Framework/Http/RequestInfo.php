@@ -12,27 +12,27 @@ class RequestInfo implements RequestInfoInterface
     private string $pathInfo;
     private string $method;
 
-    public function getGetParams(string $param = ''): array|string
+    public function getGetParams(string $param = ''): array | string
     {
-        if($param == '') {
+        if ($param == '') {
             return $this->getParams;
         }
-    
+
         return !isset($this->getParams[$param]) ? '' : $this->getParams[$param];
     }
 
-    public function getPostParams(string $param = ''): array|string
+    public function getPostParams(string $param = ''): array | string
     {
-        if($param == '') {
+        if ($param == '') {
             return $this->postParams;
         }
 
         return !isset($this->postParams[$param]) ? '' : $this->postParams[$param];
     }
 
-    public function getCookies($name = ''): array|string
+    public function getCookies($name = ''): array | string
     {
-        if($name == '') {
+        if ($name == '') {
             return $this->cookies;
         }
 
@@ -60,8 +60,7 @@ class RequestInfo implements RequestInfoInterface
     }
 
     public function __construct(
-    )
-    {
+    ) {
         $this->getParams = $_GET;
         $this->postParams = $_POST;
         $this->cookies = $_COOKIE;

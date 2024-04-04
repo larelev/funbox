@@ -11,11 +11,10 @@ abstract class DataMapper
     public function __construct(
         protected Connection $connection,
         protected EventDispatcher $dispatcher,
-    )
-    {
+    ) {
     }
 
-    public abstract function insert(Entity &$entity): void;
+    abstract public function insert(Entity &$entity): void;
 
     public function save(Entity $entity): void
     {

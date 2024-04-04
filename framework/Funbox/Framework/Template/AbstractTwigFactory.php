@@ -2,7 +2,6 @@
 
 namespace Funbox\Framework\Template;
 
-use League\Container\DefinitionContainerInterface;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -24,14 +23,14 @@ abstract class AbstractTwigFactory
         return $this->extendsTemplate($twig);
     }
 
-    public abstract static function extendsTemplate(Environment $twig): Environment;
+    abstract public static function extendsTemplate(Environment $twig): Environment;
 
     public function getViewsPaths(): array
     {
         $viewsPaths = [APP_VIEWS_PATH];
 
         $filename = CONFIG_PATH . 'twig.php';
-        if(file_exists($filename)) {
+        if (file_exists($filename)) {
             $viewsPaths = include $filename;
         }
 

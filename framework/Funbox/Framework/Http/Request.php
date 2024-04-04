@@ -11,7 +11,7 @@ class Request implements RequestInfoInterface
     private ?FlashMessageInterface $flashMessage = null;
     private ?SessionInterface $session = null;
     private mixed $routeHandler;
-    private array  $routeHandlerArgs;
+    private array $routeHandlerArgs;
 
     public function getSession(): ?SessionInterface
     {
@@ -19,7 +19,7 @@ class Request implements RequestInfoInterface
     }
     public function setSession(?SessionInterface $session): void
     {
-        if($this->session !== null) {
+        if ($this->session !== null) {
             throw new \Exception("Session already instantiated.");
         }
         $this->session = $session;
@@ -31,7 +31,7 @@ class Request implements RequestInfoInterface
     }
     public function setFlashMessage(?FlashMessageInterface $flashMessage)
     {
-        if($this->flashMessage !== null) {
+        if ($this->flashMessage !== null) {
             throw new \Exception("FlashMessage already instantiated.");
         }
         $this->flashMessage = $flashMessage;
@@ -55,17 +55,17 @@ class Request implements RequestInfoInterface
         $this->routeHandlerArgs = $routeHandlerArgs;
     }
 
-    public function getGetParams(string $param = ''): array|string
+    public function getGetParams(string $param = ''): array | string
     {
         return $this->info->getGetParams($param);
     }
 
-    public function getPostParams(string $param = ''): array|string
+    public function getPostParams(string $param = ''): array | string
     {
         return $this->info->getPostParams($param);
     }
 
-    public function getCookies($name = ''): array|string
+    public function getCookies($name = ''): array | string
     {
         return $this->info->getCookies($name);
     }
@@ -96,8 +96,7 @@ class Request implements RequestInfoInterface
     }
 
     public function __construct(
-    )
-    {
+    ) {
         $this->info = new RequestInfo();
     }
 

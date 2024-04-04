@@ -14,16 +14,14 @@ class TwigFactory extends AbstractTwigFactory
         $session = new Session();
         $twig->addFunction(new TwigFunction(
             'session',
-            function () use ($session): Session
-            {
+            function () use ($session): Session {
                 return $session;
             }
         ));
 
         $twig->addFunction(new TwigFunction(
             'sessionId',
-            function () use ($session): string
-            {
+            function () use ($session): string {
                 return $session->getId();
             }
         ));

@@ -32,7 +32,7 @@ class Text
         return $text;
     }
 
-    public static function format(string|array|object $string, ...$params): string
+    public static function format(string | array | object $string, ...$params): string
     {
         $result = $string;
 
@@ -82,12 +82,12 @@ class Text
         }
 
         $l = count($indentsLengths);
-        for($i = 0; $i < $l; $i++) {
+        for ($i = 0; $i < $l; $i++) {
             $indentLen = $indentsLengths[$i];
             $indent = $indentLen > 0 ? str_repeat(' ', $indentLen) : '';
             $entryRx = '/( ?+)+(\[([\w"-\/\\\\]+)\]=>)?((array|string|int|float|bool)\(([\w.]+)\) ?(.*)\n)/';
             $closeArrayRx = '/^( ?+)+}/';
-            
+
             if (preg_match($closeArrayRx, $buffer, $matches)) {
                 $convert .= $indent . ']' . ($indent == '' ? '' : ',');
                 $convert .= PHP_EOL;
@@ -112,7 +112,7 @@ class Text
                     $quote = substr($value, 0, 8) == 'function' ? '' : "'";
                     $value = $quote == '' ? $value : str_replace("\\", "\\\\", $value);
 
-                    if($j = substr_count($value, PHP_EOL)) {
+                    if ($j = substr_count($value, PHP_EOL)) {
                         $i += $j;
                     }
                     if (str_starts_with($matches[3], '"')) {

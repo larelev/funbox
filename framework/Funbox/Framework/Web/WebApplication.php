@@ -13,7 +13,7 @@ class WebApplication extends AbstractApplication
         $this->run();
     }
 
-    function run(): void
+    public function run(): void
     {
         $request = new Request();
 
@@ -31,7 +31,7 @@ class WebApplication extends AbstractApplication
         );
 
         $filename = BASE_PATH . 'Factories' . DIRECTORY_SEPARATOR . 'TwigFactory.php';
-        if(!file_exists($filename)) {
+        if (!file_exists($filename)) {
             $container->add('template-renderer-factory', \Funbox\Framework\Template\TwigFactory::class);
         }
 
@@ -48,7 +48,7 @@ class WebApplication extends AbstractApplication
 
     public static function create(): static
     {
-       $clasName = WebApplication::class;
-       return new $clasName;
+        $clasName = WebApplication::class;
+        return new $clasName;
     }
 }

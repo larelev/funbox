@@ -16,8 +16,7 @@ class Kernel
         DefinitionContainerInterface $container,
         private readonly RequestHandlerInterface $requestHandler,
         private readonly EventDispatcher $dispatcher,
-    )
-    {
+    ) {
         $this->appEnv = $container->get('APP_ENV');
     }
 
@@ -36,11 +35,11 @@ class Kernel
 
     public function createExceptionResponse(\Exception $exception): Response
     {
-        if(in_array($this->appEnv, ['dev', 'test'])) {
+        if (in_array($this->appEnv, ['dev', 'test'])) {
             throw $exception;
         }
 
-        if($exception instanceof HttpException) {
+        if ($exception instanceof HttpException) {
             $response = new Response(content: $exception->getMessage(), status: $exception->getCode());
         }
 

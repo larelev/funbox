@@ -17,8 +17,7 @@ class Guest implements MiddlewareInterface
     public function __construct(
         private readonly SessionInterface $session,
         private readonly HistoryInterface $history,
-    )
-    {
+    ) {
     }
 
     public function process(Request $request, RequestHandlerInterface $requestHandler): Response
@@ -28,11 +27,11 @@ class Guest implements MiddlewareInterface
         $lastGetRequest = $this->history->getLastGetRequest();
         $pathname = $lastGetRequest->getPathInfo();
 
-        if($pathname == '/login' || $pathname == '/register') {
+        if ($pathname == '/login' || $pathname == '/register') {
             $pathname = '/dashboard';
         }
 
-        if($this->session->has(\Funbox\Plugins\Authentication\Authentication::AUTH_KEY)) {
+        if ($this->session->has(\Funbox\Plugins\Authentication\Authentication::AUTH_KEY)) {
             return new RedirectResponse($pathname);
         }
 

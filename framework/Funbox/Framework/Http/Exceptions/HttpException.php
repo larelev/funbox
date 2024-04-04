@@ -10,13 +10,12 @@ class HttpException extends BaseException
 {
     public function __construct(
         string $message = "",
-        int|HttpStatusCodeEnum $code = 0,
-        null|Throwable $previous = null,
+        int | HttpStatusCodeEnum $code = 0,
+        null | Throwable $previous = null,
         ...$params
-    )
-    {
+    ) {
         $status = $code;
-        if($status instanceof HttpStatusCodeEnum) {
+        if ($status instanceof HttpStatusCodeEnum) {
             $status = $code->value;
         }
 

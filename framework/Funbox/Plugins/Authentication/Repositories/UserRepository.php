@@ -25,11 +25,11 @@ class UserRepository implements AuthenticationRepositoryInterface
 
         $row = $result->fetchAllAssociative();
 
-        if(!isset($row[0])) {
+        if (!isset($row[0])) {
             return null;
         }
 
-        $obj = (object)$row[0];
+        $obj = (object) $row[0];
 
         $user = new User(
             id: $obj->id,

@@ -17,7 +17,7 @@ class EventServiceProvider implements ServiceProviderInterface
             ContentLengthListener::class,
         ],
         SaveEvent::class => [
-        ]
+        ],
 
     ];
 

@@ -14,7 +14,6 @@ abstract class AbstractRegistry implements AbstractRegistryInterface
     private string $cacheFilename = '';
     private string $flatFilename = '';
 
-
     public function _write(string $key, mixed $value): void
     {
         $this->entries[$key] = $value;
@@ -66,7 +65,7 @@ abstract class AbstractRegistry implements AbstractRegistryInterface
         if ($asArray) {
             $result = Text::jsonToPhpReturnedArray($result);
             $funbox_root = FUNBOX_ROOT;
-            if(DIRECTORY_SEPARATOR === '\\') {
+            if (DIRECTORY_SEPARATOR === '\\') {
                 $funbox_root = str_replace('\\', '\\\\', FUNBOX_ROOT);
             }
 

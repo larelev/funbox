@@ -13,8 +13,7 @@ readonly class FlashMessenger implements MiddlewareInterface
 
     public function __construct(
         private FlashMessageInterface $flashMessage
-    )
-    {
+    ) {
     }
 
     /**

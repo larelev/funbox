@@ -17,26 +17,25 @@ class PostController extends AbstractController
     public function __construct(
         private readonly PostMapper $postMapper,
         private readonly PostRepository $postRepository,
-    )
-    {
+    ) {
     }
 
-    function show(int $id): Response
+    public function show(int $id): Response
     {
         try {
             $post = $this->postRepository->findOrFail($id);
-        } catch(PostNotFoundException $exception) {
+        } catch (PostNotFoundException $exception) {
             return $this->render('404.html.twig', [
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ], 404);
         }
 
         return $this->render('post.html.twig', [
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
-    function create(): Response
+    public function create(): Response
     {
         return $this->render('create.post.html.twig');
     }
@@ -44,7 +43,7 @@ class PostController extends AbstractController
     /**
      * @throws Exception
      */
-    function store(): Response
+    public function store(): Response
     {
         $title = $this->request->getPostParams('title');
         $body = $this->request->getPostParams('body');

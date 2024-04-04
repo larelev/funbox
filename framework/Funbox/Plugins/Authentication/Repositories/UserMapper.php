@@ -9,7 +9,7 @@ use Funbox\Plugins\Authentication\Entities\User;
 class UserMapper extends DataMapper
 {
 
-    public function insert(User|Entity &$entity): void
+    public function insert(User | Entity &$entity): void
     {
         $stmt = $this->connection->prepare("
             INSERT INTO users (email, password, created_at)

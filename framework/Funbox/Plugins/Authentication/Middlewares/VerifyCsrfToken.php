@@ -4,7 +4,6 @@ namespace Funbox\Plugins\Authentication\Middlewares;
 
 use Funbox\Framework\Http\Request;
 use Funbox\Framework\Http\Response;
-use Funbox\Framework\Logger\Logger;
 use Funbox\Framework\Middleware\MiddlewareInterface;
 use Funbox\Framework\Middleware\RequestHandlerInterface;
 use Funbox\Framework\Session\Session;
@@ -15,7 +14,7 @@ class VerifyCsrfToken implements MiddlewareInterface
 
     public function process(Request $request, RequestHandlerInterface $requestHandler): Response
     {
-        if($request->getMethod() == 'GET') {
+        if ($request->getMethod() == 'GET') {
             return $requestHandler->handle($request);
         }
 
@@ -24,7 +23,7 @@ class VerifyCsrfToken implements MiddlewareInterface
         $sessionToken = $session->read(Session::CSRF_TOKEN) ?? '';
         $formToken = $request->searchFromBody(Session::CSRF_TOKEN);
 
-        if(!hash_equals($sessionToken, $formToken)) {
+        if (!hash_equals($sessionToken, $formToken)) {
             throw new CsrfTokenMismatchException();
         }
 

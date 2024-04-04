@@ -9,7 +9,7 @@ class Dashboard
     public static function viewsPaths(): array
     {
         return [
-            PLUGINS_PATH . 'Dashboard' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR
+            PLUGINS_PATH . 'Dashboard' . DIRECTORY_SEPARATOR . 'Views' . DIRECTORY_SEPARATOR,
         ];
     }
 

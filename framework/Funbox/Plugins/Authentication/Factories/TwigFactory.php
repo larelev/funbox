@@ -16,24 +16,21 @@ class TwigFactory implements TwigFactoryInterface
         $session = new Session();
         $twig->addFunction(new TwigFunction(
             'isLoggedIn',
-            function () use ($session): bool
-            {
+            function () use ($session): bool {
                 return Authenticator::hasLoggedIn($session);
             }
         ));
 
         $twig->addFunction(new TwigFunction(
             'csrfToken',
-            function () use ($session): string
-            {
+            function () use ($session): string {
                 return $session->read(Session::CSRF_TOKEN) ?? '';
             }
         ));
 
         $twig->addFunction(new TwigFunction(
             'csrfFieldName',
-            function (): string
-            {
+            function (): string {
                 return Session::CSRF_TOKEN;
             }
         ));

@@ -29,12 +29,12 @@ class Logger implements LoggerInterface
         $this->debug($message . $separator . print_r($object, true) . PHP_EOL);
     }
 
-    public function debug(string|array|object $message, string $filename = '', int $line = -1): void
+    public function debug(string | array | object $message, string $filename = '', int $line = -1): void
     {
         $this->_log(Cache::DEBUG_LOG, $message, $filename, $line);
     }
 
-    private function _log(string $filepath, string|array|object $message, string $filename = '', int $line = -1): void
+    private function _log(string $filepath, string | array | object $message, string $filename = '', int $line = -1): void
     {
         $message = (is_array($message) || is_object($message)) ? print_r($message, true) : $message;
 
@@ -58,7 +58,7 @@ class Logger implements LoggerInterface
         $this->_log(Cache::INFO_LOG, $message);
     }
 
-    public function sql(string|array|object $message, string $filename = '', int $line = -1): void
+    public function sql(string | array | object $message, string $filename = '', int $line = -1): void
     {
         $this->_log(Cache::SQL_LOG, $message, $filename, $line);
     }
