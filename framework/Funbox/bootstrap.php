@@ -11,6 +11,7 @@ define('APP_PATH', BASE_PATH . 'app' . DIRECTORY_SEPARATOR);
 define('CONFIG_PATH', BASE_PATH . 'config' . DIRECTORY_SEPARATOR);
 define('PLUGINS_PATH', LIB_PATH . 'Plugins' . DIRECTORY_SEPARATOR);
 define('SERVICES_PATH', CONFIG_PATH . 'services.php');
+define('MIDDLEWARES', CONFIG_PATH . 'middlewares.php');
 define('DATABASE_URL', BASE_PATH . 'var' . DIRECTORY_SEPARATOR . 'migrations.sqlite');
 define('MIGRATIONS_PATH', 'migrations' . DIRECTORY_SEPARATOR);
 define('APP_VIEWS_PATH', APP_PATH . 'views' . DIRECTORY_SEPARATOR);

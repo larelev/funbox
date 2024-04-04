@@ -2,7 +2,7 @@
 
 namespace Funbox\Framework\Http;
 
-class RequestInfo implements RequestInterface
+class RequestInfo implements RequestInfoInterface
 {
     private array $getParams;
     private array $postParams;
@@ -30,9 +30,13 @@ class RequestInfo implements RequestInterface
         return !isset($this->postParams[$param]) ? '' : $this->postParams[$param];
     }
 
-    public function getCookies(): array
+    public function getCookies($name = ''): array|string
     {
-        return $this->cookies;
+        if($name == '') {
+            return $this->cookies;
+        }
+
+        return !isset($this->cookies[$name]) ? '' : $this->cookies[$name];
     }
 
     public function getFiles(): array

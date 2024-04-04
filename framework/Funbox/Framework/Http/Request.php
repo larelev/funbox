@@ -5,7 +5,7 @@ namespace Funbox\Framework\Http;
 use Funbox\Framework\Session\SessionInterface;
 use Funbox\Plugins\FlashMessage\FlashMessageInterface;
 
-class Request implements RequestInterface
+class Request implements RequestInfoInterface
 {
     private RequestInfo $info;
     private ?FlashMessageInterface $flashMessage = null;
@@ -65,9 +65,9 @@ class Request implements RequestInterface
         return $this->info->getPostParams($param);
     }
 
-    public function getCookies(): array
+    public function getCookies($name = ''): array|string
     {
-        return $this->info->getCookies();
+        return $this->info->getCookies($name);
     }
 
     public function getFiles(): array

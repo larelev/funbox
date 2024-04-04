@@ -7,8 +7,9 @@ use Twig\Environment;
 
 class TwigFactory extends AbstractTwigFactory
 {
-    public function extendsTemplate(Environment $twig): Environment
+    public static function extendsTemplate(Environment $twig): Environment
     {
+        $twig = \Funbox\Framework\Template\TwigFactory::extendsTemplate($twig);
         $twig = \Funbox\Plugins\Authentication\Factories\TwigFactory::extendsTemplate($twig);
         $twig = \Funbox\Plugins\FlashMessage\Factories\TwigFactory::extendsTemplate($twig);
 

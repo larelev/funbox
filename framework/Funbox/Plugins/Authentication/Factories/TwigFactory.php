@@ -22,6 +22,21 @@ class TwigFactory implements TwigFactoryInterface
             }
         ));
 
+        $twig->addFunction(new TwigFunction(
+            'csrfToken',
+            function () use ($session): string
+            {
+                return $session->read(Session::CSRF_TOKEN) ?? '';
+            }
+        ));
+
+        $twig->addFunction(new TwigFunction(
+            'csrfFieldName',
+            function (): string
+            {
+                return Session::CSRF_TOKEN;
+            }
+        ));
         return $twig;
     }
 }

@@ -9,19 +9,23 @@ use League\Container\DefinitionContainerInterface;
 
 class RequestHandler implements RequestHandlerInterface
 {
-    public function __construct(
-        private readonly DefinitionContainerInterface $container
-    )
-    {
-    }
-
     private array $middleware = [
         ExtractRouteInfo::class,
         SessionManager::class,
         FlashMessenger::class,
-        History::class,
         RouterDispatcher::class,
+        History::class,
     ];
+
+    public function __construct(
+        private readonly DefinitionContainerInterface $container
+    )
+    {
+
+        if(file_exists(MIDDLEWARES)) {
+            $this->middleware = require MIDDLEWARES;
+        }
+    }
 
     public function handle(Request $request): Response
     {

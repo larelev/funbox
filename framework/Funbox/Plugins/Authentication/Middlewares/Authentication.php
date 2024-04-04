@@ -24,7 +24,6 @@ class Authentication implements MiddlewareInterface
     public function process(Request $request, RequestHandlerInterface $requestHandler): Response
     {
         $this->session->start();
-
         if(!$this->session->has(\Funbox\Plugins\Authentication\Authentication::AUTH_KEY)) {
             $this->flashMessage->setError('Please sign in.');
             return new RedirectResponse("/login");
