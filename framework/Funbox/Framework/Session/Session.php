@@ -2,6 +2,8 @@
 
 namespace Funbox\Framework\Session;
 
+use Funbox\Framework\Logger\Logger;
+
 final class Session implements SessionInterface
 {
     public const CSRF_TOKEN = 'CSRF-TOKEN';
