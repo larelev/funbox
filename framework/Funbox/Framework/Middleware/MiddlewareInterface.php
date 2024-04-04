@@ -7,5 +7,5 @@ use Funbox\Framework\Http\Response;
 
 interface MiddlewareInterface
 {
-    public function process(Request $request, RequestHandlerInterface $handler): Response;
+    public function process(Request $request, RequestHandlerInterface $requestHandler): Response;
 }

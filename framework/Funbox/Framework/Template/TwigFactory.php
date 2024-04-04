@@ -2,39 +2,30 @@
 
 namespace Funbox\Framework\Template;
 
-use Funbox\Plugins\FlashMessage\FlashMessageInterface;
+use Funbox\Framework\Session\Session;
 use Twig\Environment;
-use Twig\Extension\DebugExtension;
-use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
 
-class TwigFactory
+class TwigFactory extends AbstractTwigFactory
 {
-    public function __construct(
-        private FlashMessageInterface $flashMessage,
-        private string $templatePath
-    )
+
+    public static function extendsTemplate(Environment $twig): Environment
     {
-    }
+        $session = new Session();
+        $twig->addFunction(new TwigFunction(
+            'session',
+            function () use ($session): Session {
+                return $session;
+            }
+        ));
 
-    public function create(): Environment
-    {
-        $loader = new FilesystemLoader($this->templatePath);
-
-        $twig = new Environment($loader, [
-            'debug' => true,
-            'cache' => false,
-        ]);
-
-        $twig->addExtension(new DebugExtension());
-        $twig->addFunction(new TwigFunction('flashMessage', [$this, 'getFlashMessage']));
+        $twig->addFunction(new TwigFunction(
+            'sessionId',
+            function () use ($session): string {
+                return $session->getId();
+            }
+        ));
 
         return $twig;
     }
-
-    public function getFlashMessage(): FlashMessageInterface
-    {
-        return $this->flashMessage;
-    }
-
 }

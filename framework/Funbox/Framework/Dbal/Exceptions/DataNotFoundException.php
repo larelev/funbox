@@ -6,8 +6,8 @@ use Throwable;
 
 class DataNotFoundException extends DataException
 {
-    public function __construct(string $message = "", ?Throwable $previous = null)
+    public function __construct(string $message = "Data", ?Throwable $previous = null)
     {
-        parent::__construct($message . " not found!", 404, $previous);
+        parent::__construct("%s not found!", 404, $previous, $message);
     }
 }

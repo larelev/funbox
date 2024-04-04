@@ -4,7 +4,13 @@ namespace Funbox\Framework\Session;
 
 interface SessionInterface
 {
-    public function start(string $id = '', array $options = []): false|string;
+    public function getId(): false | string;
+
+    public function getCookie(): false | string;
+
+    public function isActive(): bool;
+
+    public function start(string $id = '', array $options = []): false | string;
 
     public function has(string $key): bool;
 
@@ -12,5 +18,7 @@ interface SessionInterface
 
     public function write(string $key, mixed $value): bool;
 
-    public function delete(string $key): void;
+    public function remove(string $key): void;
+
+    public function clear(): void;
 }

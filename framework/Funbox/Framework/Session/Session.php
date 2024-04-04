@@ -2,24 +2,56 @@
 
 namespace Funbox\Framework\Session;
 
+use Funbox\Framework\Logger\Logger;
+
 final class Session implements SessionInterface
 {
-    public function has(string $key): bool
+    public const CSRF_TOKEN = 'CSRF-TOKEN';
+    public const SESSION_ID = 'SESSION-ID';
+
+    public function getId(): false | string
     {
-        return session_id() !== null && isset($_SESSION[$key]);
+        return session_id();
     }
 
-    public function start(string $id = '', array $options = []): false|string
+    public function getCookie(): false | string
     {
-        if (session_id() === '') {
-            if($id !== '') {
+        $name = session_name();
+        return !isset($_COOKIE[$name]) ? false : $_COOKIE[$name];
+    }
+    public function isActive(): bool
+    {
+        return !empty(session_id());
+    }
+
+    public function has(string $key): bool
+    {
+        return session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key]);
+    }
+
+    public function start(string $id = '', array $options = []): false | string
+    {
+        $status = session_status();
+        $none = PHP_SESSION_NONE;
+        $active = PHP_SESSION_ACTIVE;
+        $disabled = PHP_SESSION_DISABLED;
+
+        if (session_status() == PHP_SESSION_NONE) {
+            $id = empty($id) ? $this->getCookie() : $id;
+            if ($id !== '') {
                 session_id($id);
             }
 
-            if(count($options) > 0)  {
+            if (count($options) > 0) {
                 session_start($options);
             } else {
                 session_start();
+            }
+
+            $token = $this->read(Session::CSRF_TOKEN);
+            if (empty($token)) {
+                $token = bin2hex(random_bytes(32));
+                $this->write(Session::CSRF_TOKEN, $token);
             }
         }
 
@@ -28,8 +60,7 @@ final class Session implements SessionInterface
 
     public function read(string $key): mixed
     {
-
-        if (session_id() !== '' && isset($_SESSION[$key])) {
+        if (session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key])) {
             return $_SESSION[$key];
         }
 
@@ -38,7 +69,7 @@ final class Session implements SessionInterface
 
     public function write(string $key, mixed $value): bool
     {
-        if (session_id() !== null) {
+        if (session_status() == PHP_SESSION_ACTIVE) {
             $_SESSION[$key] = $value;
             return true;
         }
@@ -46,20 +77,20 @@ final class Session implements SessionInterface
         return false;
     }
 
-    public function delete(string $key = ''): void
+    public function remove(string $key): void
     {
-        if($key !== '' &&  isset($_SESSION[$key])) {
+        if (session_status() == PHP_SESSION_ACTIVE && $key !== '' && isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
-
-            return;
-        }
-
-        if (session_id() !== '') {
-            session_unset();
-            session_destroy();
-            session_gc();
-            session_abort();
         }
     }
 
+    public function clear(): void
+    {
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_gc();
+            session_unset();
+            session_destroy();
+            session_abort();
+        }
+    }
 }

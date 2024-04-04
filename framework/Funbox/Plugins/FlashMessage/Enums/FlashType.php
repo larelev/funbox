@@ -2,8 +2,7 @@
 
 namespace Funbox\Plugins\FlashMessage\Enums;
 
-enum FlashType
-{
+enum FlashType {
     case Info;
     case Warning;
     case Success;

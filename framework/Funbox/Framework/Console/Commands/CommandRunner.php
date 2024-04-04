@@ -24,14 +24,14 @@ class CommandRunner
     {
         $commandName = $argv[1] ?? false;
 
-        if(!$commandName) {
+        if (!$commandName) {
             throw new ConsoleException('Missing command name!');
         }
 
         $command = $this->container->get($commandName);
         [$shortOptions, $longOptions] = $this->container->get($commandName . ':registered-params');
 
-        $args =  array_slice($argv, 2);
+        $args = array_slice($argv, 2);
 
         $options = $this->parseOptions($args, $argc - 2, $shortOptions, $longOptions);
         $status = $command->execute($options);
@@ -49,30 +49,28 @@ class CommandRunner
 
         for ($i = 0; $i < $count; $i++) {
             $current = $args[$i];
-            if(str_starts_with($current, '--') && str_contains($current, '=')) {
+            if (str_starts_with($current, '--') && str_contains($current, '=')) {
                 [$key, $value] = explode('=', substr($current, 2));
 
-                if(!in_array($key, $longOptions)) {
+                if (!in_array($key, $longOptions)) {
                     throw new \Exception('Unknown parameter ' . $key . '!');
                 }
                 $result[$key] = $value;
-            }
-            else
-            if(str_starts_with($current, '--') && !str_contains($current, '=')) {
-                $key= substr($current, 2);
+            } else
+            if (str_starts_with($current, '--') && !str_contains($current, '=')) {
+                $key = substr($current, 2);
 
-                if(!in_array($key, $longOptions)) {
+                if (!in_array($key, $longOptions)) {
                     throw new \Exception('Unknown parameter ' . $key . '!');
                 }
                 $result[$key] = null;
-            }
-            else
-            if(str_starts_with($current, '-')) {
+            } else
+            if (str_starts_with($current, '-')) {
                 $next = $i + 1 < $count ? $args[$i + 1] : '';
 
                 $key = substr($current, 1);
 
-                if(!in_array($key, $shortOptions)) {
+                if (!in_array($key, $shortOptions)) {
                     throw new \Exception('Unknown parameter ' . $key . '!');
                 }
                 $value = str_starts_with($next, '-') ? null : ($next == '' ? null : $next);

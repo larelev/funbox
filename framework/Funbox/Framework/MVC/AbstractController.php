@@ -18,7 +18,7 @@ abstract class AbstractController
      */
     public function setContainer(DefinitionContainerInterface $container): void
     {
-        if($this->container !== null) {
+        if ($this->container !== null) {
             throw new \ErrorException('Container is already set!');
         }
 
@@ -30,7 +30,7 @@ abstract class AbstractController
      */
     public function setRequest(Request $request): void
     {
-        if($this->request !== null) {
+        if ($this->request !== null) {
             throw new \ErrorException('Request is already set!');
         }
         $this->request = $request;

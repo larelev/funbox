@@ -3,12 +3,7 @@
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      "App\\Controllers\\": "app/controllers/",
-      "App\\Entities\\": "app/entities/",
-      "App\\Repositories\\": "app/repositories/",
-      "App\\Widgets\\": "app/widgets/",
       "Tests\\": "tests/"
-
     }
   },
   "require": {

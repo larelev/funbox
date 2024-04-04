@@ -2,9 +2,10 @@
 
 namespace Funbox\Framework\Http;
 
+use Funbox\Framework\Event\EventDispatcher;
+use Funbox\Framework\Http\Event\ResponseEvent;
 use Funbox\Framework\Http\Exceptions\HttpException;
 use Funbox\Framework\Middleware\RequestHandlerInterface;
-use Funbox\Framework\Routing\RouterInterface;
 use League\Container\DefinitionContainerInterface;
 
 class Kernel
@@ -12,11 +13,10 @@ class Kernel
     private string $appEnv;
 
     public function __construct(
-        private readonly RouterInterface $router,
-        private readonly DefinitionContainerInterface $container,
+        DefinitionContainerInterface $container,
         private readonly RequestHandlerInterface $requestHandler,
-    )
-    {
+        private readonly EventDispatcher $dispatcher,
+    ) {
         $this->appEnv = $container->get('APP_ENV');
     }
 
@@ -28,16 +28,18 @@ class Kernel
             $response = $this->createExceptionResponse($exception);
         }
 
+        $this->dispatcher->dispatch(new ResponseEvent($request, $response));
+
         return $response;
     }
 
     public function createExceptionResponse(\Exception $exception): Response
     {
-        if(in_array($this->appEnv, ['dev', 'test'])) {
+        if (in_array($this->appEnv, ['dev', 'test'])) {
             throw $exception;
         }
 
-        if($exception instanceof HttpException) {
+        if ($exception instanceof HttpException) {
             $response = new Response(content: $exception->getMessage(), status: $exception->getCode());
         }
 
@@ -46,7 +48,6 @@ class Kernel
 
     public function terminate(Request $request, Response $response): void
     {
-        $request->getFlashMessage()->clearFlash();
-        $request->getSession()->clear();
+        $request->getFlashMessage()->clear();
     }
 }
