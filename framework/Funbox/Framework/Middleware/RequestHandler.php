@@ -19,17 +19,16 @@ class RequestHandler implements RequestHandlerInterface
 
     public function __construct(
         private readonly DefinitionContainerInterface $container
-    )
-    {
+    ) {
 
-        if(file_exists(MIDDLEWARES)) {
+        if (file_exists(MIDDLEWARES)) {
             $this->middleware = require MIDDLEWARES;
         }
     }
 
     public function handle(Request $request): Response
     {
-        if(empty($this->middleware)) {
+        if (empty($this->middleware)) {
             return new Response("No request to handle.", 500);
         }
 

@@ -5,7 +5,6 @@ namespace Funbox\Plugins\FlashMessage;
 use Funbox\Framework\Session\Session;
 use Funbox\Plugins\FlashMessage\Enums\FlashType;
 
-
 class FlashMessage implements FlashMessageInterface
 {
     private const FLASH_KEY = 'flash';
@@ -83,7 +82,7 @@ class FlashMessage implements FlashMessageInterface
     public function get(FlashType $type): array
     {
         $flashes = $this->session->read(self::FLASH_KEY) ?? [];
-        if(isset($flashes[$type->name])) {
+        if (isset($flashes[$type->name])) {
             $messages = $flashes[$type->name];
             unset($flashes[$type->name]);
             $this->session->write(self::FLASH_KEY, $flashes);
@@ -105,7 +104,7 @@ class FlashMessage implements FlashMessageInterface
 
     public function has(FlashType $type): bool
     {
-        if($this->session->has(self::FLASH_KEY)) {
+        if ($this->session->has(self::FLASH_KEY)) {
             $flashes = $this->session->read(self::FLASH_KEY);
 
             return isset($flashes[$type->name]);

@@ -6,7 +6,7 @@ use Funbox\Framework\Registry\AbstractRegistryInterface;
 
 interface StaticRegistryInterface
 {
-    static function getInstance(): AbstractRegistryInterface;
+    public static function getInstance(): AbstractRegistryInterface;
 
     static function write(string $key, mixed $value): void;
 

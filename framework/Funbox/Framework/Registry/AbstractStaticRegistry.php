@@ -4,7 +4,7 @@ namespace Funbox\Framework\Registry;
 
 abstract class AbstractStaticRegistry extends AbstractRegistry implements StaticRegistryInterface, AbstractRegistryInterface
 {
-    public abstract static function reset(): void;
+    abstract public static function reset(): void;
 
     public static function safeWrite(string $key, mixed $value): bool
     {
@@ -20,7 +20,7 @@ abstract class AbstractStaticRegistry extends AbstractRegistry implements Static
         return static::getInstance()->_exists($key);
     }
 
-    public abstract static function getInstance(): AbstractRegistryInterface;
+    abstract public static function getInstance(): AbstractRegistryInterface;
 
     public static function write(string $key, mixed $value): void
     {

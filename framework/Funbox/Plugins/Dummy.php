@@ -24,7 +24,7 @@ class Dummy implements CommandInterface
                 (__)\        )\/\
                     ||----w |
                     ||     ||
-        COWSAY . PHP_EOL;
+        COWSAY.PHP_EOL;
 
         return 0;
     }

@@ -8,7 +8,7 @@ use Throwable;
 
 class CsrfTokenMismatchException extends HttpException
 {
-    public function __construct(null|Throwable $previous = null)
+    public function __construct(null | Throwable $previous = null)
     {
         parent::__construct(
             'Your request could not be validated. Please try again.',

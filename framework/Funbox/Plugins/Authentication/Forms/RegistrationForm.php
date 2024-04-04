@@ -33,7 +33,7 @@ class RegistrationForm
     }
     public function hasValidationErrors(): bool
     {
-        if($this->errorCount == -1) {
+        if ($this->errorCount == -1) {
             $this->errorCount = count($this->getValidationErrors());
         }
         return $this->errorCount > 0;
@@ -41,15 +41,15 @@ class RegistrationForm
 
     public function getValidationErrors(): array
     {
-        if(!empty($this->errors)) {
+        if (!empty($this->errors)) {
             return $this->errors;
         }
 
-        if(!preg_match('/[\w.\-]+@([\w-]+\.)+[\w-]{2,4}/', $this->email)) {
+        if (!preg_match('/[\w.\-]+@([\w-]+\.)+[\w-]{2,4}/', $this->email)) {
             $this->errors[] = "Invalid email.";
         }
 
-        if(strlen($this->password) < 8) {
+        if (strlen($this->password) < 8) {
             $this->errors[] = "Password must be at least 8 characters long.";
         }
 

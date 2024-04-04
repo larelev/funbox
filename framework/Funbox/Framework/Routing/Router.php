@@ -12,7 +12,7 @@ class Router implements RouterInterface
         $routeHandler = $request->getRouteHandler();
         $routeHandlerArgs = $request->getRouteHandlerArgs();
 
-        if(is_array($routeHandler)) {
+        if (is_array($routeHandler)) {
             [$controllerId, $method] = $routeHandler;
             $controller = $container->get($controllerId);
             $routeHandler = [$controller, $method];

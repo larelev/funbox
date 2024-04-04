@@ -18,19 +18,18 @@ class Authenticator implements AuthenticatorInterface
     public function __construct(
         private readonly AuthenticationRepositoryInterface $userRepository,
         private readonly SessionInterface $session,
-    )
-    {
+    ) {
     }
 
     public function authenticate(string $email, string $password): bool
     {
         $user = $this->userRepository->findByEmail($email);
 
-        if(!$user) {
+        if (!$user) {
             return false;
         }
 
-        if(!password_verify($password, $user->getPassword())) {
+        if (!password_verify($password, $user->getPassword())) {
             return false;
         }
 

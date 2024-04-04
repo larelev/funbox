@@ -21,15 +21,13 @@ class Post extends Entity
         public readonly string $title,
         public readonly string $body,
         public readonly \DateTimeImmutable $createdAt,
-    )
-    {
+    ) {
     }
 
-    public static function  create(
+    public static function create(
         ?string $title,
         ?string $body
-    )
-    {
+    ) {
 
         return new self(null, $title, $body, new \DateTimeImmutable());
     }

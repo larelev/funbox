@@ -16,8 +16,7 @@ class Kernel
     public function __construct(
         private readonly DefinitionContainerInterface $container,
         private readonly CommandRunner $commandRunner
-    )
-    {
+    ) {
     }
 
     /**
@@ -29,34 +28,34 @@ class Kernel
 
         $status = $this->commandRunner->run($argv, $argc);
 
-        return  $status;
+        return $status;
     }
 
     private function registerCommands(): void
     {
         $commandsLocations = [
-            (object)[
+            (object) [
                 'namespace' => $this->container->get('base-commands-namespace'),
                 'directory' => LIB_PATH . 'Commands',
             ],
-            (object)[
+            (object) [
                 'namespace' => $this->container->get('plugins-commands-namespace'),
                 'directory' => LIB_PATH . 'Plugins',
             ],
-            (object)[
+            (object) [
                 'namespace' => $this->container->get('app-commands-namespace'),
                 'directory' => APP_PATH . 'Commands',
             ],
         ];
 
         foreach ($commandsLocations as $location) {
-            $commandFiles  = File::walkTreeFiltered($location->directory, ['php']);
+            $commandFiles = File::walkTreeFiltered($location->directory, ['php']);
 
             $iterator = new RecursiveDirectoryIterator($location->directory);
             $commandFiles = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
 
             foreach ($commandFiles as $commandFile) {
-                if(!$commandFile->isFile() || $commandFile->getExtension() !== 'php') {
+                if (!$commandFile->isFile() || $commandFile->getExtension() !== 'php') {
                     continue;
                 }
 
@@ -72,16 +71,16 @@ class Kernel
         $l = strlen($directory);
 
         $baseDomain = $commandFile->getPath() !== '' ? substr($commandFile->getPath(), $l + 1) : '';
-        $domain = $baseDomain !== '' ?  $baseDomain . '\\' : '';
+        $domain = $baseDomain !== '' ? $baseDomain . '\\' : '';
         $category = $baseDomain !== '' ? strtolower($baseDomain) . ':' : '';
 
-        if(str_contains($category, DIRECTORY_SEPARATOR . 'commands')) {
+        if (str_contains($category, DIRECTORY_SEPARATOR . 'commands')) {
             $category = str_replace(DIRECTORY_SEPARATOR . 'commands', '', $category);
         }
 
         $fqCommandClass = str_replace('/', '\\', $namespace . $domain . $commandFile->getBaseName('.' . $commandFile->getExtension()));
 
-        if(!is_subclass_of($fqCommandClass, CommandInterface::class)) {
+        if (!is_subclass_of($fqCommandClass, CommandInterface::class)) {
             return;
         }
 
@@ -105,7 +104,7 @@ class Kernel
         $this->container->addShared($commandName . ':registered-params', $registeredParams);
 
         $definition = $this->container->addShared($commandName, $fqCommandClass);
-        if(count($containerArgs)) {
+        if (count($containerArgs)) {
             $definition->addArguments($containerArgs);
         }
 

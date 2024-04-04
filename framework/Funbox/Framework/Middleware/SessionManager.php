@@ -12,8 +12,7 @@ readonly class SessionManager implements MiddlewareInterface
 
     public function __construct(
         private SessionInterface $session
-    )
-    {
+    ) {
     }
 
     /**

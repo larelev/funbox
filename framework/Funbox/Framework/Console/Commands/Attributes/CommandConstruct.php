@@ -9,7 +9,6 @@ class CommandConstruct
 {
     public function __construct(
         public array $inject = [],
-    )
-    {
+    ) {
     }
 }

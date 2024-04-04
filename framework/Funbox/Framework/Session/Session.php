@@ -2,19 +2,17 @@
 
 namespace Funbox\Framework\Session;
 
-use Funbox\Framework\Logger\Logger;
-
 final class Session implements SessionInterface
 {
     public const CSRF_TOKEN = 'CSRF-TOKEN';
     public const SESSION_ID = 'SESSION-ID';
 
-    public function getId(): false|string
+    public function getId(): false | string
     {
         return session_id();
     }
 
-    public function getCookie(): false|string
+    public function getCookie(): false | string
     {
         $name = session_name();
         return !isset($_COOKIE[$name]) ? false : $_COOKIE[$name];
@@ -29,7 +27,7 @@ final class Session implements SessionInterface
         return session_status() == PHP_SESSION_ACTIVE && isset($_SESSION[$key]);
     }
 
-    public function start(string $id = '', array $options = []): false|string
+    public function start(string $id = '', array $options = []): false | string
     {
         $status = session_status();
         $none = PHP_SESSION_NONE;
@@ -38,18 +36,18 @@ final class Session implements SessionInterface
 
         if (session_status() == PHP_SESSION_NONE) {
             $id = empty($id) ? $this->getCookie() : $id;
-            if($id !== '') {
+            if ($id !== '') {
                 session_id($id);
             }
 
-            if(count($options) > 0)  {
+            if (count($options) > 0) {
                 session_start($options);
             } else {
                 session_start();
             }
 
             $token = $this->read(Session::CSRF_TOKEN);
-            if(empty($token)) {
+            if (empty($token)) {
                 $token = bin2hex(random_bytes(32));
                 $this->write(Session::CSRF_TOKEN, $token);
             }
@@ -79,7 +77,7 @@ final class Session implements SessionInterface
 
     public function remove(string $key): void
     {
-        if(session_status() == PHP_SESSION_ACTIVE && $key !== '' &&  isset($_SESSION[$key])) {
+        if (session_status() == PHP_SESSION_ACTIVE && $key !== '' && isset($_SESSION[$key])) {
             unset($_SESSION[$key]);
         }
     }

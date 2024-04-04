@@ -12,10 +12,10 @@ class Cache
     public static function prepare(): void
     {
         $ok = file_exists(self::LOG_PATH);
-        if(!$ok) {
+        if (!$ok) {
             $ok = mkdir(self::LOG_PATH, 0775);
         }
-        if(!$ok) {
+        if (!$ok) {
             throw new \RuntimeException('Impossible to create directory' . self::LOG_PATH);
         }
     }

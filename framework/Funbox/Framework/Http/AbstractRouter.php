@@ -18,8 +18,7 @@ class AbstractRouter
     public function __construct(
         public readonly Request $request,
         public readonly Response $response
-    )
-    {
+    ) {
         $this->documentRoot = $this->request->getServer('DOCUMENT_ROOT');
         $this->appRoot = APP_PATH;
         $this->isFound = false;

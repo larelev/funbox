@@ -11,7 +11,7 @@ class InternalErrorListener implements ResponseEventListenerInterface
     public function __invoke(ResponseEvent $event)
     {
         $status = $event->getResponse()->getStatus();
-        if($status > 499) {
+        if ($status > 499) {
             $event->stopPropagation();
         }
     }

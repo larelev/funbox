@@ -13,7 +13,7 @@ class RoutesAggregator
     public const ROUTES_ARRAY_PATH = Cache::CACHE_PATH . 'routes.txt';
     public const ROUTES_PATH = Cache::CACHE_PATH . 'routes.php';
 
-    function aggregate(string $method, string $route, array|callable $controller, ?array $middlewares = null): void
+    function aggregate(string $method, string $route, array | callable $controller, ?array $middlewares = null): void
     {
         $this->prepareCacheIfNotExists();
 
@@ -22,11 +22,11 @@ class RoutesAggregator
         $routes = json_decode($json, JSON_OBJECT_AS_ARRAY);
 
         $controllerString = $controller;
-       if(is_callable($controller)) {
-           $controllerString = $this->callableToString($controller);
-       }
+        if (is_callable($controller)) {
+            $controllerString = $this->callableToString($controller);
+        }
 
-        if($middlewares === null) {
+        if ($middlewares === null) {
             $routes[] = [$method, $route, $controllerString];
         } else {
             $routes[] = [$method, $route, $controllerString, $middlewares];
@@ -44,8 +44,7 @@ class RoutesAggregator
         $file->seek($ref->getStartLine() - 1);
 
         $code = '';
-        while ($file->key() < $ref->getEndLine())
-        {
+        while ($file->key() < $ref->getEndLine()) {
             $code .= $file->current();
             $file->next();
         }
@@ -59,11 +58,11 @@ class RoutesAggregator
 
     private function prepareCacheIfNotExists(): void
     {
-        if(file_exists(self::ROUTES_JSON_PATH)) {
+        if (file_exists(self::ROUTES_JSON_PATH)) {
             return;
         }
 
-        if(!touch(self::ROUTES_JSON_PATH)) {
+        if (!touch(self::ROUTES_JSON_PATH)) {
             throw new \RuntimeException('Impossible to write ' . self::ROUTES_JSON_PATH . ' file.');
         }
 

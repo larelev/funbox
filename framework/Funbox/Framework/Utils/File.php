@@ -2,7 +2,6 @@
 
 namespace Funbox\Framework\Utils;
 
-use Directory;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -22,7 +21,6 @@ class File
 
             while ($file = $iterator->read()) {
                 $fi = pathinfo($file);
-
 
                 if ($fi['basename'] == '.' || $fi['basename'] == '..') {
                     continue;
@@ -58,7 +56,6 @@ class File
             }
         }
 
-
         return $result;
     }
 
@@ -66,16 +63,16 @@ class File
     {
         $class_func = array(__CLASS__, __FUNCTION__);
         return is_file($path) ?
-            @array_push($tree, $path) :
-            array_map($class_func, glob($path . '/*'), $tree);
+        @array_push($tree, $path) :
+        array_map($class_func, glob($path . '/*'), $tree);
     }
 
     public static function delTree(string $path): bool
     {
         $class_func = array(__CLASS__, __FUNCTION__);
         return is_file($path) ?
-            @unlink($path) :
-            array_map($class_func, glob($path . '/*')) == @rmdir($path);
+        @unlink($path) :
+        array_map($class_func, glob($path . '/*')) == @rmdir($path);
     }
 
     public static function safeMkDir(string $directory): bool
@@ -157,7 +154,6 @@ class File
                 $offset += 2;
             }
         }
-
 
         return implode(DIRECTORY_SEPARATOR, $array);
     }

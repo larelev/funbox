@@ -31,12 +31,12 @@ class ExtractRouteInfo implements MiddlewareInterface
         );
 
         switch ($routeInfo[0]) {
-            case  Dispatcher::FOUND:
+            case Dispatcher::FOUND:
 
                 $request->setRouteHandler($routeInfo[1]);
                 $request->setRouteHandlerArgs($routeInfo[2]);
 
-                if(is_array($routeInfo[1]) && isset($routeInfo[1][2])) {
+                if (is_array($routeInfo[1]) && isset($routeInfo[1][2])) {
                     $requestHandler->injectMiddleware($routeInfo[1][2]);
                 }
                 break;

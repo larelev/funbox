@@ -31,11 +31,11 @@ class PostRepository
 
         $row = $result->fetchAllAssociative();
 
-        if(!isset($row[0])) {
+        if (!isset($row[0])) {
             return null;
         }
 
-        $obj = (object)$row[0];
+        $obj = (object) $row[0];
 
         return new Post(
             id: $obj->id,
@@ -50,7 +50,7 @@ class PostRepository
     {
         $post = $this->findById($id);
 
-        if(!$post) {
+        if (!$post) {
             throw new PostNotFoundException($id);
         }
 

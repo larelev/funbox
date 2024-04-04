@@ -27,7 +27,6 @@ class Help implements CommandInterface
 //                    ||     ||
 //        COWSAY . PHP_EOL;
 
-
         $helpCommands = StateRegistry::read('commands:help');
 
         $helpLines = [];

@@ -23,35 +23,32 @@ class MigrationsMigrate implements CommandInterface
 {
     public function __construct(
         private readonly Connection $connection,
-    )
-    {
+    ) {
     }
 
     public function execute(array $params = []): int
     {
         try
         {
-            $doUp =  array_key_exists('u', $params) || array_key_exists('up', $params);
-            $doDown =  array_key_exists('d', $params) || array_key_exists('down', $params);
-            $doRemove =  array_key_exists('r', $params) || array_key_exists('remove', $params);
+            $doUp = array_key_exists('u', $params) || array_key_exists('up', $params);
+            $doDown = array_key_exists('d', $params) || array_key_exists('down', $params);
+            $doRemove = array_key_exists('r', $params) || array_key_exists('remove', $params);
             $doError = array_key_exists('u', $params) && array_key_exists('up', $params);
             $doError = $doError || (array_key_exists('d', $params) && array_key_exists('down', $params));
             $doError = $doError || (array_key_exists('r', $params) && array_key_exists('remove', $params));
             $doError = $doError || ($doUp && $doDown && $doRemove);
             $doNothing = !$doUp && !$doDown && !$doRemove;
 
-            if($doError) {
+            if ($doError) {
                 throw new InvalidArgumentException('Invalid arguments.');
             }
 
             $version = null;
-            if($doUp) {
+            if ($doUp) {
                 $version = !isset($params['u']) ? ($params['up'] ?? null) : $params['u'];
-            }
-            else if($doDown) {
+            } else if ($doDown) {
                 $version = !isset($params['d']) ? ($params['down'] ?? null) : $params['d'];
-            }
-            else if($doRemove) {
+            } else if ($doRemove) {
                 $version = !isset($params['r']) ? ($params['remove'] ?? null) : $params['r'];
             }
 
@@ -59,7 +56,7 @@ class MigrationsMigrate implements CommandInterface
             $schemaMan = $this->connection->createSchemaManager();
             $schema = new Schema();
 
-            if($doNothing) {
+            if ($doNothing) {
                 $this->createMigrationsTable($schemaMan, $schema);
                 $this->connection->commit();
 
@@ -70,11 +67,11 @@ class MigrationsMigrate implements CommandInterface
             $migrationsFiles = $this->getMigrationsFiles();
             $migrationsToApply = array_diff($migrationsFiles, $appliedMigrations);
 
-            if($doUp) {
+            if ($doUp) {
                 $this->doUp($version, $migrationsToApply, $schemaMan);
-            } else if($doDown) {
+            } else if ($doDown) {
                 $this->doDown($version, $appliedMigrations, $schemaMan);
-            } else if($doRemove) {
+            } else if ($doRemove) {
                 $this->doRemove($version, $appliedMigrations);
             }
 
@@ -103,14 +100,14 @@ class MigrationsMigrate implements CommandInterface
         foreach ($migrationsToApply as $migrationFile) {
             [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
 
-            if($version === null || $current == $version) {
+            if ($version === null || $current == $version) {
                 $isDirty = true;
                 $migrationObject->up();
                 $this->insertMigration($migrationFile);
             }
         }
-        
-        if(!$isDirty) {
+
+        if (!$isDirty) {
             throw new ConsoleException('Nothing to do');
         }
     }
@@ -124,14 +121,14 @@ class MigrationsMigrate implements CommandInterface
         foreach ($appliedMigrations as $migrationFile) {
             [$migrationObject, $current] = $this->getMigrationObject($migrationFile, $schema);
 
-            if($version === null || $current == $version) {
+            if ($version === null || $current == $version) {
                 $isDirty = true;
                 $migrationObject->down();
                 $this->deleteMigration($migrationFile);
             }
         }
-        
-        if(!$isDirty) {
+
+        if (!$isDirty) {
             throw new ConsoleException('Nothing to do');
         }
     }
@@ -142,7 +139,7 @@ class MigrationsMigrate implements CommandInterface
      */
     private function doRemove(?string $version, array $appliedMigrations): void
     {
-        if($version === null) {
+        if ($version === null) {
             throw new InvalidArgumentException("The migration version is mandatory for this argument.");
         }
 
@@ -150,21 +147,21 @@ class MigrationsMigrate implements CommandInterface
         foreach ($appliedMigrations as $migrationFile) {
             $current = pathinfo($migrationFile, PATHINFO_FILENAME);
 
-            if($version === null || $current == $version) {
+            if ($version === null || $current == $version) {
                 $isDirty = true;
                 $this->deleteMigration($migrationFile);
                 echo "The migration $migrationFile was removed from history table." . PHP_EOL;
             }
         }
 
-        if(!$isDirty) {
+        if (!$isDirty) {
             throw new ConsoleException('Nothing to do');
         }
     }
 
     private function getMigrationObject(string $migrationFile, AbstractSchemaManager $schema): array
     {
-        if(!file_exists(BASE_PATH . MIGRATIONS_PATH . $migrationFile)) {
+        if (!file_exists(BASE_PATH . MIGRATIONS_PATH . $migrationFile)) {
             throw new \ErrorException("Migration file $migrationFile not found!");
         }
 
@@ -183,10 +180,10 @@ class MigrationsMigrate implements CommandInterface
         $result = array_filter($files, function ($file) {
             $re = '/([0-9]{20})\.php/';
             preg_match($re, $file, $matches, PREG_OFFSET_CAPTURE, 0);
-            return  count($matches) > 0;
+            return count($matches) > 0;
         });
 
-        return  $result;
+        return $result;
     }
 
     /**
@@ -203,7 +200,7 @@ class MigrationsMigrate implements CommandInterface
      */
     private function createMigrationsTable(AbstractSchemaManager $schemaManager, Schema $schema): void
     {
-        if($schemaManager->tableExists('migrations')) {
+        if ($schemaManager->tableExists('migrations')) {
             throw new ConsoleException('Nothing to do');
         }
         $this->connection->beginTransaction();
@@ -211,7 +208,7 @@ class MigrationsMigrate implements CommandInterface
         $table = $schema->createTable('migrations');
         $table->addColumn('id', Types::INTEGER, ['unsigned' => true, 'autoincrement' => true]);
         $table->addColumn('migration', Types::STRING);
-        $table->addColumn('created_at', Types::DATETIME_IMMUTABLE, ['default'=>'CURRENT_TIMESTAMP']);
+        $table->addColumn('created_at', Types::DATETIME_IMMUTABLE, ['default' => 'CURRENT_TIMESTAMP']);
         $table->setPrimaryKey(['id']);
 
         $sqlArray = $schema->toSql($this->connection->getDatabasePlatform());

@@ -41,7 +41,7 @@ class History implements HistoryInterface
 
         $this->session->write(self::HISTORY_KEY, $requests);
 
-        if($info->getMethod() == 'GET') {
+        if ($info->getMethod() == 'GET') {
             $getReq = $this->session->read(self::LAST_GET_REQUEST_KEY);
             $this->lastGetRequest = $getReq ?? $info;
             $this->session->write(self::LAST_GET_REQUEST_KEY, $info);

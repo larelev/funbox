@@ -9,7 +9,7 @@ use Funbox\Framework\Dbal\Entity;
 class PostMapper extends DataMapper
 {
 
-    public function insert(Post|Entity &$entity): void
+    public function insert(Post | Entity &$entity): void
     {
         $stmt = $this->connection->prepare("
         INSERT INTO posts (title, body, created_at)

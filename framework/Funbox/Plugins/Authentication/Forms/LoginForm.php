@@ -2,7 +2,6 @@
 
 namespace Funbox\Plugins\Authentication\Forms;
 
-use Funbox\Plugins\Authentication\Entities\User;
 use Funbox\Plugins\Authentication\Repositories\UserMapper;
 
 class LoginForm
@@ -24,7 +23,7 @@ class LoginForm
 
     public function hasValidationErrors(): bool
     {
-        if($this->errorCount == -1) {
+        if ($this->errorCount == -1) {
             $this->errorCount = count($this->getValidationErrors());
         }
         return $this->errorCount > 0;
@@ -32,15 +31,15 @@ class LoginForm
 
     public function getValidationErrors(): array
     {
-        if(!empty($this->errors)) {
+        if (!empty($this->errors)) {
             return $this->errors;
         }
 
-        if(!preg_match('/^[\w\-]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+        if (!preg_match('/^[\w\-]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
             $this->errors[] = "Email can only consist of word character without space.";
         }
 
-        if(strlen($this->password) < 8) {
+        if (strlen($this->password) < 8) {
             $this->errors[] = "Password must be at least 8 characters long.";
         }
 

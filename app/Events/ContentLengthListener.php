@@ -12,7 +12,7 @@ class ContentLengthListener implements ResponseEventListenerInterface
         // TODO: Implement __invoke() method.
         $response = $event->getResponse();
 
-        if(!array_key_exists('Content-Length',  $response->getHeaders())) {
+        if (!array_key_exists('Content-Length', $response->getHeaders())) {
             $response->setHeaders('Content-Length', strlen($response->getContent()));
         }
     }

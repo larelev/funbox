@@ -25,14 +25,13 @@ class LoginController extends AbstractController
             $this->request->searchFromBody('password'),
         );
 
-        if(!$isAuthenticated) {
+        if (!$isAuthenticated) {
             $this->request->getFlashMessage()->setError('Bad credentials.');
             return new RedirectResponse('/login');
         }
 
         $user = $this->authenticator->getUser();
         $this->request->getFlashMessage()->setSuccess('You are now logged in.');
-
 
         return new RedirectResponse('/dashboard');
     }
