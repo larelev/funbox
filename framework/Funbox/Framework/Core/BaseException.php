@@ -2,7 +2,6 @@
 
 namespace Funbox\Framework\Core;
 
-use Funbox\Framework\Logger\Logger;
 use Throwable;
 
 class BaseException extends \Exception

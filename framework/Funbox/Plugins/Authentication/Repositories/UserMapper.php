@@ -2,7 +2,6 @@
 
 namespace Funbox\Plugins\Authentication\Repositories;
 
-use Doctrine\DBAL\Connection;
 use Funbox\Framework\Dbal\DataMapper;
 use Funbox\Framework\Dbal\Entity;
 use Funbox\Plugins\Authentication\Entities\User;
